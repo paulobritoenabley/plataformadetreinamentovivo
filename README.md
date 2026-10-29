@@ -1,15 +1,20 @@
-# Plataforma de Treinamento Vivo Empresas · Playbook do GN
+# Plataforma de Treinamento Vivo Empresas
 
-Guia de consulta rápida para os GNs Vivo usarem antes e durante reuniões com clientes.
+Duas páginas, geradas do mesmo conteúdo:
 
-Abra o `index.html` no navegador. A página funciona sozinha, sem instalação.
+| Página | Endereço | Para quem |
+|---|---|---|
+| **Página do cliente** (link seguro) | raiz do site: `index.html` | Cliente. Só como a plataforma funciona, resultados por segmento (sem nome de clientes), produto, IA e calculadora de retorno. |
+| **Playbook do GN** | `/gn/` | Uso interno dos GNs Vivo. Não encaminhar a clientes. |
 
-## O que tem
+A página do cliente não esconde o conteúdo interno: ele simplesmente não existe no código dela (sem contas, objeções, concorrentes, time interno ou nome de clientes).
+
+No playbook do GN, o botão **Enviar para o cliente** (no topo e no widget flutuante) copia o link seguro ou uma mensagem pronta com ele.
+
+## Playbook do GN
 
 - **Reunião**: pitch de 30 segundos, ficha por setor ou por conta, dores para marcar, e-mail de follow-up e pedido de demo prontos para copiar.
 - **Objeções**: resposta, prova e contexto, com busca pelas palavras que o cliente usa.
-- **Provas e casos**: casos com número e segmentos atendidos.
+- **Provas e casos**: casos com número, sem o nome das marcas, e segmentos atendidos.
 - **Produto e IA**, **Preço e ROI** (com calculadora), **Como vender** (concorrentes e playbook de saúde) e **Contas e time**.
-- **Modo cliente**: esconde o conteúdo interno e o nome dos clientes para compartilhar a tela.
-
-Uso interno. Não encaminhar a clientes.
+- **Modo cliente**: esconde o conteúdo interno para compartilhar a tela.
