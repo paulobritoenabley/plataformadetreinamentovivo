@@ -416,6 +416,13 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
 .sheet button:hover{background:var(--surface-2)}
 .toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#380054;color:#fff;padding:10px 18px;border-radius:4px;font-size:.9rem;z-index:80;box-shadow:var(--shadow);max-width:calc(100% - 32px)}
 .copy-fallback{position:fixed;left:-9999px;top:0}
+/* aviso de instalação do app (PWA), canto inferior esquerdo; o widget de envio fica à direita */
+.pwa{position:fixed;left:max(20px,env(safe-area-inset-left,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:57;width:min(430px,calc(100vw - 32px));display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-left:4px solid #660099;border-radius:12px;box-shadow:0 20px 50px -20px rgba(0,0,0,.55);padding:12px 14px;animation:popin .25s ease-out}
+.pwa img{border-radius:10px;flex:0 0 auto}
+.pwa-t{display:grid;gap:2px;flex:1 1 200px;min-width:0}
+.pwa-t b{font-size:.95rem;color:var(--accent)}
+.pwa-t span{font-size:.85rem;color:var(--fg-soft)}
+@media (max-width:760px){.pwa{left:16px;bottom:calc(128px + env(safe-area-inset-bottom,0px))}}
 /* enviar para o cliente: botão no cabeçalho + widget flutuante */
 .send-btn{flex:0 0 auto;height:42px;border-radius:4px;border:1.5px solid #fff;background:#fff;color:#660099;padding:0 16px;font-weight:700;cursor:pointer}
 .send-btn:hover{background:#FF96B2;border-color:#FF96B2;color:#380054}
@@ -438,7 +445,7 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
   .top-row{flex-wrap:wrap;gap:10px;padding-block:10px}
   .brand svg{height:24px}
   .brand-t small{display:none}
-  .brand{flex:1 1 auto;min-width:0;gap:10px}
+  .brand{flex:1 1 0;min-width:0;gap:10px}
   .brand-t{min-width:0}
   .brand-t b{font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .segband div:last-child:nth-child(odd){grid-column:1/-1}
@@ -722,6 +729,7 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
   
   
 </div>
+
 
 
 <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
@@ -1250,6 +1258,8 @@ byId('tema').addEventListener('click', function(){
 });
 if(window.matchMedia) try{ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rotuloTema); }catch(e){}
 rotuloTema();
+
+
 
 /* ---------- Enviar para o cliente ---------- */
 var LINK_CLIENTE = 'https://paulobritoenabley.github.io/plataformadetreinamentovivo/', pop = byId('sendPop');

@@ -23,6 +23,11 @@
 <meta name="twitter:title" content="Playbook do GN · Plataforma de Treinamento Vivo Empresas">
 <meta name="twitter:description" content="Uso interno dos GNs Vivo: pitch, objeções, casos, ROI e link seguro para enviar ao cliente.">
 <meta name="twitter:image" content="https://paulobritoenabley.github.io/plataformadetreinamentovivo/og-gn.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Playbook GN">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Playbook do GN · Plataforma de Treinamento</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <script>(function(){try{var t=JSON.parse(localStorage.getItem("pbvivo:tema"));if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
@@ -416,6 +421,13 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
 .sheet button:hover{background:var(--surface-2)}
 .toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#380054;color:#fff;padding:10px 18px;border-radius:4px;font-size:.9rem;z-index:80;box-shadow:var(--shadow);max-width:calc(100% - 32px)}
 .copy-fallback{position:fixed;left:-9999px;top:0}
+/* aviso de instalação do app (PWA), canto inferior esquerdo; o widget de envio fica à direita */
+.pwa{position:fixed;left:max(20px,env(safe-area-inset-left,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:57;width:min(430px,calc(100vw - 32px));display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-left:4px solid #660099;border-radius:12px;box-shadow:0 20px 50px -20px rgba(0,0,0,.55);padding:12px 14px;animation:popin .25s ease-out}
+.pwa img{border-radius:10px;flex:0 0 auto}
+.pwa-t{display:grid;gap:2px;flex:1 1 200px;min-width:0}
+.pwa-t b{font-size:.95rem;color:var(--accent)}
+.pwa-t span{font-size:.85rem;color:var(--fg-soft)}
+@media (max-width:760px){.pwa{left:16px;bottom:calc(128px + env(safe-area-inset-bottom,0px))}}
 /* enviar para o cliente: botão no cabeçalho + widget flutuante */
 .send-btn{flex:0 0 auto;height:42px;border-radius:4px;border:1.5px solid #fff;background:#fff;color:#660099;padding:0 16px;font-weight:700;cursor:pointer}
 .send-btn:hover{background:#FF96B2;border-color:#FF96B2;color:#380054}
@@ -438,7 +450,7 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
   .top-row{flex-wrap:wrap;gap:10px;padding-block:10px}
   .brand svg{height:24px}
   .brand-t small{display:none}
-  .brand{flex:1 1 auto;min-width:0;gap:10px}
+  .brand{flex:1 1 0;min-width:0;gap:10px}
   .brand-t{min-width:0}
   .brand-t b{font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .segband div:last-child:nth-child(odd){grid-column:1/-1}
@@ -830,6 +842,11 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
   <button type="button" data-tab="produto">Produto e IA</button>
   <button type="button" data-tab="vender" class="int">Como vender</button>
   <button type="button" data-tab="contas" class="int">Contas e time</button>
+</div>
+<div class="pwa int" id="pwaBar" role="region" aria-label="Instalar o app" hidden>
+  <img src="../icon-192.png" alt="" width="44" height="44">
+  <div class="pwa-t"><b>Instale o Playbook do GN</b><span id="pwaTxt">Abra direto da tela inicial, como um app, mesmo com internet fraca.</span></div>
+  <div class="row-btns"><button class="btn btn-sm" type="button" id="pwaOk">Instalar</button><button class="btn btn-out btn-sm" type="button" id="pwaNo">Agora não</button></div>
 </div>
 <button class="send-fab int" id="sendFab" type="button" aria-haspopup="dialog" aria-controls="sendPop">Enviar para o cliente</button>
 <div class="send-pop int" id="sendPop" role="dialog" aria-labelledby="sendTit" hidden>
@@ -1545,6 +1562,32 @@ byId('tema').addEventListener('click', function(){
 });
 if(window.matchMedia) try{ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rotuloTema); }catch(e){}
 rotuloTema();
+
+/*INT{*/
+/* ---------- App instalável (PWA): só na página do GN publicada em /gn/ ---------- */
+(function(){
+  if(PAG_CLIENTE || location.pathname.indexOf('/gn/') < 0 || !('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('sw.js').catch(function(){});
+  var bar = byId('pwaBar'), pedido = null;
+  var instalado = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+  if(instalado || Date.now() - store.get('pwaAdiado', 0) < 7 * 864e5) return;
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); pedido = e; bar.hidden = false; });
+  window.addEventListener('appinstalled', function(){ bar.hidden = true; toast('App instalado. Abra pela tela inicial.'); });
+  /* iPhone e iPad não têm botão de instalar: mostra o caminho manual */
+  if(/iphone|ipad|ipod/i.test(navigator.userAgent)){
+    byId('pwaTxt').textContent = 'No iPhone: toque em Compartilhar e depois em “Adicionar à Tela de Início”.';
+    byId('pwaOk').hidden = true; byId('pwaNo').textContent = 'Entendi';
+    setTimeout(function(){ bar.hidden = false; }, 1500);
+  }
+  byId('pwaOk').addEventListener('click', function(){
+    if(!pedido) return;
+    pedido.prompt();
+    pedido.userChoice.then(function(){ bar.hidden = true; });
+    pedido = null;
+  });
+  byId('pwaNo').addEventListener('click', function(){ bar.hidden = true; store.set('pwaAdiado', Date.now()); });
+})();
+/*}INT*/
 
 /* ---------- Enviar para o cliente ---------- */
 var LINK_CLIENTE = 'https://paulobritoenabley.github.io/plataformadetreinamentovivo/', pop = byId('sendPop');
