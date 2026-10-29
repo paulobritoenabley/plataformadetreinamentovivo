@@ -25,6 +25,7 @@
 <meta name="twitter:image" content="https://paulobritoenabley.github.io/plataformadetreinamentovivo/og-cliente.png">
 <title>Plataforma de Treinamento Vivo Empresas</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<script>(function(){try{var t=JSON.parse(localStorage.getItem("pbvivo:tema"));if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 <style>
 /* Layout: app de consulta rápida. Cabeçalho púrpura fixo com busca e abas; uma aba por pergunta do vendedor; no celular, barra inferior ao alcance do polegar.
    Marca Vivo (Guia 2023): Vivo Type → Trebuchet MS, púrpura e rosa sempre presentes, botões raio 4 px, tags em outline fino, sem tracking. */
@@ -97,6 +98,13 @@ button{font:inherit;color:inherit}
 .modo:hover{background:rgba(255,255,255,.14)}
 .modo[aria-pressed="true"]{background:#FF96B2;border-color:#FF96B2;color:#380054}
 .modo svg{width:18px;height:18px}
+/* tema claro/escuro: lua no claro (vai para o escuro), sol no escuro */
+.tema{flex:0 0 auto;width:42px;height:42px;border-radius:4px;border:1.5px solid #fff;background:transparent;color:#fff;display:inline-grid;place-items:center;cursor:pointer;padding:0}
+.tema:hover{background:rgba(255,255,255,.14)}
+.tema svg{width:20px;height:20px}
+.tema .sol{display:none}
+.tema[aria-pressed="true"] .sol{display:block}
+.tema[aria-pressed="true"] .lua{display:none}
 .tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
 .tab{background:none;border:0;color:rgba(255,255,255,.82);padding:10px 14px 12px;font-weight:700;font-size:.94rem;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent}
@@ -436,7 +444,8 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
   .segband div:last-child:nth-child(odd){grid-column:1/-1}
   .search{order:3;flex:1 1 100%;max-width:none}
   .search kbd{display:none}
-  .modo{margin-left:auto;height:36px;padding:0 10px;font-size:.85rem}
+  .modo{height:36px;padding:0 10px;font-size:.85rem}
+  .tema{margin-left:auto;width:36px;height:36px}
   .modo .mt{display:none}
   .tabs{display:none}
   .bbar{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;position:fixed;left:0;right:0;bottom:0;z-index:56;background:var(--surface);border-top:1px solid var(--line);padding:4px max(6px,env(safe-area-inset-right,0px)) calc(4px + env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px))}
@@ -467,6 +476,8 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
     <symbol id="i-people" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.1 4 1.6 4.5 4.3"/></g></symbol>
     <symbol id="i-more" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h.01M12 12h.01M19 12h.01"/></g></symbol>
     <symbol id="i-play" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M10 8.5l5.5 3.5-5.5 3.5z"/></g></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/></g></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></g></symbol>
     <symbol id="i-eye" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></g></symbol>
     <symbol id="i-link" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></g></symbol>
   </defs>
@@ -486,6 +497,7 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
       <div class="sres" id="sres" role="listbox" hidden></div>
     </div>
     
+    <button class="tema" id="tema" type="button" aria-pressed="false" aria-label="Mudar para o tema escuro" title="Mudar para o tema escuro"><svg class="lua" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sol" aria-hidden="true"><use href="#i-sun"/></svg></button>
     
   </div>
   <nav class="gut tabs" id="tabs" role="tablist" aria-label="Seções do playbook">
@@ -1220,6 +1232,24 @@ document.addEventListener('keydown', function(e){
   var tg = e.target, typing = tg && (tg.tagName === 'INPUT' || tg.tagName === 'TEXTAREA' || tg.isContentEditable);
   if((e.key === '/' && !typing) || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k')){ e.preventDefault(); q.focus(); q.select(); }
 });
+
+/* ---------- Tema claro / escuro ---------- */
+function temaAtual(){
+  var t = document.documentElement.getAttribute('data-theme');
+  if(t === 'dark' || t === 'light') return t;
+  return (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+}
+function rotuloTema(){
+  var escuro = temaAtual() === 'dark', b = byId('tema'), txt = escuro ? 'Mudar para o tema claro' : 'Mudar para o tema escuro';
+  b.setAttribute('aria-pressed', String(escuro)); b.setAttribute('aria-label', txt); b.title = txt;
+}
+byId('tema').addEventListener('click', function(){
+  var novo = temaAtual() === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', novo);
+  store.set('tema', novo); rotuloTema(); toast(novo === 'dark' ? 'Tema escuro' : 'Tema claro');
+});
+if(window.matchMedia) try{ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rotuloTema); }catch(e){}
+rotuloTema();
 
 /* ---------- Enviar para o cliente ---------- */
 var LINK_CLIENTE = 'https://paulobritoenabley.github.io/plataformadetreinamentovivo/', pop = byId('sendPop');
