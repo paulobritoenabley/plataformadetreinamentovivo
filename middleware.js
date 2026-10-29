@@ -64,6 +64,8 @@ export default async function middleware(req){
   if (host === 'interno.' + s.DOMINIO && caminho === '/') return reescrever(new URL('/interno/', url));
   if (caminho.startsWith('/interno')) return noDominio && host !== 'interno.' + s.DOMINIO ? ir(s.INTERNO) : seguir();
   if (!caminho.startsWith('/gn')) return seguir();
+  // /gn vira /gn/: o manifesto e o service worker usam caminhos relativos (feito aqui, e não com trailingSlash, para não desviar /api/*)
+  if (caminho === '/gn') return new Response(null, {status: 308, headers: {Location: '/gn/' + url.search}});
 
   const c = s.lerCookies(req.headers.get('cookie'));
   if (await valido(c[s.ACESSO])) return seguir();

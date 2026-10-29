@@ -250,6 +250,12 @@ body.cliente .ficha-foot.cli-only{display:flex}
 .pitch{display:flex;gap:16px;align-items:flex-start;border:1.5px solid var(--accent);border-radius:12px;padding:16px 18px;background:var(--surface)}
 .pitch-t{display:grid;gap:6px;flex:1;min-width:0}
 .pitch-t p:not(.lbl){font-size:1.02rem;line-height:1.6;max-width:110ch}
+/* chamada para a jornada interativa (/descubra/) */
+.jor-cta{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap;border:1.5px solid var(--rosa);border-radius:12px;padding:16px 18px;background:var(--surface-2);color:var(--fg);text-decoration:none}
+.jor-t{display:grid;gap:4px;flex:1 1 320px;min-width:0}
+.jor-t b{font-size:1.05rem;color:var(--accent)}
+.jor-t>span{font-size:.94rem;color:var(--fg-soft)}
+.jor-cta:hover .btn{background:color-mix(in srgb,var(--purpura),#000 40%);border-color:color-mix(in srgb,var(--purpura),#000 40%)}
 .acc-pick{display:grid;gap:8px}
 .chip-sm{padding:4px 10px;font-size:.82rem}
 .fconta{padding:16px 20px;border-bottom:1px solid var(--line);background:var(--surface-2);display:grid;gap:12px}
@@ -439,6 +445,12 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
 .sp-x{width:32px;height:32px;border-radius:4px;border:1.5px solid var(--line-strong);background:transparent;color:var(--fg);font-size:1.2rem;line-height:1;cursor:pointer}
 .send-pop>p{font-size:.92rem;color:var(--fg-soft)}
 .sp-link{font-size:.86rem;font-weight:700;color:var(--accent);background:var(--surface-2);border:1.5px dashed var(--line-strong);border-radius:6px;padding:10px 12px;word-break:break-all;user-select:all}
+.sp-jor{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:12px}
+.sp-jor h4{color:var(--accent)}
+.sp-campos{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sp-campos label{display:grid;gap:4px;font-size:.8rem;font-weight:700;color:var(--fg-soft)}
+.sp-campos input{font:inherit;font-size:.9rem;color:var(--fg);background:var(--surface);border:1.5px solid var(--line-strong);border-radius:4px;padding:8px 10px;width:100%;min-width:0}
+.sp-campos input:focus{outline:2px solid var(--rosa);outline-offset:1px}
 @media (max-width:760px){
   .send-btn{display:none}
   .send-fab{bottom:calc(76px + env(safe-area-inset-bottom,0px));right:16px;height:44px;padding:0 16px;font-size:.88rem}
@@ -540,6 +552,12 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
     <div class="pitch-t"><p class="lbl"><span class="v-cli">Em resumo</span></p><p id="pitchTxt">Em operações distribuídas, a maior parte das pessoas trabalha longe de uma mesa, mas o conhecimento continua em drives, PDFs e grupos de WhatsApp. A Plataforma de Treinamento Vivo Empresas centraliza esse conhecimento, entrega no celular da pessoa certa na hora em que ela precisa e mostra para a gestão quem acessou, quem entendeu e quem está preparado. A IA cria conteúdo em minutos e responde dúvidas usando só o material oficial da empresa. É a mesma base da Academia V, da Vivo.</p></div>
     
   </div>
+
+  <a class="jor-cta" href="https://varejo.plataformadetreinamentovivo.tech/descubra/">
+    <span class="jor-t"><b><span class="v-cli">Como a plataforma pode ajudar a sua empresa?</span></b>
+      <span><span class="v-cli">Responda 8 perguntas rápidas e veja onde a plataforma entra na sua operação, com um caso parecido com o seu.</span></span></span>
+    <span class="btn"><span class="v-cli">Fazer o diagnóstico</span></span>
+  </a>
 
   
 
@@ -1282,6 +1300,7 @@ byId('sendMsg').addEventListener('click', function(){
     'Nele você encontra como a plataforma funciona, resultados de empresas do seu segmento e uma calculadora para estimar o retorno com os números da sua operação.\n\n' +
     'Fico à disposição para marcarmos uma demonstração com o conteúdo de vocês.', 'Mensagem copiada com o link seguro');
 });
+
 
 /* ---------- Início ---------- */
 if(contaSel >= 0) pickConta(contaSel); else pickSeg(segIdx);

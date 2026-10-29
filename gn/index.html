@@ -255,6 +255,12 @@ body.cliente .ficha-foot.cli-only{display:flex}
 .pitch{display:flex;gap:16px;align-items:flex-start;border:1.5px solid var(--accent);border-radius:12px;padding:16px 18px;background:var(--surface)}
 .pitch-t{display:grid;gap:6px;flex:1;min-width:0}
 .pitch-t p:not(.lbl){font-size:1.02rem;line-height:1.6;max-width:110ch}
+/* chamada para a jornada interativa (/descubra/) */
+.jor-cta{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap;border:1.5px solid var(--rosa);border-radius:12px;padding:16px 18px;background:var(--surface-2);color:var(--fg);text-decoration:none}
+.jor-t{display:grid;gap:4px;flex:1 1 320px;min-width:0}
+.jor-t b{font-size:1.05rem;color:var(--accent)}
+.jor-t>span{font-size:.94rem;color:var(--fg-soft)}
+.jor-cta:hover .btn{background:color-mix(in srgb,var(--purpura),#000 40%);border-color:color-mix(in srgb,var(--purpura),#000 40%)}
 .acc-pick{display:grid;gap:8px}
 .chip-sm{padding:4px 10px;font-size:.82rem}
 .fconta{padding:16px 20px;border-bottom:1px solid var(--line);background:var(--surface-2);display:grid;gap:12px}
@@ -444,6 +450,12 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
 .sp-x{width:32px;height:32px;border-radius:4px;border:1.5px solid var(--line-strong);background:transparent;color:var(--fg);font-size:1.2rem;line-height:1;cursor:pointer}
 .send-pop>p{font-size:.92rem;color:var(--fg-soft)}
 .sp-link{font-size:.86rem;font-weight:700;color:var(--accent);background:var(--surface-2);border:1.5px dashed var(--line-strong);border-radius:6px;padding:10px 12px;word-break:break-all;user-select:all}
+.sp-jor{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:12px}
+.sp-jor h4{color:var(--accent)}
+.sp-campos{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sp-campos label{display:grid;gap:4px;font-size:.8rem;font-weight:700;color:var(--fg-soft)}
+.sp-campos input{font:inherit;font-size:.9rem;color:var(--fg);background:var(--surface);border:1.5px solid var(--line-strong);border-radius:4px;padding:8px 10px;width:100%;min-width:0}
+.sp-campos input:focus{outline:2px solid var(--rosa);outline-offset:1px}
 @media (max-width:760px){
   .send-btn{display:none}
   .send-fab{bottom:calc(76px + env(safe-area-inset-bottom,0px));right:16px;height:44px;padding:0 16px;font-size:.88rem}
@@ -555,6 +567,12 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
     <div class="pitch-t"><p class="lbl"><span class="v-int">Pitch de 30 segundos</span><span class="v-cli">Em resumo</span></p><p id="pitchTxt">Em operações distribuídas, a maior parte das pessoas trabalha longe de uma mesa, mas o conhecimento continua em drives, PDFs e grupos de WhatsApp. A Plataforma de Treinamento Vivo Empresas centraliza esse conhecimento, entrega no celular da pessoa certa na hora em que ela precisa e mostra para a gestão quem acessou, quem entendeu e quem está preparado. A IA cria conteúdo em minutos e responde dúvidas usando só o material oficial da empresa. É a mesma base da Academia V, da Vivo.</p></div>
     <button class="btn btn-out btn-sm int" type="button" id="pitchCopy">Copiar pitch</button>
   </div>
+
+  <a class="jor-cta" href="https://varejo.plataformadetreinamentovivo.tech/descubra/">
+    <span class="jor-t"><b><span class="v-int">Jornada interativa para o cliente</span><span class="v-cli">Como a plataforma pode ajudar a sua empresa?</span></b>
+      <span><span class="v-int">8 perguntas, a operação dele montada na tela e um diagnóstico no fim. Para o cliente falar com você no final, envie pelo botão Enviar para o cliente.</span><span class="v-cli">Responda 8 perguntas rápidas e veja onde a plataforma entra na sua operação, com um caso parecido com o seu.</span></span></span>
+    <span class="btn"><span class="v-int">Abrir a jornada</span><span class="v-cli">Fazer o diagnóstico</span></span>
+  </a>
 
   <div class="atalhos int" id="atalhos">
     <button class="atalho int" type="button" data-go-tab="objecoes" data-focus="objQ"><svg aria-hidden="true"><use href="#i-shield"/></svg><b>O cliente levantou uma objeção</b><span>Resposta pronta, prova e o que está por trás</span></button>
@@ -871,6 +889,18 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
     <button class="btn btn-out btn-sm" type="button" id="sendMsg">Copiar mensagem pronta</button>
   </div>
   <p class="hint">Nunca envie o link desta página. Ela é só para o GN.</p>
+  <div class="sp-jor">
+    <h4>Jornada interativa</h4>
+    <p class="hint">O cliente responde 8 perguntas, vê a operação dele na tela e, no fim, fala com você no WhatsApp com o diagnóstico pronto.</p>
+    <div class="sp-campos">
+      <label>Seu nome<input id="gnNome" type="text" autocomplete="name" placeholder="Como o cliente te conhece"></label>
+      <label>Seu WhatsApp<input id="gnZap" type="tel" inputmode="tel" autocomplete="tel" placeholder="11 91234-5678"></label>
+    </div>
+    <div class="row-btns">
+      <button class="btn btn-sm" type="button" id="sendJor">Copiar link da jornada</button>
+      <button class="btn btn-out btn-sm" type="button" id="sendJorMsg">Copiar mensagem pronta</button>
+    </div>
+  </div>
 </div>
 <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
 
@@ -1642,6 +1672,27 @@ byId('sendMsg').addEventListener('click', function(){
     'Nele você encontra como a plataforma funciona, resultados de empresas do seu segmento e uma calculadora para estimar o retorno com os números da sua operação.\n\n' +
     'Fico à disposição para marcarmos uma demonstração com o conteúdo de vocês.', 'Mensagem copiada com o link seguro');
 });
+/*INT{*/
+/* jornada interativa: o link leva o nome e o WhatsApp do GN depois do #, para o botão final chamar quem enviou */
+var gnContato = store.get('gnContato', {nome:'', zap:''});
+byId('gnNome').value = gnContato.nome || ''; byId('gnZap').value = gnContato.zap || '';
+function linkJornada(){
+  var nome = byId('gnNome').value.trim(), zap = byId('gnZap').value.replace(/\D/g, '');
+  if(zap.length && zap.length <= 11) zap = '55' + zap;
+  store.set('gnContato', {nome:nome, zap:byId('gnZap').value.trim()});
+  return LINK_CLIENTE + 'descubra/#' + (nome ? 'gn=' + encodeURIComponent(nome) + '&' : '') + 'w=' + zap;
+}
+function comZap(){
+  if(byId('gnZap').value.replace(/\D/g, '').length >= 10) return true;
+  toast('Coloque o seu WhatsApp com DDD: é ele que o cliente chama no fim.'); byId('gnZap').focus(); return false;
+}
+byId('sendJor').addEventListener('click', function(){ if(comZap()) copy(linkJornada(), 'Link da jornada copiado. Pode enviar ao cliente.'); });
+byId('sendJorMsg').addEventListener('click', function(){
+  if(!comZap()) return;
+  copy('Olá! Preparei um diagnóstico rápido para a gente conversar sobre treinamento na sua operação: ' + linkJornada() + '\n\n' +
+    'São 8 perguntas, leva uns 2 minutos. No fim, você vê onde a Plataforma de Treinamento Vivo Empresas entra, com um caso parecido com o seu, e já me chama por ali.', 'Mensagem copiada com o link da jornada');
+});
+/*}INT*/
 
 /* ---------- Início ---------- */
 if(contaSel >= 0) pickConta(contaSel); else pickSeg(segIdx);
