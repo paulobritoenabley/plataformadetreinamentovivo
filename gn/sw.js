@@ -1,7 +1,7 @@
 // Service worker do Playbook do GN (gerado pelo build). Escopo: só /gn/.
 // Página: rede primeiro (sempre a versão mais nova) e cópia guardada quando estiver sem internet.
 // Ícones e manifesto: cópia guardada primeiro.
-const CACHE = 'playbook-gn-82843cfe69';
+const CACHE = 'playbook-gn-3f2fad7012';
 const GUARDAR = ['./', 'manifest.webmanifest', '../favicon.svg', '../favicon-32.png', '../apple-touch-icon.png', '../icon-192.png', '../icon-512.png', '../icon-maskable-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(GUARDAR)).then(() => self.skipWaiting()));

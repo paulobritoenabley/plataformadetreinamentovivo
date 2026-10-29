@@ -6,23 +6,23 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="Uso interno dos GNs Vivo: pitch, objeções, casos, ROI e link seguro para enviar ao cliente.">
 <meta name="theme-color" content="#660099">
-<link rel="icon" href="https://paulobritoenabley.github.io/plataformadetreinamentovivo/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="https://paulobritoenabley.github.io/plataformadetreinamentovivo/favicon-32.png" type="image/png" sizes="32x32">
-<link rel="apple-touch-icon" href="https://paulobritoenabley.github.io/plataformadetreinamentovivo/apple-touch-icon.png">
+<link rel="icon" href="https://www.plataformadetreinamentovivo.tech/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="https://www.plataformadetreinamentovivo.tech/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="https://www.plataformadetreinamentovivo.tech/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Vivo Empresas">
-<meta property="og:url" content="https://paulobritoenabley.github.io/plataformadetreinamentovivo/gn/">
+<meta property="og:url" content="https://www.plataformadetreinamentovivo.tech/gn/">
 <meta property="og:title" content="Playbook do GN · Plataforma de Treinamento Vivo Empresas">
 <meta property="og:description" content="Uso interno dos GNs Vivo: pitch, objeções, casos, ROI e link seguro para enviar ao cliente.">
-<meta property="og:image" content="https://paulobritoenabley.github.io/plataformadetreinamentovivo/og-gn.png">
+<meta property="og:image" content="https://www.plataformadetreinamentovivo.tech/og-gn.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Playbook do GN, uso interno: tudo para a reunião com o cliente, em um clique.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Playbook do GN · Plataforma de Treinamento Vivo Empresas">
 <meta name="twitter:description" content="Uso interno dos GNs Vivo: pitch, objeções, casos, ROI e link seguro para enviar ao cliente.">
-<meta name="twitter:image" content="https://paulobritoenabley.github.io/plataformadetreinamentovivo/og-gn.png">
+<meta name="twitter:image" content="https://www.plataformadetreinamentovivo.tech/og-gn.png">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -852,7 +852,7 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
 <div class="send-pop int" id="sendPop" role="dialog" aria-labelledby="sendTit" hidden>
   <div class="sp-head"><h3 id="sendTit">Enviar para o cliente</h3><button type="button" class="sp-x" id="sendX" aria-label="Fechar">×</button></div>
   <p>Este é o <strong>link seguro</strong>: mostra só o que o cliente pode ver. Sem contas, objeções, concorrentes, time interno nem nome de clientes.</p>
-  <div class="sp-link" id="sendLink">https://paulobritoenabley.github.io/plataformadetreinamentovivo/</div>
+  <div class="sp-link" id="sendLink">https://www.plataformadetreinamentovivo.tech/</div>
   <div class="row-btns">
     <button class="btn btn-sm" type="button" id="sendCopy">Copiar link seguro</button>
     <button class="btn btn-out btn-sm" type="button" id="sendMsg">Copiar mensagem pronta</button>
@@ -1590,7 +1590,7 @@ rotuloTema();
 /*}INT*/
 
 /* ---------- Enviar para o cliente ---------- */
-var LINK_CLIENTE = 'https://paulobritoenabley.github.io/plataformadetreinamentovivo/', pop = byId('sendPop');
+var LINK_CLIENTE = 'https://www.plataformadetreinamentovivo.tech/', pop = byId('sendPop');
 function envio(abrir){ pop.hidden = !abrir; ['sendTop', 'sendFab'].forEach(function(id){ byId(id).setAttribute('aria-expanded', String(abrir)); }); if(abrir) byId('sendCopy').focus(); }
 byId('sendTop').addEventListener('click', function(e){ e.stopPropagation(); envio(pop.hidden); });
 byId('sendFab').addEventListener('click', function(e){ e.stopPropagation(); envio(pop.hidden); });
