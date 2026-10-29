@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Acesso interno dos times Vivo Empresas: playbooks e gestão de usuários.">
+<meta name="theme-color" content="#660099">
+<link rel="icon" href="https://varejo.plataformadetreinamentovivo.tech/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="https://varejo.plataformadetreinamentovivo.tech/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="https://varejo.plataformadetreinamentovivo.tech/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Vivo Empresas">
+<meta property="og:url" content="https://interno.plataformadetreinamentovivo.tech/">
+<meta property="og:title" content="Entrar · Plataforma de Treinamento Vivo Empresas">
+<meta property="og:description" content="Acesso interno dos times Vivo Empresas: playbooks e gestão de usuários.">
+<meta property="og:image" content="https://varejo.plataformadetreinamentovivo.tech/og-gn.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Acesso interno dos times Vivo Empresas.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Entrar · Plataforma de Treinamento Vivo Empresas">
+<meta name="twitter:description" content="Acesso interno dos times Vivo Empresas: playbooks e gestão de usuários.">
+<meta name="twitter:image" content="https://varejo.plataformadetreinamentovivo.tech/og-gn.png">
+<title>Entrar · Plataforma de Treinamento Vivo Empresas</title>
+<script>(function(){try{var t=JSON.parse(localStorage.getItem("pbvivo:tema"));if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<style>
+/* Ambiente logado (interno.<domínio>): login dividido na vertical (marca à esquerda, caixa de login à direita) e painel.
+   Marca Vivo (Guia 2023): Vivo Type → Trebuchet MS, logo branco sobre gradiente core (púrpura → roxo-escuro), botões flat raio 4 px, tags em outline fino. */
+:root{
+  --purpura:#660099; --rosa:#EB3C7D; --lilas:#BD4AFF; --rose:#FF96B2; --roxo:#380054; --magenta:#CC3D70;
+  --font:"Vivo Type","Trebuchet MS",sans-serif;
+
+  --bg:#F8F4FB; --surface:#FFFFFF; --surface-2:#F1E9F7; --fg:#22102E; --fg-soft:#5B4868;
+  --line:rgba(56,0,84,.13); --line-strong:rgba(56,0,84,.28);
+  --accent:#660099; --erro:#CC3D70;
+  --btn-bg:#660099; --btn-fg:#FFFFFF;
+  --shadow:0 8px 24px -18px rgba(56,0,84,.55);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#170722; --surface:#220E33; --surface-2:#2C1442; --fg:#F7EFFC; --fg-soft:#CDB9DB;
+    --line:rgba(255,255,255,.12); --line-strong:rgba(255,255,255,.28);
+    --accent:#FF96B2; --erro:#FF96B2;
+    --btn-bg:#FF96B2; --btn-fg:#380054;
+    --shadow:0 10px 28px -18px rgba(0,0,0,.9);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#170722; --surface:#220E33; --surface-2:#2C1442; --fg:#F7EFFC; --fg-soft:#CDB9DB;
+  --line:rgba(255,255,255,.12); --line-strong:rgba(255,255,255,.28);
+  --accent:#FF96B2; --erro:#FF96B2;
+  --btn-bg:#FF96B2; --btn-fg:#380054;
+  --shadow:0 10px 28px -18px rgba(0,0,0,.9);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{font-family:var(--font);background:var(--bg);color:var(--fg);line-height:1.45;-webkit-text-size-adjust:100%}
+h1,h2{margin:0;line-height:1.15}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--lilas);outline-offset:2px}
+
+/* ---------- Entrada (login dividido) ---------- */
+.entrada{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:100vh;min-height:100dvh}
+.marca{background:linear-gradient(160deg,var(--purpura) 0%,var(--roxo) 100%);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:64px 48px;text-align:center}
+.marca .logo{width:clamp(150px,22vw,300px);height:auto;display:block}
+.marca p{margin:0;font-weight:300;font-size:clamp(1.05rem,1.6vw,1.35rem);max-width:22em;opacity:.92}
+.lado{display:flex;align-items:center;justify-content:center;padding:48px 24px}
+.caixa{width:100%;max-width:400px}
+.caixa h1{font-size:1.75rem;font-weight:700;margin-bottom:8px}
+.caixa .sub{margin:0 0 28px;color:var(--fg-soft)}
+.campo{display:block;margin-bottom:18px}
+.campo span{display:block;font-weight:700;font-size:.92rem;margin-bottom:6px}
+.campo input,.campo select{width:100%;font:inherit;font-size:1rem;color:var(--fg);background:var(--surface);border:1px solid var(--line-strong);border-radius:4px;padding:12px 14px;min-height:48px}
+.campo input:focus,.campo select:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
+.btn{display:inline-flex;align-items:center;justify-content:center;font:inherit;font-size:1rem;border:0;border-radius:4px;padding:12px 22px;min-height:48px;cursor:pointer;background:var(--btn-bg);color:var(--btn-fg)}
+.btn[disabled]{opacity:.6;cursor:progress}
+.btn-cheio{width:100%}
+.btn-sec{background:none;color:var(--accent);border:1px solid currentColor}
+.link{background:none;border:0;padding:8px 0;font:inherit;color:var(--accent);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.dica{margin:18px 0 0;font-size:.92rem;color:var(--fg-soft)}
+.msg{min-height:1.45em;margin:0 0 14px;font-size:.95rem}
+.msg.erro{color:var(--erro);font-weight:700}
+.msg.ok{color:var(--fg-soft)}
+.aviso{background:var(--surface-2);border-left:3px solid var(--accent);border-radius:4px;padding:12px 14px;margin:0 0 22px;font-size:.95rem}
+@media (max-width:767px){
+  .entrada{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .marca{padding:44px 16px 36px;gap:16px}
+  .marca .logo{width:150px}
+  .lado{align-items:flex-start;padding:32px 16px 48px}
+}
+
+/* ---------- Painel ---------- */
+.topo{background:var(--purpura);color:#fff;display:flex;align-items:center;gap:16px;padding:12px max(16px,4vw);flex-wrap:wrap}
+.topo .logo{width:72px;height:auto;display:block}
+.topo .titulo{font-weight:300;font-size:1.05rem;margin-right:auto}
+.quem{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.quem .btn-sec{color:#fff;min-height:40px;padding:8px 16px}
+.tag{display:inline-block;border:1px solid currentColor;border-radius:4px;padding:2px 8px;font-size:.82rem;font-weight:700;white-space:nowrap}
+.painel{max-width:1040px;margin:0 auto;padding:32px max(16px,4vw) 64px}
+.painel h1{font-size:1.75rem;margin-bottom:28px}
+.painel section{margin-bottom:40px}
+.painel h2{font-size:1.25rem;margin-bottom:6px}
+.painel .sub{margin:0 0 16px;color:var(--fg-soft)}
+.cards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.card{display:block;height:100%;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:20px;color:var(--fg);text-decoration:none;box-shadow:var(--shadow)}
+.card:hover{border-color:var(--accent)}
+.card strong{display:block;font-size:1.15rem;color:var(--accent);margin-bottom:6px}
+.card span{color:var(--fg-soft);font-size:.95rem}
+.convite{display:grid;grid-template-columns:2fr 2fr 1fr auto;gap:12px;align-items:end;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:16px;margin-bottom:8px}
+.convite .campo{margin:0}
+.link-acesso{background:var(--surface-2);border-left:3px solid var(--accent);border-radius:4px;padding:14px 16px;margin:0 0 20px}
+.link-acesso strong{display:block;margin-bottom:8px}
+.link-acesso p{margin:8px 0 0;font-size:.9rem;color:var(--fg-soft)}
+.link-linha{display:flex;gap:8px}
+.link-linha input{flex:1 1 auto;min-width:0;font:inherit;font-size:.9rem;color:var(--fg);background:var(--surface);border:1px solid var(--line-strong);border-radius:4px;padding:10px 12px}
+.btn-link{display:block;background:none;border:0;padding:6px 0;margin-top:4px;font:inherit;font-size:.88rem;color:var(--accent);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.tabela{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:4px}
+.tabela th,.tabela td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tabela th{font-size:.85rem;color:var(--fg-soft)}
+.tabela tr:last-child td{border-bottom:0}
+.tabela td small{display:block;color:var(--fg-soft)}
+.tabela select{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line-strong);border-radius:4px;padding:8px 10px;min-height:40px}
+@media (max-width:767px){
+  .topo .titulo{display:none}
+  .convite{grid-template-columns:1fr}
+  .tabela thead{display:none}
+  .tabela,.tabela tbody,.tabela tr,.tabela td{display:block;width:100%}
+  .tabela tr{border-bottom:1px solid var(--line);padding:6px 0}
+  .tabela td{border:0;padding:6px 14px}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-vivo" viewBox="0 0 282.347 87.86"><g fill="#FFFFFF"><path d="M27.932 80.359L32.805 80.359C33.628 80.359 36.767 79.93 38.5 76.777L58.67 41.035C60.738 37.248 58.299 34.035 56.146 33.238L50.781 30.834C47.892 29.545 44.425 30.909 43.123 33.926L30.457 59.366L30.265 59.366L17.616 33.926C16.314 30.909 12.844 29.545 9.96 30.834L4.596 33.238C2.438 34.035 0 37.248 2.067 41.035L22.242 76.777C23.971 79.93 27.112 80.359 27.932 80.359"/><path d="M116.552 80.359L121.425 80.359C122.249 80.359 125.389 79.93 127.118 76.777L147.291 41.035C149.356 37.248 146.919 34.035 144.762 33.238L139.398 30.834C136.511 29.545 133.046 30.909 131.743 33.926L119.077 59.366L118.888 59.366L106.233 33.926C104.928 30.909 101.463 29.545 98.578 30.834L93.215 33.238C91.057 34.035 88.617 37.248 90.688 41.035L110.858 76.777C112.59 79.93 115.728 80.359 116.552 80.359"/><path d="M175.742 30.517C161.843 30.517 150.571 41.791 150.571 55.687C150.571 69.592 161.843 80.865 175.742 80.865C189.651 80.865 200.917 69.592 200.917 55.687C200.917 41.791 189.651 30.517 175.742 30.517M175.742 65.626C170.255 65.626 165.806 61.178 165.806 55.687C165.806 50.201 170.255 45.754 175.742 45.754C181.226 45.754 185.68 50.201 185.68 55.687C185.68 61.178 181.226 65.626 175.742 65.626"/><path d="M84.53 16.189C84.53 21.64 80.112 26.052 74.663 26.052C69.214 26.052 64.797 21.64 64.797 16.189C64.797 10.74 69.214 6.327 74.663 6.327C80.112 6.327 84.53 10.74 84.53 16.189"/><path d="M66.08 37.123C66.08 33.76 68.8 31.04 72.163 31.04L77.252 31.04C80.614 31.04 83.34 33.76 83.34 37.123L83.34 74.274C83.34 77.636 80.614 80.357 77.252 80.357L72.163 80.357C68.8 80.357 66.08 77.636 66.08 74.274L66.08 37.123"/><path d="M266.327 16.148C266.327 19.258 265.225 24.109 261.801 27.534C260.597 28.737 259.552 29.46 258.717 29.999C257.107 31.041 255.943 31.765 256.592 33.504C257.23 35.213 259.219 34.684 261.098 34.259C261.705 34.114 273.514 31.288 273.661 31.281C276.835 30.681 279.9 32.688 280.643 35.791C280.646 35.804 281.591 39.749 281.599 39.784C282.347 42.888 280.529 46.069 277.431 46.977C277.299 47.037 264.394 50.139 264.373 50.146C261.922 50.77 260.486 51.985 260.486 54.349C260.486 55.406 261.098 56.552 261.852 57.505C261.852 57.505 275.873 74.883 275.946 75.017C277.854 77.62 277.366 81.251 274.887 83.262C274.878 83.27 271.728 85.824 271.697 85.847C269.222 87.86 265.57 87.593 263.414 85.191C263.303 85.096 254.596 74.393 253.672 73.258C252.746 72.124 251.585 70.397 249.972 70.397C248.361 70.397 247.2 72.124 246.273 73.258C245.351 74.393 236.642 85.096 236.533 85.191C234.374 87.593 230.723 87.86 228.246 85.847C228.219 85.824 225.067 83.27 225.058 83.262C222.579 81.251 222.093 77.62 223.999 75.017C224.07 74.883 238.093 57.505 238.093 57.505C238.844 56.552 239.458 55.406 239.458 54.349C239.458 51.985 238.026 50.77 235.572 50.146C235.549 50.139 222.646 47.037 222.512 46.977C219.417 46.069 217.598 42.888 218.344 39.784C218.353 39.749 219.301 35.804 219.302 35.791C220.046 32.688 223.108 30.681 226.282 31.281C226.431 31.288 238.238 34.114 238.844 34.259C240.729 34.684 242.715 35.213 243.353 33.504C244 31.765 242.837 31.041 241.228 29.999C240.391 29.46 239.348 28.737 238.145 27.534C234.72 24.109 233.617 19.258 233.617 16.148C233.617 7.231 241.054 0 249.972 0C258.89 0 266.327 7.231 266.327 16.148"/></g></symbol>
+</svg>
+
+<div class="entrada" id="entrada">
+  <div class="marca">
+    <svg class="logo" role="img" aria-label="Vivo"><use href="#logo-vivo"/></svg>
+    <p>Plataforma de Treinamento Vivo Empresas</p>
+  </div>
+  <main class="lado">
+    <div class="caixa" id="vCarregando"><p class="msg ok" role="status">Carregando…</p></div>
+
+    <form class="caixa" id="vLogin" hidden novalidate>
+      <h1>Entrar</h1>
+      <p class="sub">Acesso dos times Vivo Empresas.</p>
+      <p class="aviso" id="avisoVolta" hidden>Entre para abrir o playbook.</p>
+      <label class="campo"><span>E-mail</span><input type="email" id="loginEmail" autocomplete="username" required></label>
+      <label class="campo"><span>Senha</span><input type="password" id="loginSenha" autocomplete="current-password" required></label>
+      <p class="msg" id="msgLogin" role="alert"></p>
+      <button class="btn btn-cheio" type="submit">Entrar</button>
+      <p class="dica">Esqueceu a senha ou perdeu o convite? Peça um novo link de acesso a quem convidou você.</p>
+    </form>
+
+    <form class="caixa" id="vAcesso" hidden novalidate>
+      <h1>Crie seu acesso</h1>
+      <p class="sub">Informe seu nome e crie uma senha com pelo menos 8 caracteres. Depois, você entra com seu e-mail e essa senha.</p>
+      <label class="campo"><span>Nome</span><input type="text" id="acNome" autocomplete="name" required></label>
+      <label class="campo"><span>Senha</span><input type="password" id="acSenha" autocomplete="new-password" minlength="8" required></label>
+      <label class="campo"><span>Repita a senha</span><input type="password" id="acSenha2" autocomplete="new-password" minlength="8" required></label>
+      <p class="msg" id="msgAcesso" role="alert"></p>
+      <button class="btn btn-cheio" type="submit">Criar acesso</button>
+    </form>
+
+    <div class="caixa" id="vSemAcesso" hidden>
+      <h1>Sem acesso</h1>
+      <p class="sub" id="msgSemAcesso">Seu usuário ainda não tem acesso. Fale com quem convidou você.</p>
+      <button class="btn btn-sec" type="button" data-sair>Sair</button>
+    </div>
+  </main>
+</div>
+
+<div id="vPainel" hidden>
+  <header class="topo">
+    <svg class="logo" role="img" aria-label="Vivo"><use href="#logo-vivo"/></svg>
+    <span class="titulo">Plataforma de Treinamento Vivo Empresas</span>
+    <div class="quem"><span id="quemNome"></span><span class="tag" id="quemPapel"></span><button class="btn btn-sec" type="button" data-sair>Sair</button></div>
+  </header>
+  <main class="painel">
+    <h1 id="ola">Olá</h1>
+    <section aria-labelledby="tPlaybooks">
+      <h2 id="tPlaybooks">Playbooks</h2>
+      <p class="sub">Material de venda por segmento. A página do cliente de cada um fica na raiz do mesmo endereço.</p>
+      <ul class="cards" id="listaPlaybooks"></ul>
+    </section>
+    <section aria-labelledby="tUsuarios" id="secUsuarios" hidden>
+      <h2 id="tUsuarios">Usuários</h2>
+      <p class="sub">Você convida e altera o papel de quem está abaixo de você, até o seu próprio papel. O convite é um link de uso único: copie e mande para a pessoa. A troca de papel vale no próximo acesso dela (em até 1 hora).</p>
+      <form class="convite" id="fConvite" novalidate>
+        <label class="campo"><span>E-mail</span><input type="email" id="convEmail" autocomplete="off" required></label>
+        <label class="campo"><span>Nome</span><input type="text" id="convNome" autocomplete="off"></label>
+        <label class="campo"><span>Papel</span><select id="convPapel"></select></label>
+        <button class="btn" type="submit">Gerar link</button>
+      </form>
+      <p class="msg" id="msgUsuarios" role="status"></p>
+      <div class="link-acesso" id="linkBox" hidden>
+        <strong id="linkTit">Link de acesso</strong>
+        <div class="link-linha"><input type="text" id="linkUrl" readonly aria-labelledby="linkTit"><button class="btn" type="button" id="linkCopiar">Copiar</button></div>
+        <p>Envie só para essa pessoa. O link vale uma vez e expira; se expirar, gere outro na lista abaixo.</p>
+      </div>
+      <table class="tabela">
+        <thead><tr><th scope="col">Pessoa</th><th scope="col">Papel</th></tr></thead>
+        <tbody id="tbUsuarios"></tbody>
+      </table>
+    </section>
+  </main>
+</div>
+
+<script>
+/* ---------- Base ---------- */
+var DOMINIO = 'plataformadetreinamentovivo.tech';
+var PAPEL = {gn: 'GN', bdm: 'BDM', gerente: 'Gerente', admin: 'Admin', superadmin: 'Superadmin'};
+var NIVEL = {gn: 1, bdm: 2, gerente: 3, admin: 4, superadmin: 5};
+var PLAYBOOKS = [
+  {nome: 'Varejo', desc: 'Pitch, objeções, casos, ROI e link seguro para o cliente.', url: 'https://varejo.' + DOMINIO + '/gn/'}
+];
+var VISTAS = ['vCarregando', 'vLogin', 'vAcesso', 'vSemAcesso'];
+var eu = null, convite = null;
+
+function byId(id){ return document.getElementById(id) || document.createElement('div'); }
+function h(tag, attrs, filhos){
+  var el = document.createElement(tag), k;
+  for (k in (attrs || {})) if (attrs.hasOwnProperty(k)) { if (k === 'text') el.textContent = attrs[k]; else el.setAttribute(k, attrs[k]); }
+  (filhos || []).forEach(function(f){ if (f) el.appendChild(f); });
+  return el;
+}
+function msg(id, texto, tipo){ var el = byId(id); el.textContent = texto || ''; el.className = 'msg' + (tipo ? ' ' + tipo : ''); }
+function ocupado(form, sim){ var b = form.querySelector('button[type="submit"]'); if (b) b.disabled = sim; }
+
+function api(metodo, caminho, corpo, cb){
+  var x = new XMLHttpRequest();
+  x.open(metodo, '/api/' + caminho, true);
+  if (corpo) x.setRequestHeader('Content-Type', 'application/json');
+  x.onload = function(){ var d = {}; try { d = JSON.parse(x.responseText) || {}; } catch (e) {} cb(x.status, d); };
+  x.onerror = function(){ cb(0, {erro: 'Sem conexão. Confira a internet e tente de novo.'}); };
+  x.send(corpo ? JSON.stringify(corpo) : null);
+}
+
+function ver(vista){
+  var painel = vista === 'vPainel';
+  byId('entrada').hidden = painel;
+  byId('vPainel').hidden = !painel;
+  VISTAS.forEach(function(v){ byId(v).hidden = v !== vista; });
+  document.title = (painel ? 'Painel' : 'Entrar') + ' · Plataforma de Treinamento Vivo Empresas';
+  var foco = byId(vista).querySelector('input');
+  if (foco && !painel) foco.focus();
+}
+
+// para onde voltar depois do login: só endereços https do próprio domínio
+function volta(){
+  var m = /[?&]volta=([^&]+)/.exec(location.search), a;
+  if (!m) return '';
+  try { a = document.createElement('a'); a.href = decodeURIComponent(m[1]); } catch (e) { return ''; }
+  var host = a.hostname;
+  return a.protocol === 'https:' && (host === DOMINIO || host.slice(-DOMINIO.length - 1) === '.' + DOMINIO) ? a.href : '';
+}
+
+// link de acesso gerado no painel: o código de uso único vem depois do # (nunca vai a servidor nenhum até o clique)
+function lerHash(){
+  var r = {};
+  location.hash.replace(/^#/, '').split('&').forEach(function(p){
+    var i = p.indexOf('=');
+    if (i > 0) r[decodeURIComponent(p.slice(0, i))] = decodeURIComponent(p.slice(i + 1).replace(/\+/g, ' '));
+  });
+  return r;
+}
+
+/* ---------- Entrada ---------- */
+function iniciar(){
+  var hs = lerHash();
+  if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  if (hs.acesso) {
+    convite = {codigo: hs.acesso, tipo: hs.tipo};
+    return ver('vAcesso');
+  }
+  carregarEu();
+}
+
+function carregarEu(){
+  api('GET', 'eu', null, function(st, d){
+    if (st === 200) {
+      eu = d;
+      var v = volta();
+      return v ? location.replace(v) : painel();
+    }
+    if (st === 403) { if (d.erro) byId('msgSemAcesso').textContent = d.erro; return ver('vSemAcesso'); }
+    byId('avisoVolta').hidden = !volta();
+    ver('vLogin');
+    if (st !== 401) msg('msgLogin', d.erro || 'Não foi possível conferir seu acesso agora.', 'erro');
+  });
+}
+
+byId('vLogin').addEventListener('submit', function(e){
+  e.preventDefault();
+  var f = this, email = byId('loginEmail').value.trim(), senha = byId('loginSenha').value;
+  if (!email || !senha) return msg('msgLogin', 'Informe e-mail e senha.', 'erro');
+  ocupado(f, true); msg('msgLogin', '');
+  api('POST', 'entrar', {email: email, senha: senha}, function(st, d){
+    ocupado(f, false);
+    if (st !== 200) return msg('msgLogin', d.erro || 'Não foi possível entrar agora.', 'erro');
+    byId('loginSenha').value = '';
+    carregarEu();
+  });
+});
+
+byId('vAcesso').addEventListener('submit', function(e){
+  e.preventDefault();
+  var f = this, nome = byId('acNome').value.trim(), s1 = byId('acSenha').value, s2 = byId('acSenha2').value;
+  if (!nome) return msg('msgAcesso', 'Informe seu nome.', 'erro');
+  if (s1.length < 8) return msg('msgAcesso', 'A senha precisa ter pelo menos 8 caracteres.', 'erro');
+  if (s1 !== s2) return msg('msgAcesso', 'As duas senhas não são iguais.', 'erro');
+  ocupado(f, true); msg('msgAcesso', '');
+  var corpo = {nome: nome, senha: s1};
+  if (convite) { corpo.codigo = convite.codigo; corpo.tipo = convite.tipo; }
+  api('POST', 'aceitar', corpo, function(st, d){
+    ocupado(f, false);
+    /* o código vale uma vez: se ele já foi usado, a próxima tentativa segue pela sessão aberta */
+    if (d.sessao) convite = null;
+    if (st !== 200) return msg('msgAcesso', d.erro || 'Não foi possível criar o acesso.', 'erro');
+    convite = null;
+    byId('acSenha').value = byId('acSenha2').value = '';
+    carregarEu();
+  });
+});
+
+Array.prototype.forEach.call(document.querySelectorAll('[data-sair]'), function(b){
+  b.addEventListener('click', function(){
+    api('POST', 'sair', {}, function(){ eu = null; msg('msgLogin', 'Você saiu.', 'ok'); ver('vLogin'); });
+  });
+});
+
+/* ---------- Painel ---------- */
+function painel(){
+  var nome = eu.nome || eu.email;
+  byId('quemNome').textContent = nome;
+  byId('quemPapel').textContent = PAPEL[eu.papel] || eu.papel;
+  byId('ola').textContent = 'Olá, ' + nome.split(' ')[0];
+  var lista = byId('listaPlaybooks');
+  lista.innerHTML = '';
+  PLAYBOOKS.forEach(function(p){
+    lista.appendChild(h('li', {}, [h('a', {'class': 'card', href: p.url}, [h('strong', {text: p.nome}), h('span', {text: p.desc})])]));
+  });
+  var concede = eu.concede || [];
+  byId('secUsuarios').hidden = !concede.length;
+  if (concede.length) {
+    var sel = byId('convPapel');
+    sel.innerHTML = '';
+    concede.forEach(function(p){ sel.appendChild(h('option', {value: p, text: PAPEL[p] || p})); });
+    sel.value = concede.indexOf('gn') >= 0 ? 'gn' : concede[concede.length - 1];
+    carregarUsuarios();
+  }
+  ver('vPainel');
+}
+
+function podeAlterar(u){
+  return u.id !== eu.id && (eu.papel === 'superadmin' || NIVEL[u.papel] < NIVEL[eu.papel]) && NIVEL[eu.papel] >= NIVEL.bdm;
+}
+
+function carregarUsuarios(){
+  api('GET', 'usuarios', null, function(st, d){
+    var tb = byId('tbUsuarios');
+    tb.innerHTML = '';
+    if (st !== 200) return msg('msgUsuarios', d.erro || 'Não foi possível carregar os usuários.', 'erro');
+    (d.usuarios || []).sort(function(a, b){ return NIVEL[b.papel] - NIVEL[a.papel] || String(a.nome || a.email).localeCompare(String(b.nome || b.email), 'pt-BR'); })
+      .forEach(function(u){ tb.appendChild(linhaUsuario(u)); });
+  });
+}
+
+function linhaUsuario(u){
+  var pessoa = h('td', {}, [h('strong', {text: u.nome || u.email}), u.nome ? h('small', {text: u.email}) : null]);
+  var papel = h('td');
+  if (podeAlterar(u)) {
+    var sel = h('select', {'aria-label': 'Papel de ' + (u.nome || u.email)});
+    eu.concede.forEach(function(p){ sel.appendChild(h('option', {value: p, text: PAPEL[p] || p})); });
+    sel.value = u.papel;
+    sel.addEventListener('change', function(){
+      var novo = sel.value;
+      sel.disabled = true;
+      api('PATCH', 'usuarios', {id: u.id, papel: novo}, function(st, d){
+        sel.disabled = false;
+        if (st !== 200) { sel.value = u.papel; return msg('msgUsuarios', d.erro || 'Não foi possível alterar o papel.', 'erro'); }
+        u.papel = novo;
+        msg('msgUsuarios', (u.nome || u.email) + ' agora é ' + PAPEL[novo] + '.', 'ok');
+      });
+    });
+    papel.appendChild(sel);
+    var novoLink = h('button', {'class': 'btn-link', type: 'button', text: 'Gerar link de acesso'});
+    novoLink.addEventListener('click', function(){
+      novoLink.disabled = true;
+      api('PUT', 'usuarios', {id: u.id}, function(st, d){
+        novoLink.disabled = false;
+        if (st !== 200) return msg('msgUsuarios', d.erro || 'Não foi possível gerar o link.', 'erro');
+        msg('msgUsuarios', '');
+        mostrarLink(d.link, u.nome || u.email);
+      });
+    });
+    pessoa.appendChild(novoLink);
+  } else {
+    papel.appendChild(h('span', {'class': 'tag', text: PAPEL[u.papel] || u.papel}));
+    if (u.id === eu.id) papel.appendChild(h('small', {text: 'Você'}));
+  }
+  return h('tr', {}, [pessoa, papel]);
+}
+
+function mostrarLink(link, pessoa){
+  byId('linkTit').textContent = 'Link de acesso para ' + pessoa;
+  byId('linkUrl').value = link;
+  byId('linkBox').hidden = false;
+  byId('linkCopiar').focus();
+}
+
+byId('linkCopiar').addEventListener('click', function(){
+  var campo = byId('linkUrl'), botao = this;
+  function feito(){ botao.textContent = 'Copiado'; setTimeout(function(){ botao.textContent = 'Copiar'; }, 2000); }
+  function manual(){ campo.focus(); campo.select(); try { document.execCommand('copy'); feito(); } catch (e) { msg('msgUsuarios', 'Selecione o link e copie.', 'erro'); } }
+  try { navigator.clipboard.writeText(campo.value).then(feito, manual); } catch (e) { manual(); }
+});
+
+byId('fConvite').addEventListener('submit', function(e){
+  e.preventDefault();
+  var f = this, email = byId('convEmail').value.trim(), nome = byId('convNome').value.trim(), papel = byId('convPapel').value;
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return msg('msgUsuarios', 'Informe um e-mail válido.', 'erro');
+  ocupado(f, true);
+  api('POST', 'usuarios', {email: email, nome: nome, papel: papel}, function(st, d){
+    ocupado(f, false);
+    if (st !== 201 && st !== 207) return msg('msgUsuarios', d.erro || 'Não foi possível gerar o convite.', 'erro');
+    msg('msgUsuarios', d.aviso || '', d.aviso ? 'erro' : 'ok');
+    mostrarLink(d.link, nome || email);
+    byId('convEmail').value = byId('convNome').value = '';
+    carregarUsuarios();
+  });
+});
+
+iniciar();
+</script>
+
+</body>
+</html>

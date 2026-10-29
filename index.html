@@ -105,6 +105,11 @@ button{font:inherit;color:inherit}
 .tema .sol{display:none}
 .tema[aria-pressed="true"] .sol{display:block}
 .tema[aria-pressed="true"] .lua{display:none}
+/* conta (ambiente logado): só aparece no site publicado */
+.conta{position:relative;flex:0 0 auto}
+.conta-menu{position:absolute;right:0;top:calc(100% + 8px);z-index:60;min-width:200px;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-top:4px solid #660099;border-radius:4px;box-shadow:0 24px 60px -24px rgba(0,0,0,.6);padding:6px;display:grid}
+.conta-menu a,.conta-menu button{display:block;width:100%;text-align:left;font:inherit;font-size:.95rem;color:var(--fg);background:none;border:0;border-radius:4px;padding:10px 12px;text-decoration:none;cursor:pointer}
+.conta-menu a:hover,.conta-menu button:hover{background:var(--surface-2)}
 .tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
 .tab{background:none;border:0;color:rgba(255,255,255,.82);padding:10px 14px 12px;font-weight:700;font-size:.94rem;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent}
@@ -486,6 +491,7 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
     <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/></g></symbol>
     <symbol id="i-moon" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></g></symbol>
     <symbol id="i-eye" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></g></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20.5c1.2-4 4.3-6 8-6s6.8 2 8 6"/></g></symbol>
     <symbol id="i-link" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></g></symbol>
   </defs>
 </svg>
@@ -503,6 +509,7 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
       <kbd aria-hidden="true">/</kbd>
       <div class="sres" id="sres" role="listbox" hidden></div>
     </div>
+    
     
     <button class="tema" id="tema" type="button" aria-pressed="false" aria-label="Mudar para o tema escuro" title="Mudar para o tema escuro"><svg class="lua" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sol" aria-hidden="true"><use href="#i-sun"/></svg></button>
     
