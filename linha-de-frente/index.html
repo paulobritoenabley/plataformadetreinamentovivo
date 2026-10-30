@@ -530,6 +530,10 @@ mark { background: var(--vivo-rose); color: var(--vivo-roxo); padding: 0 0.14em;
   border: 1.5px solid rgba(255, 255, 255, .85); border-radius: 4px; transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1); }
 .barra__cta:hover { background: color-mix(in srgb, var(--vivo-purpura), #000 40%); }
 .barra__cta:active { transform: translateY(1px); }
+.barra__para { margin: 0 20px 0 auto; min-width: 0; font-size: 14px; color: rgba(255, 255, 255, .78); white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis; }
+.barra__para b { color: #fff; }
+.barra__para[hidden] { display: none; }
 
 /* -------------------------------------------------------------------- palco -- */
 .palco__stage { background: radial-gradient(120% 80% at 25% 15%, #7A12B5 0%, var(--vivo-purpura) 40%, var(--vivo-roxo) 100%); }
@@ -692,6 +696,7 @@ figcaption b { font-size: 1.05rem; }
 .rodape { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--sc-5); padding-block: var(--sc-7) 40px;
   color: var(--sc-ink-soft); font-size: .92rem; }
 .rodape p { margin: 0; max-width: 40ch; }
+.rodape__aviso { display: block; margin-top: 10px; font-size: 11px; opacity: .6; }
 .rodape img { width: 92px; height: auto; }
 
 /* -------------------------------------------------------------------- celular -- */
@@ -699,6 +704,7 @@ figcaption b { font-size: 1.05rem; }
   :root { --barra-h: 56px; }
   .barra { padding-inline: 16px; }
   .barra__cta { display: none; }
+  .barra__para { margin-right: 0; padding-left: 16px; font-size: 13px; }
   .barra__marca img { height: 26px; }
   .fala { left: 16px; right: 16px; width: auto; top: calc(var(--barra-h) + 18px); padding: 18px 20px 16px; }
   .fala__h { font-size: clamp(1.75rem, 7.4vw, 2.3rem); }
@@ -760,6 +766,7 @@ figcaption b { font-size: 1.05rem; }
   <a class="barra__marca" href="#topo" aria-label="Vivo, início da página">
     <img src="assets/marca/vivo-logo-branco.svg" alt="Vivo" width="92" height="32">
   </a>
+  <span class="barra__para" id="para-empresa" hidden></span>
   <a class="barra__cta" id="chamada-topo" href="#contato">Faça o diagnóstico</a>
 </header>
 
@@ -929,13 +936,95 @@ figcaption b { font-size: 1.05rem; }
       </div>
     </div>
     <footer class="rodape sc-wrap">
-      <p>Plataforma de Treinamento Vivo Empresas. Resultados de clientes reais, identificados pelo segmento.</p>
+      <p>Plataforma de Treinamento Vivo Empresas. Resultados de clientes reais, identificados pelo segmento.<small class="rodape__aviso">As interações nesta página podem ser monitoradas.</small></p>
       <img src="assets/marca/vivo-logo-branco.svg" alt="Vivo" width="92" height="32">
     </footer>
   </section>
 
 </main>
 
+<script>/* Rastro: o que o cliente faz na página aberta pelo link que o GN enviou (link seguro, jornada, linha de frente).
+   O build embute este arquivo no marcador do rastro de cada página (comRastro, no build.js). Só liga com o código do envio (e=) no link:
+   sem ele, nada é medido. Mede abertura, cliques (pelo rótulo do botão, nunca o que foi digitado), até onde rolou,
+   tempo na página e o contato pelo WhatsApp; cada página pode mandar eventos próprios (ex.: etapa da jornada).
+   Envia em lotes para /api/visita do próprio site, sem guardar nada além do id da visita na aba. Script ES5. */
+var Rastro = (function(){
+  var CODIGO = /^[A-Za-z0-9]{8,24}$/, LETRAS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var envio = '', sessao = '', fila = [], timer = null, inicio = 0, maxRolagem = 0, marcos = [25, 50, 75, 100], saiu = false;
+
+  function novoCodigo(n){
+    var s = '', i, v = null;
+    try{ v = new Uint8Array(n || 12); window.crypto.getRandomValues(v); }catch(e){ v = null; }
+    for(i = 0; i < (n || 12); i++) s += LETRAS.charAt((v ? v[i] : Math.floor(Math.random() * 256)) % LETRAS.length);
+    return s;
+  }
+  function idDaVisita(){
+    var chave = 'pbvivo:visita:' + envio, id = '';
+    try{ id = sessionStorage.getItem(chave) || ''; }catch(e){}
+    if(!CODIGO.test(id)){ id = novoCodigo(12); try{ sessionStorage.setItem(chave, id); }catch(e){} }
+    return id;
+  }
+  function rotulo(el){
+    var t = el.getAttribute('data-rastro') || el.getAttribute('aria-label') || el.textContent || '';
+    return t.replace(/\s+/g, ' ').trim().slice(0, 60);
+  }
+  function rolagem(){
+    var d = document.documentElement, alto = Math.max(d.scrollHeight, document.body ? document.body.scrollHeight : 0) - window.innerHeight;
+    return alto <= 0 ? 100 : Math.min(100, Math.round((window.pageYOffset || d.scrollTop || 0) / alto * 100));
+  }
+
+  function enviar(){
+    clearTimeout(timer); timer = null;
+    if(!fila.length) return;
+    var agora = Date.now(), lote = fila.splice(0, 50).map(function(e){ return {tipo:e.tipo, detalhe:e.detalhe, atras:agora - e.t}; });
+    var corpo = JSON.stringify({envio:envio, sessao:sessao, eventos:lote});
+    try{
+      if(window.fetch){ fetch('/api/visita', {method:'POST', keepalive:true, credentials:'same-origin', headers:{'Content-Type':'application/json'}, body:corpo})['catch'](function(){}); }
+      else{ var x = new XMLHttpRequest(); x.open('POST', '/api/visita', true); x.setRequestHeader('Content-Type', 'application/json'); x.send(corpo); }
+    }catch(e){}
+    if(fila.length) enviar();
+  }
+  function evento(tipo, detalhe){
+    if(!envio) return;
+    fila.push({tipo:tipo, detalhe:detalhe || null, t:Date.now()});
+    if(fila.length >= 20) return enviar();
+    if(!timer) timer = setTimeout(enviar, 5000);
+  }
+
+  function aoRolar(){
+    var r = rolagem();
+    if(r <= maxRolagem) return;
+    maxRolagem = r;
+    while(marcos.length && r >= marcos[0]) evento('rolagem', {ate:marcos.shift()});
+  }
+  function aoClicar(e){
+    var el = e.target && e.target.closest ? e.target.closest('a,button,[data-rastro]') : null;
+    if(!el || el.closest('[data-rastro-ignorar]')) return;
+    var href = el.getAttribute('href') || '';
+    if(/^https:\/\/(wa\.me|api\.whatsapp\.com)\//.test(href)) return evento('contato', {canal:'whatsapp', rotulo:rotulo(el)});
+    evento('clique', {rotulo:rotulo(el)});
+  }
+  /* a cada saída (aba escondida, app trocado, página fechada) vai o tempo total e a rolagem máxima até ali */
+  function aoSair(){
+    if(!saiu){ evento('saiu', {rolagem:maxRolagem, segundos:Math.round((Date.now() - inicio) / 1000)}); saiu = true; }
+    enviar();
+  }
+
+  function iniciar(codigo, pagina){
+    if(envio || !CODIGO.test(String(codigo || ''))) return false;
+    envio = String(codigo); sessao = idDaVisita(); inicio = Date.now();
+    evento('abriu', {pagina:pagina || location.pathname, tela:window.innerWidth + 'x' + window.innerHeight});
+    window.addEventListener('scroll', aoRolar, {passive:true});
+    document.addEventListener('click', aoClicar, true);
+    document.addEventListener('visibilitychange', function(){ if(document.visibilityState === 'hidden') aoSair(); else saiu = false; });
+    window.addEventListener('pagehide', aoSair);
+    setTimeout(aoRolar, 1500);
+    return true;
+  }
+
+  return {iniciar:iniciar, evento:evento, novoCodigo:novoCodigo, ativo:function(){ return !!envio; }};
+})();
+</script>
 <script>
 /* ============================================================================
    scrollcraft: a scroll-driven interaction runtime
@@ -2876,7 +2965,8 @@ figcaption b { font-size: 1.05rem; }
 
   // --------------------------------------------------------------- chamada --
   // O GN envia a página com o contato dele depois do # (#gn=Nome&w=55DDDNUMERO,
-  // o mesmo link da jornada): o botão abre o WhatsApp dele com a mensagem
+  // o mesmo link da jornada, com &c=Empresa do cliente, mostrada na barra do
+  // topo, e &e=código do envio): o botão abre o WhatsApp dele com a mensagem
   // pronta. Sem contato, o botão leva ao diagnóstico (/descubra/). O contato
   // fica guardado no aparelho, na mesma chave da jornada, porque os atalhos da
   // página (#custo, #contato) trocam o # do endereço.
@@ -2889,9 +2979,19 @@ figcaption b { font-size: 1.05rem; }
     var i = par.indexOf('=');
     if (i > 0) { try { noLink[par.slice(0, i)] = decodeURIComponent(par.slice(i + 1)); } catch (e) {} }
   });
-  var gn = noLink.w ? { nome: noLink.gn, zap: noLink.w } : guardado.ler();
-  gn = gn ? { nome: String(gn.nome || '').slice(0, 60), zap: String(gn.zap || '').replace(/\D/g, '').slice(0, 15) } : null;
+  var gn = noLink.w ? { nome: noLink.gn, zap: noLink.w, empresa: noLink.c, e: noLink.e } : guardado.ler();
+  gn = gn ? { nome: String(gn.nome || '').slice(0, 60), zap: String(gn.zap || '').replace(/\D/g, '').slice(0, 15),
+    empresa: String(gn.empresa || '').trim().slice(0, 60), e: /^[A-Za-z0-9]{8,24}$/.test(gn.e || '') ? gn.e : '' } : null;
   if (noLink.w) guardado.gravar(gn);
+  // com o código do envio (&e=), o Rastro mede a visita: rolagem, cliques e o contato pelo WhatsApp
+  if (gn && gn.e && window.Rastro) Rastro.iniciar(gn.e, 'linha-de-frente');
+  if (gn && gn.empresa) {
+    var para = document.getElementById('para-empresa');
+    para.appendChild(document.createTextNode('Preparado para '));
+    para.appendChild(document.createElement('b')).textContent = gn.empresa;
+    para.title = 'Preparado para ' + gn.empresa;
+    para.hidden = false;
+  }
   if (gn && gn.zap) {
     var chamada = document.getElementById('chamada');
     chamada.href = 'https://wa.me/' + gn.zap + '?text=' + encodeURIComponent('Olá' + (gn.nome ? ', ' + gn.nome : '') +

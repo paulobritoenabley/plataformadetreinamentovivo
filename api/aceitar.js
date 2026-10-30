@@ -1,12 +1,13 @@
-// POST {codigo, tipo, nome, senha} → primeiro acesso pelo link gerado no painel: confere o código (uso único),
-// grava senha e nome e abre a sessão. Sem código, usa a sessão já aberta (nova tentativa depois de senha recusada).
+// POST {codigo, tipo, nome, sobrenome, senha} → primeiro acesso pelo link gerado no painel: confere o código (uso único),
+// grava senha, nome e sobrenome e abre a sessão. Sem código, usa a sessão já aberta (nova tentativa depois de senha recusada).
 const s = require('./_sessao.js');
 
 const TIPOS = ['invite', 'magiclink'];
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST' || !s.pedidoJson(req)) return s.responder(res, 405, {erro: 'Pedido inválido.'});
-  const b = req.body || {}, senha = String(b.senha || ''), nome = String(b.nome || '').trim();
+  const b = req.body || {}, senha = String(b.senha || ''), nome = String(b.nome || '').trim().slice(0, 60);
+  const sobrenome = String(b.sobrenome || '').trim().slice(0, 80);
   if (senha.length < 8) return s.responder(res, 400, {erro: 'A senha precisa ter pelo menos 8 caracteres.'});
 
   let token, cookies;
@@ -29,6 +30,6 @@ module.exports = async (req, res) => {
     const fraca = r.status === 422 && /password/i.test(JSON.stringify(r.dados));
     return s.responder(res, 400, {erro: fraca ? 'Escolha uma senha diferente e mais forte.' : 'Não foi possível salvar a senha. Tente de novo.', sessao: true}, cookies);
   }
-  if (nome) await s.rest('rpc/definir_meu_nome', {metodo: 'POST', token, corpo: {novo_nome: nome}});
+  if (nome) await s.rest('rpc/definir_meu_perfil', {metodo: 'POST', token, corpo: {novo_nome: nome, novo_sobrenome: sobrenome}});
   s.responder(res, 200, {ok: true}, cookies);
 };

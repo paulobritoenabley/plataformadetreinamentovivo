@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
   const b = req.body || {};
 
   if (req.method === 'GET') {
-    const r = await s.rest('perfis?select=id,email,nome,papel,criado_em&order=email.asc', {token: se.token});
+    const r = await s.rest('perfis?select=id,email,nome,sobrenome,foto,papel,criado_em&order=email.asc', {token: se.token});
     return s.responder(res, r.ok ? 200 : 502, r.ok ? {usuarios: r.dados} : {erro: 'Não foi possível carregar os usuários.'}, se.cookies);
   }
 
