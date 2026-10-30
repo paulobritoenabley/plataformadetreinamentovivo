@@ -447,6 +447,9 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
 .sp-link{font-size:.86rem;font-weight:700;color:var(--accent);background:var(--surface-2);border:1.5px dashed var(--line-strong);border-radius:6px;padding:10px 12px;word-break:break-all;user-select:all}
 .sp-jor{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:12px}
 .sp-jor h4{color:var(--accent)}
+.send-pop{max-height:calc(100vh - 110px);overflow-y:auto;overscroll-behavior:contain}
+.sp-pag{display:grid;gap:6px;padding-top:4px}
+.sp-pag b{font-size:.92rem}
 .sp-campos{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .sp-campos label{display:grid;gap:4px;font-size:.8rem;font-weight:700;color:var(--fg-soft)}
 .sp-campos input{font:inherit;font-size:.9rem;color:var(--fg);background:var(--surface);border:1.5px solid var(--line-strong);border-radius:4px;padding:8px 10px;width:100%;min-width:0}
@@ -454,7 +457,7 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
 @media (max-width:760px){
   .send-btn{display:none}
   .send-fab{bottom:calc(76px + env(safe-area-inset-bottom,0px));right:16px;height:44px;padding:0 16px;font-size:.88rem}
-  .send-pop{right:16px;bottom:calc(130px + env(safe-area-inset-bottom,0px))}
+  .send-pop{right:16px;bottom:calc(130px + env(safe-area-inset-bottom,0px));max-height:calc(100vh - 150px)}
 }
 @media (max-width:1100px) and (min-width:761px){.send-btn{padding:0 12px}.modo .mt{display:none}}
 
@@ -553,7 +556,7 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
     
   </div>
 
-  <a class="jor-cta" href="https://varejo.plataformadetreinamentovivo.tech/descubra/">
+  <a class="jor-cta" href="https://paginas.plataformadetreinamentovivo.tech/descubra/">
     <span class="jor-t"><b><span class="v-cli">Como a plataforma pode ajudar a sua empresa?</span></b>
       <span><span class="v-cli">Responda 8 perguntas rápidas e veja onde a plataforma entra na sua operação, com um caso parecido com o seu.</span></span></span>
     <span class="btn"><span class="v-cli">Fazer o diagnóstico</span></span>

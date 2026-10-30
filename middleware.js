@@ -2,10 +2,16 @@
 //  - interno.<domínio>/ abre a página de login e painel (repo/interno/)
 //  - /gn/ (playbook do GN, em qualquer subdomínio) só com login válido; sem login, vai para o interno com ?volta=
 //  - /interno/ fora do interno. volta para o interno
+//  - páginas para enviar ao cliente (/descubra/, /linha-de-frente/) moram em paginas.<domínio>; nos outros subdomínios, 308 para lá
+//  - paginas.<domínio>/ (sem página própria) vai para o link seguro
 // A página do cliente (raiz dos subdomínios) continua pública.
 import s from './api/_sessao.js';
 
-export const config = {matcher: ['/', '/gn', '/gn/', '/gn/:path*', '/interno', '/interno/', '/interno/:path*']};
+export const config = {matcher: ['/', '/gn', '/gn/', '/gn/:path*', '/interno', '/interno/', '/interno/:path*',
+  '/descubra', '/descubra/:path*', '/linha-de-frente', '/linha-de-frente/:path*']};
+
+const LINK_CLIENTE = 'https://varejo.plataformadetreinamentovivo.tech/', LINK_PAGINAS = 'https://paginas.plataformadetreinamentovivo.tech/';
+const PAGINAS = new URL(LINK_PAGINAS).hostname, PUBLICAS = ['/descubra', '/linha-de-frente'];
 
 // mesmas respostas que next() e rewrite() do @vercel/functions, sem depender do pacote
 function seguir(cookies){
@@ -63,6 +69,15 @@ export default async function middleware(req){
 
   if (host === 'interno.' + s.DOMINIO && caminho === '/') return reescrever(new URL('/interno/', url));
   if (caminho.startsWith('/interno')) return noDominio && host !== 'interno.' + s.DOMINIO ? ir(s.INTERNO) : seguir();
+  // temporário (307): a raiz do paginas. pode ganhar página própria
+  if (host === PAGINAS && caminho === '/') return new Response(null, {status: 307, headers: {Location: LINK_CLIENTE}});
+  const publica = PUBLICAS.find(p => caminho === p || caminho.startsWith(p + '/'));
+  if (publica) {
+    // com barra no fim: as páginas usam caminhos relativos. O # do link do GN (#gn=…&w=…) o navegador mantém no desvio.
+    const destino = (caminho === publica ? publica + '/' : caminho) + url.search;
+    if (noDominio && host !== PAGINAS) return new Response(null, {status: 308, headers: {Location: new URL(destino, LINK_PAGINAS).href}});
+    return caminho === publica ? new Response(null, {status: 308, headers: {Location: destino}}) : seguir();
+  }
   if (!caminho.startsWith('/gn')) return seguir();
   // /gn vira /gn/: o manifesto e o service worker usam caminhos relativos (feito aqui, e não com trailingSlash, para não desviar /api/*)
   if (caminho === '/gn') return new Response(null, {status: 308, headers: {Location: '/gn/' + url.search}});

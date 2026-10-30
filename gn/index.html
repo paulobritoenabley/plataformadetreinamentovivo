@@ -452,6 +452,9 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
 .sp-link{font-size:.86rem;font-weight:700;color:var(--accent);background:var(--surface-2);border:1.5px dashed var(--line-strong);border-radius:6px;padding:10px 12px;word-break:break-all;user-select:all}
 .sp-jor{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:12px}
 .sp-jor h4{color:var(--accent)}
+.send-pop{max-height:calc(100vh - 110px);overflow-y:auto;overscroll-behavior:contain}
+.sp-pag{display:grid;gap:6px;padding-top:4px}
+.sp-pag b{font-size:.92rem}
 .sp-campos{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .sp-campos label{display:grid;gap:4px;font-size:.8rem;font-weight:700;color:var(--fg-soft)}
 .sp-campos input{font:inherit;font-size:.9rem;color:var(--fg);background:var(--surface);border:1.5px solid var(--line-strong);border-radius:4px;padding:8px 10px;width:100%;min-width:0}
@@ -459,7 +462,7 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
 @media (max-width:760px){
   .send-btn{display:none}
   .send-fab{bottom:calc(76px + env(safe-area-inset-bottom,0px));right:16px;height:44px;padding:0 16px;font-size:.88rem}
-  .send-pop{right:16px;bottom:calc(130px + env(safe-area-inset-bottom,0px))}
+  .send-pop{right:16px;bottom:calc(130px + env(safe-area-inset-bottom,0px));max-height:calc(100vh - 150px)}
 }
 @media (max-width:1100px) and (min-width:761px){.send-btn{padding:0 12px}.modo .mt{display:none}}
 
@@ -568,7 +571,7 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
     <button class="btn btn-out btn-sm int" type="button" id="pitchCopy">Copiar pitch</button>
   </div>
 
-  <a class="jor-cta" href="https://varejo.plataformadetreinamentovivo.tech/descubra/">
+  <a class="jor-cta" href="https://paginas.plataformadetreinamentovivo.tech/descubra/">
     <span class="jor-t"><b><span class="v-int">Jornada interativa para o cliente</span><span class="v-cli">Como a plataforma pode ajudar a sua empresa?</span></b>
       <span><span class="v-int">8 perguntas, a operação dele montada na tela e um diagnóstico no fim. Para o cliente falar com você no final, envie pelo botão Enviar para o cliente.</span><span class="v-cli">Responda 8 perguntas rápidas e veja onde a plataforma entra na sua operação, com um caso parecido com o seu.</span></span></span>
     <span class="btn"><span class="v-int">Abrir a jornada</span><span class="v-cli">Fazer o diagnóstico</span></span>
@@ -890,15 +893,27 @@ footer.foot .gut{padding-block:22px 110px;display:grid;gap:10px;font-size:.84rem
   </div>
   <p class="hint">Nunca envie o link desta página. Ela é só para o GN.</p>
   <div class="sp-jor">
-    <h4>Jornada interativa</h4>
-    <p class="hint">O cliente responde 8 perguntas, vê a operação dele na tela e, no fim, fala com você no WhatsApp com o diagnóstico pronto.</p>
+    <h4>Páginas interativas</h4>
+    <p class="hint">Vão com o seu nome e WhatsApp no link: no fim, o cliente fala com você.</p>
     <div class="sp-campos">
       <label>Seu nome<input id="gnNome" type="text" autocomplete="name" placeholder="Como o cliente te conhece"></label>
       <label>Seu WhatsApp<input id="gnZap" type="tel" inputmode="tel" autocomplete="tel" placeholder="11 91234-5678"></label>
     </div>
-    <div class="row-btns">
-      <button class="btn btn-sm" type="button" id="sendJor">Copiar link da jornada</button>
-      <button class="btn btn-out btn-sm" type="button" id="sendJorMsg">Copiar mensagem pronta</button>
+    <div class="sp-pag">
+      <b>Jornada: como a plataforma pode ajudar</b>
+      <p class="hint">O cliente responde 8 perguntas, vê a operação dele na tela e recebe o diagnóstico pronto.</p>
+      <div class="row-btns">
+        <button class="btn btn-sm" type="button" id="sendJor">Copiar link da jornada</button>
+        <button class="btn btn-out btn-sm" type="button" id="sendJorMsg">Copiar mensagem pronta</button>
+      </div>
+    </div>
+    <div class="sp-pag">
+      <b>Treinar quem não tem computador</b>
+      <p class="hint">Repositor, vigilante e atendente: a rolagem mostra, como um vídeo, o treinamento da linha de frente indo para o celular.</p>
+      <div class="row-btns">
+        <button class="btn btn-sm" type="button" id="sendLf">Copiar link da página</button>
+        <button class="btn btn-out btn-sm" type="button" id="sendLfMsg">Copiar mensagem pronta</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1673,24 +1688,31 @@ byId('sendMsg').addEventListener('click', function(){
     'Fico à disposição para marcarmos uma demonstração com o conteúdo de vocês.', 'Mensagem copiada com o link seguro');
 });
 /*INT{*/
-/* jornada interativa: o link leva o nome e o WhatsApp do GN depois do #, para o botão final chamar quem enviou */
+/* páginas interativas (em paginas.): o link leva o nome e o WhatsApp do GN depois do #, para o botão final chamar quem enviou */
+var LINK_PAGINAS = 'https://paginas.plataformadetreinamentovivo.tech/';
 var gnContato = store.get('gnContato', {nome:'', zap:''});
 byId('gnNome').value = gnContato.nome || ''; byId('gnZap').value = gnContato.zap || '';
-function linkJornada(){
+function linkPagina(caminho){
   var nome = byId('gnNome').value.trim(), zap = byId('gnZap').value.replace(/\D/g, '');
   if(zap.length && zap.length <= 11) zap = '55' + zap;
   store.set('gnContato', {nome:nome, zap:byId('gnZap').value.trim()});
-  return LINK_CLIENTE + 'descubra/#' + (nome ? 'gn=' + encodeURIComponent(nome) + '&' : '') + 'w=' + zap;
+  return LINK_PAGINAS + caminho + '#' + (nome ? 'gn=' + encodeURIComponent(nome) + '&' : '') + 'w=' + zap;
 }
 function comZap(){
   if(byId('gnZap').value.replace(/\D/g, '').length >= 10) return true;
   toast('Coloque o seu WhatsApp com DDD: é ele que o cliente chama no fim.'); byId('gnZap').focus(); return false;
 }
-byId('sendJor').addEventListener('click', function(){ if(comZap()) copy(linkJornada(), 'Link da jornada copiado. Pode enviar ao cliente.'); });
+byId('sendJor').addEventListener('click', function(){ if(comZap()) copy(linkPagina('descubra/'), 'Link da jornada copiado. Pode enviar ao cliente.'); });
 byId('sendJorMsg').addEventListener('click', function(){
   if(!comZap()) return;
-  copy('Olá! Preparei um diagnóstico rápido para a gente conversar sobre treinamento na sua operação: ' + linkJornada() + '\n\n' +
+  copy('Olá! Preparei um diagnóstico rápido para a gente conversar sobre treinamento na sua operação: ' + linkPagina('descubra/') + '\n\n' +
     'São 8 perguntas, leva uns 2 minutos. No fim, você vê onde a Plataforma de Treinamento Vivo Empresas entra, com um caso parecido com o seu, e já me chama por ali.', 'Mensagem copiada com o link da jornada');
+});
+byId('sendLf').addEventListener('click', function(){ if(comZap()) copy(linkPagina('linha-de-frente/'), 'Link da página copiado. Pode enviar ao cliente.'); });
+byId('sendLfMsg').addEventListener('click', function(){
+  if(!comZap()) return;
+  copy('Olá! Separei uma página curta sobre como treinar quem não tem computador (repositor, vigilante, atendente de loja) pelo celular: ' + linkPagina('linha-de-frente/') + '\n\n' +
+    'Leva uns 2 minutos rolando, com resultados de empresas que já fazem isso com a Plataforma de Treinamento Vivo Empresas. No fim, é só me chamar por ali.', 'Mensagem copiada com o link da página');
 });
 /*}INT*/
 

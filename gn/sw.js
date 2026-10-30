@@ -2,7 +2,7 @@
 // Página: rede primeiro (sempre a versão mais nova) e cópia guardada quando estiver sem internet.
 // Ícones e manifesto: cópia guardada primeiro.
 // Só guarda resposta boa do próprio site: o desvio para o login (sem sessão) nunca substitui a cópia.
-const CACHE = 'playbook-gn-26d54345b7';
+const CACHE = 'playbook-gn-1e44d820ee';
 const guardavel = res => res.ok && res.type === 'basic' && !res.redirected;
 const GUARDAR = ['./', 'manifest.webmanifest', '../favicon.svg', '../favicon-32.png', '../apple-touch-icon.png', '../icon-192.png', '../icon-512.png', '../icon-maskable-512.png'];
 self.addEventListener('install', e => {
