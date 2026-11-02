@@ -73,9 +73,9 @@ button{font:inherit;color:inherit}
 .marca-t{display:grid;line-height:1.2;color:var(--fg)}
 .marca-t b{font-size:.95rem}
 .marca-t small{font-size:.78rem;color:var(--fg-soft)}
-.para{margin-left:auto;min-width:0;font-size:.85rem;color:var(--fg-soft);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.para b{color:var(--fg)}
-.para:not([hidden]) + .tema{margin-left:0}
+.para-empresa{margin-left:auto;min-width:0;font-size:.85rem;color:var(--fg-soft);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.para-empresa b{color:var(--fg)}
+.para-empresa:not([hidden]) + .tema{margin-left:0}
 .tema{margin-left:auto;flex:0 0 auto;width:40px;height:40px;border-radius:4px;border:1.5px solid var(--line-strong);background:transparent;color:var(--fg);display:inline-grid;place-items:center;cursor:pointer;padding:0}
 .tema:hover{background:var(--surface-2)}
 .tema svg{width:20px;height:20px}
@@ -247,8 +247,8 @@ button{font:inherit;color:inherit}
   .marca-t small{display:none}
   .topo{flex-wrap:wrap;row-gap:8px}
   .topo .marca{flex:1 1 0}
-  .para{order:3;flex:1 0 100%;margin:0;text-align:left}
-  .para:not([hidden]) + .tema{margin-left:auto}
+  .para-empresa{order:3;flex:1 0 100%;margin:0;text-align:left}
+  .para-empresa:not([hidden]) + .tema{margin-left:auto}
   .palco{padding:14px;gap:10px}
   .viv{width:60px;height:76px}
   .viv svg{width:40px}
@@ -313,7 +313,7 @@ button{font:inherit;color:inherit}
     <span class="marca-sep" aria-hidden="true"></span>
     <span class="marca-t"><b>Plataforma de Treinamento</b><small>Vivo Empresas</small></span>
   </a>
-  <span class="para" id="paraEmpresa" hidden></span>
+  <span class="para-empresa" id="paraEmpresa" hidden></span>
   <button class="tema" id="tema" type="button" aria-pressed="false" aria-label="Usar tema escuro">
     <svg class="lua" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sol" aria-hidden="true"><use href="#i-sun"/></svg>
   </button>
