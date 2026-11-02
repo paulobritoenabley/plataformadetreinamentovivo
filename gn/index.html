@@ -1774,9 +1774,10 @@ rotuloTema();
 /*INT{*/
 /* ---------- Atividade do GN: abertura, abas, modo cliente e links enviados ----------
    Só no site publicado (com login). A fila fica no aparelho e vai para /api/eventos quando há internet;
-   cada evento leva um id, então reenviar o mesmo lote não duplica. "atras" é há quantos ms aconteceu. */
+   cada evento leva um id, então reenviar o mesmo lote não duplica. "atras" é há quantos ms aconteceu.
+   Dentro de um quadro (a miniatura do card no painel interno) nada é registrado: não é uma visita do GN. */
 var PAGINA_GN = 'playbook-varejo';
-var noSite = location.protocol === 'https:' && location.hostname.slice(-'plataformadetreinamentovivo.tech'.length - 1) === '.plataformadetreinamentovivo.tech';
+var noSite = window.top === window.self && location.protocol === 'https:' && location.hostname.slice(-'plataformadetreinamentovivo.tech'.length - 1) === '.plataformadetreinamentovivo.tech';
 var filaAtividade = store.get('filaAtividade', []), enviandoAtividade = false, abaAberta = null;
 function registrarAtividade(tipo, pagina, detalhe){
   if(!noSite) return;
