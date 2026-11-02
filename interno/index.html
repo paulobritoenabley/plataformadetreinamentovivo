@@ -1675,7 +1675,7 @@ function carregarPermissoes(n){
           var antes = sel.value;
           sel.addEventListener('change', function(){
             sel.disabled = true;
-            api('PUT', 'permissoes', {usuario: u.id, recurso: rec, escopo: sel.value}, function(st, d){
+            api('PUT', 'engajamento', {usuario: u.id, recurso: rec, escopo: sel.value}, function(st, d){
               sel.disabled = false;
               if (st !== 200) { sel.value = antes; return msg('msgPerm', d.erro || 'Não foi possível salvar.', 'erro'); }
               antes = sel.value;
@@ -1688,7 +1688,7 @@ function carregarPermissoes(n){
       });
   }
   api('GET', 'usuarios', null, function(st, d){ if (st !== 200) return msg('msgEngaj', d.erro || 'Não foi possível carregar os usuários.', 'erro'); usuarios = d.usuarios || []; junta(); });
-  api('GET', 'permissoes', null, function(st, d){ if (st !== 200) return msg('msgEngaj', d.erro || 'Não foi possível carregar as permissões.', 'erro'); perm = d.permissoes || []; junta(); });
+  api('GET', 'engajamento?acao=permissoes', null, function(st, d){ if (st !== 200) return msg('msgEngaj', d.erro || 'Não foi possível carregar as permissões.', 'erro'); perm = d.permissoes || []; junta(); });
 }
 (function(){
   var p = byId('plPapel'), e = byId('plEscopo');
@@ -1700,7 +1700,7 @@ byId('fPermLote').addEventListener('submit', function(ev){
   ev.preventDefault();
   var f = this, papel = byId('plPapel').value, rec = byId('plRecurso').value, esc = byId('plEscopo').value;
   ocupado(f, true);
-  api('PUT', 'permissoes', {papel: papel, recurso: rec, escopo: esc}, function(st, d){
+  api('PUT', 'engajamento', {papel: papel, recurso: rec, escopo: esc}, function(st, d){
     ocupado(f, false);
     if (st !== 200) return msg('msgPerm', d.erro || 'Não foi possível aplicar.', 'erro');
     msg('msgPerm', (d.alterados || 0) + ' ' + (d.alterados === 1 ? 'pessoa' : 'pessoas') + ' (' + PAPEL[papel] + ') com ' +
