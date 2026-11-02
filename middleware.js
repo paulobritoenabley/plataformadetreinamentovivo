@@ -1,5 +1,5 @@
 // Barreira do ambiente logado (Vercel Routing Middleware), roda antes de entregar qualquer arquivo.
-//  - interno.<domínio>/ abre a página de login e painel (repo/interno/)
+//  - interno.<domínio>/ abre a página de login e painel (repo/interno/); /sw.js e /manifest.webmanifest de lá também (app instalável do painel)
 //  - /gn/ (playbook do GN, em qualquer subdomínio) só com login válido; sem login, vai para o interno com ?volta=
 //  - /interno/ fora do interno. volta para o interno
 //  - páginas para enviar ao cliente (/descubra/, /linha-de-frente/, /video/) moram em paginas.<domínio>; nos outros subdomínios, 308 para lá
@@ -7,7 +7,7 @@
 // A página do cliente (raiz dos subdomínios) continua pública.
 import s from './api/_sessao.js';
 
-export const config = {matcher: ['/', '/gn', '/gn/', '/gn/:path*', '/interno', '/interno/', '/interno/:path*',
+export const config = {matcher: ['/', '/sw.js', '/manifest.webmanifest', '/gn', '/gn/', '/gn/:path*', '/interno', '/interno/', '/interno/:path*',
   '/descubra', '/descubra/:path*', '/linha-de-frente', '/linha-de-frente/:path*', '/video', '/video/:path*']};
 
 const LINK_CLIENTE = 'https://varejo.plataformadetreinamentovivo.tech/', LINK_PAGINAS = 'https://paginas.plataformadetreinamentovivo.tech/';
@@ -68,6 +68,8 @@ export default async function middleware(req){
   const noDominio = host === s.DOMINIO || host.endsWith('.' + s.DOMINIO);
 
   if (host === 'interno.' + s.DOMINIO && caminho === '/') return reescrever(new URL('/interno/', url));
+  // o service worker do painel precisa estar na raiz do interno. para valer para a página inteira
+  if (caminho === '/sw.js' || caminho === '/manifest.webmanifest') return host === 'interno.' + s.DOMINIO ? reescrever(new URL('/interno' + caminho, url)) : seguir();
   if (caminho.startsWith('/interno')) return noDominio && host !== 'interno.' + s.DOMINIO ? ir(s.INTERNO) : seguir();
   // temporário (307): a raiz do paginas. pode ganhar página própria
   if (host === PAGINAS && caminho === '/') return new Response(null, {status: 307, headers: {Location: LINK_CLIENTE}});

@@ -1,11 +1,11 @@
 {
-  "name": "Playbook do GN · Plataforma de Treinamento Vivo Empresas",
-  "short_name": "Playbook GN",
-  "description": "Uso interno dos GNs Vivo: pitch, objeções, casos, ROI e link seguro para enviar ao cliente.",
+  "name": "Plataforma de Treinamento Vivo Empresas",
+  "short_name": "Painel Vivo",
+  "description": "Painel dos times Vivo Empresas: envio ao cliente, materiais, equipe e resultados.",
   "lang": "pt-BR",
   "dir": "ltr",
   "id": "./",
-  "start_url": "./",
+  "start_url": "./#/inicio",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
@@ -18,19 +18,19 @@
   ],
   "icons": [
     {
-      "src": "../icon-192.png",
+      "src": "/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "../icon-512.png",
+      "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "../icon-maskable-512.png",
+      "src": "/icon-maskable-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

@@ -23,6 +23,11 @@
 <meta name="twitter:title" content="Entrar · Plataforma de Treinamento Vivo Empresas">
 <meta name="twitter:description" content="Acesso interno dos times Vivo Empresas: playbooks e gestão de usuários.">
 <meta name="twitter:image" content="https://varejo.plataformadetreinamentovivo.tech/og-gn.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Painel Vivo">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Entrar · Plataforma de Treinamento Vivo Empresas</title>
 <script>(function(){try{var t=JSON.parse(localStorage.getItem("pbvivo:tema"));if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 <style>
@@ -67,7 +72,21 @@ a{color:var(--accent)}
 :focus-visible{outline:3px solid var(--lilas);outline-offset:2px}
 
 /* ---------- Entrada (login dividido) ---------- */
-.entrada{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:100vh;min-height:100dvh}
+.entrada{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:100vh;min-height:100dvh}
+/* tema claro / escuro: no cabeçalho do painel e no canto da tela de entrada */
+.tema-btn{flex:0 0 auto;width:40px;height:40px;border-radius:4px;border:1px solid rgba(255,255,255,.55);background:transparent;color:#fff;display:inline-grid;place-items:center;cursor:pointer;padding:0}
+.tema-btn:hover{background:rgba(255,255,255,.14)}
+.tema-btn svg{width:20px;height:20px}
+.tema-btn .sol,.tema-btn[aria-pressed="true"] .lua{display:none}
+.tema-btn[aria-pressed="true"] .sol{display:block}
+.tema-entrada{position:absolute;top:16px;right:16px;z-index:2;color:var(--fg);border-color:var(--line-strong)}
+.tema-entrada:hover{background:var(--surface-2)}
+/* sem internet: faixa sob o cabeçalho e aviso nas partes que dependem do servidor */
+.sem-net{margin:0;background:var(--surface-2);color:var(--fg);border-bottom:1px solid var(--line);padding:10px max(16px,4vw);font-size:.92rem;font-weight:700}
+.precisa-net{display:none}
+html.sem-internet .precisa-net{display:block}
+.instalar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px}
+.instalar .sub{margin:0}
 .marca{background:linear-gradient(160deg,var(--purpura) 0%,var(--roxo) 100%);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:64px 48px;text-align:center}
 .marca .logo{width:clamp(150px,22vw,300px);height:auto;display:block}
 .marca p{margin:0;font-weight:300;font-size:clamp(1.05rem,1.6vw,1.35rem);max-width:22em;opacity:.92}
@@ -346,10 +365,13 @@ a{color:var(--accent)}
   <symbol id="i-materiais" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10l2 2.5h6.5A1.5 1.5 0 0 1 20 8v10.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="M8 13h8M8 16.5h5"/></g></symbol>
   <symbol id="i-equipe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.8c2 .7 3.2 2.4 3.5 5.2"/></g></symbol>
   <symbol id="i-resultados" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></g></symbol>
+  <symbol id="i-sol" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/></g></symbol>
+  <symbol id="i-lua" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></g></symbol>
   <symbol id="i-admin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></g></symbol>
 </svg>
 
 <div class="entrada" id="entrada">
+  <button class="tema-btn tema-entrada" type="button" data-tema aria-pressed="false" aria-label="Usar tema escuro"><svg class="lua" aria-hidden="true"><use href="#i-lua"/></svg><svg class="sol" aria-hidden="true"><use href="#i-sol"/></svg></button>
   <div class="marca">
     <svg class="logo" viewBox="0 0 282.347 87.86" role="img" aria-label="Vivo"><use href="#logo-vivo"/></svg>
     <p>Plataforma de Treinamento Vivo Empresas</p>
@@ -393,6 +415,7 @@ a{color:var(--accent)}
   <header class="topo">
     <svg class="logo" viewBox="0 0 282.347 87.86" role="img" aria-label="Vivo"><use href="#logo-vivo"/></svg>
     <span class="titulo">Plataforma de Treinamento Vivo Empresas</span>
+    <button class="tema-btn" type="button" data-tema aria-pressed="false" aria-label="Usar tema escuro"><svg class="lua" aria-hidden="true"><use href="#i-lua"/></svg><svg class="sol" aria-hidden="true"><use href="#i-sol"/></svg></button>
     <div class="conta" id="conta">
       <button class="conta-btn" type="button" id="contaBtn" aria-haspopup="true" aria-expanded="false" aria-controls="contaMenu">
         <span class="avatar" id="topoAvatar" aria-hidden="true"></span><span class="conta-nome" id="quemNome"></span>
@@ -400,10 +423,12 @@ a{color:var(--accent)}
       <div class="conta-menu" id="contaMenu" hidden>
         <p class="conta-quem"><strong id="menuNome"></strong><small id="menuEmail"></small></p>
         <button type="button" id="menuPerfil">Meu perfil</button>
+        <button type="button" id="menuInstalar" hidden>Instalar o app</button>
         <button type="button" data-sair>Sair</button>
       </div>
     </div>
   </header>
+  <p class="sem-net" id="semNet" role="status" hidden>Sem internet. Dá para enviar ao cliente normalmente: os registros sobem quando a conexão voltar.</p>
   <div class="app">
   <nav class="menu" id="menu" aria-label="Seções do painel">
     <a href="#/inicio" data-ir="inicio"><svg aria-hidden="true"><use href="#i-inicio"/></svg><span>Início</span></a>
@@ -435,6 +460,10 @@ a{color:var(--accent)}
     </section>
     <section class="bloco" id="inicioTime" data-vista="inicio" aria-labelledby="tTime" hidden>
       <div class="bloco-topo"><div><h2 id="tTime">Equipe</h2><p class="sub" id="timeSub"></p></div><a class="btn btn-p" href="#/equipe" id="inicioConvidar">Convidar pessoa</a></div>
+    </section>
+    <section class="bloco instalar" id="inicioInstalar" data-vista="inicio" aria-labelledby="tInstalar" tabindex="-1" hidden>
+      <div><h2 id="tInstalar">Instale o app</h2><p class="sub" id="instalarTxt">Abra o painel direto da tela inicial, como um app. Ele abre e envia ao cliente mesmo sem internet.</p></div>
+      <div class="acoes"><button class="btn btn-p" type="button" id="instalarOk">Instalar</button><button class="btn btn-sec btn-p" type="button" id="instalarNao">Agora não</button></div>
     </section>
     <section class="bloco" data-vista="inicio" aria-labelledby="tAtalhos">
       <h2 id="tAtalhos">Ir para</h2>
@@ -516,6 +545,7 @@ a{color:var(--accent)}
           <button type="button" data-dias="90" aria-pressed="false">90 dias</button>
         </div>
       </div>
+      <p class="aviso precisa-net">Esta parte precisa de internet: os números vêm do servidor na hora. Conecte-se para ver.</p>
       <div class="eng-abas" role="tablist" aria-label="Resultados">
         <button type="button" role="tab" id="abaEquipe" data-aba="equipe" aria-controls="pEquipe" aria-selected="true">Uso da equipe</button>
         <button type="button" role="tab" id="abaLinks" data-aba="links" aria-controls="pLinks" aria-selected="false">Links enviados</button>
@@ -576,6 +606,7 @@ a{color:var(--accent)}
     </section>
     <section class="bloco bloco-largo" aria-labelledby="tUsuarios" id="secUsuarios" data-vista="equipe" hidden>
       <h2 id="tUsuarios">Equipe</h2>
+      <p class="aviso precisa-net">Esta parte precisa de internet: a lista e os convites vêm do servidor. Conecte-se para ver e alterar.</p>
       <p class="sub">Você convida e altera o papel de quem está abaixo de você, até o seu próprio papel. A troca de papel vale no próximo acesso da pessoa (em até 1 hora).</p>
       <div class="eng-abas subabas" role="tablist" aria-label="Equipe" data-subabas="equipe">
         <button type="button" role="tab" id="subPessoas" data-sub="eqPessoas" aria-controls="eqPessoas" aria-selected="true">Pessoas</button>
@@ -609,6 +640,7 @@ a{color:var(--accent)}
     </section>
     <section class="bloco bloco-largo" id="secAdmin" data-vista="admin" aria-labelledby="tAdmin" hidden>
       <h2 id="tAdmin">Administração</h2>
+      <p class="aviso precisa-net">Esta parte precisa de internet: os cadastros e as permissões ficam no servidor. Conecte-se para alterar.</p>
       <p class="sub">Cadastros e permissões do painel. Só o superadmin vê esta parte; quem barra de verdade é o banco.</p>
       <div class="eng-abas subabas" role="tablist" aria-label="Administração" data-subabas="admin">
         <button type="button" role="tab" id="subAdmVideos" data-sub="admVideos" aria-controls="admVideos" aria-selected="true">Vídeos</button>
@@ -739,11 +771,51 @@ function api(metodo, caminho, corpo, cb){
   x.send(corpo ? JSON.stringify(corpo) : null);
 }
 
-// atividade do usuário (api/eventos.js): sem resposta para esperar; se falhar, fica sem o registro
+/* ---------- Sem internet ----------
+   O painel guarda no aparelho só o necessário para abrir e enviar ao cliente sem conexão: o próprio perfil (eu), a lista de vídeos
+   e a de páginas. Nada da equipe, dos clientes ou dos resultados. Sair apaga tudo (e a cópia do service worker). */
+var GUARDA = 'pbvivo:painel:';
+function guarda(k, v){ try { localStorage.setItem(GUARDA + k, JSON.stringify(v)); } catch (e) {} }
+function le(k, d){ try { var v = localStorage.getItem(GUARDA + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }
+function limparAparelho(){
+  try { Object.keys(localStorage).filter(function(k){ return k.indexOf(GUARDA) === 0; }).forEach(function(k){ localStorage.removeItem(k); }); } catch (e) {}
+  if (window.caches) caches.keys().then(function(ks){ ks.filter(function(k){ return k.indexOf('painel-') === 0; }).forEach(function(k){ caches.delete(k); }); });
+}
+var painelSemNet = false; /* true: o painel abriu com o perfil guardado, sem conferir a sessão no servidor */
+function marcarConexao(){
+  var sem = navigator.onLine === false;
+  document.documentElement.classList.toggle('sem-internet', sem);
+  byId('semNet').hidden = !sem;
+}
+window.addEventListener('offline', marcarConexao);
+window.addEventListener('online', function(){
+  marcarConexao();
+  enviarFila();
+  // voltou a internet: confere a sessão e recarrega os dados de verdade
+  if (painelSemNet) { painelSemNet = false; carregarEu(); }
+});
+
+// atividade do usuário (api/eventos.js): vai para uma fila no aparelho e sobe quando há internet; o id evita duplicar no reenvio.
+// "atras" é há quantos ms aconteceu (o servidor aceita até 30 dias), para o envio feito sem internet ficar com a hora certa.
+var enviandoFila = false;
 function registrar(tipo, pagina, detalhe){
-  var id = '', i;
+  var id = '', i, fila = le('fila', []);
   for (i = 0; i < 16; i++) id += 'abcdefghijklmnopqrstuvwxyz0123456789'.charAt(Math.floor(Math.random() * 36));
-  api('POST', 'eventos', {eventos: [{id: id, tipo: tipo, pagina: pagina, detalhe: detalhe || null, atras: 0}]}, function(){});
+  fila.push({id: id, tipo: tipo, pagina: pagina, detalhe: detalhe || null, t: Date.now()});
+  guarda('fila', fila.slice(-300));
+  enviarFila();
+}
+function enviarFila(){
+  var fila = le('fila', []);
+  if (!fila.length || enviandoFila || navigator.onLine === false) return;
+  var lote = fila.slice(0, 100), agora = Date.now(), ids = lote.map(function(e){ return e.id; });
+  enviandoFila = true;
+  api('POST', 'eventos', {eventos: lote.map(function(e){ return {id: e.id, tipo: e.tipo, pagina: e.pagina, detalhe: e.detalhe, atras: agora - e.t}; })}, function(st){
+    enviandoFila = false;
+    if (st !== 200) return;
+    guarda('fila', le('fila', []).filter(function(e){ return ids.indexOf(e.id) < 0; }));
+    if (le('fila', []).length) enviarFila();
+  });
 }
 
 function ver(vista){
@@ -780,9 +852,14 @@ function iniciar(){
   var hs = lerHash();
   /* o código do convite sai do endereço; a rota do painel (#/enviar…) fica */
   if (location.hash && !/^#\//.test(location.hash)) history.replaceState(null, '', location.pathname + location.search);
+  marcarConexao();
   if (hs.acesso) {
     convite = {codigo: hs.acesso, tipo: hs.tipo};
     return ver('vAcesso');
+  }
+  // quem tocou em Sair sem internet: a sessão só termina no servidor quando a conexão volta
+  if (le('sairPendente', false)) {
+    return api('POST', 'sair', {}, function(st){ if (st !== 0) limparAparelho(); carregarEu(); });
   }
   carregarEu();
 }
@@ -791,9 +868,19 @@ function carregarEu(){
   api('GET', 'eu', null, function(st, d){
     if (st === 200) {
       eu = d;
+      painelSemNet = false;
+      guarda('eu', d);
+      try { localStorage.removeItem(GUARDA + 'sairPendente'); } catch (e) {}
       var v = volta();
       return v ? location.replace(v) : painel();
     }
+    // sem internet: abre com o perfil guardado (se houver); ao reconectar, a sessão é conferida de novo
+    if (st === 0 && le('eu', null) && !le('sairPendente', false)) {
+      eu = le('eu', null);
+      painelSemNet = true;
+      return painel();
+    }
+    if (st === 401) limparAparelho();
     if (st === 403) { if (d.erro) byId('msgSemAcesso').textContent = d.erro; return ver('vSemAcesso'); }
     byId('avisoVolta').hidden = !volta();
     ver('vLogin');
@@ -836,7 +923,15 @@ byId('vAcesso').addEventListener('submit', function(e){
 
 Array.prototype.forEach.call(document.querySelectorAll('[data-sair]'), function(b){
   b.addEventListener('click', function(){
-    api('POST', 'sair', {}, function(){ eu = null; abrirConta(false); msg('msgLogin', 'Você saiu.', 'ok'); ver('vLogin'); });
+    api('POST', 'sair', {}, function(st){
+      eu = null; painelSemNet = false;
+      limparAparelho();
+      // sem internet, o cookie da sessão só some no servidor: fica marcado para sair de vez quando a conexão voltar
+      if (st === 0) guarda('sairPendente', true);
+      abrirConta(false);
+      msg('msgLogin', st === 0 ? 'Você saiu deste aparelho. A sessão termina de vez quando a internet voltar.' : 'Você saiu.', 'ok');
+      ver('vLogin');
+    });
   });
 });
 
@@ -869,6 +964,8 @@ function painel(){
     carregarUsuarios();
   }
   ver('vPainel');
+  mostrarInstalar();
+  enviarFila();
   iniciarInicio();
   irPara(rotaDoEndereco(), true);
 }
@@ -885,8 +982,10 @@ function iniciarInicio(){
   byId('inicioPlaybook').href = PLAYBOOKS[0].url;
   byId('olaSub').textContent = FRASE_PAPEL[eu.papel] || '';
   desenharInicio();
-  if (ve.atividade) api('GET', 'engajamento?acao=resumo&dias=7', null, function(st, d){ inicio.resumo = st === 200 ? d.dados || [] : []; desenharInicio(); });
-  else if (ve.visitas) api('GET', 'engajamento?acao=envios&dias=7', null, function(st, d){ inicio.envios = st === 200 ? d.dados || [] : []; desenharInicio(); });
+  // sem internet ('sem-net'), o cartão pede conexão em vez de mostrar zeros
+  var resp = function(st, d){ return st === 200 ? d.dados || [] : st === 0 ? 'sem-net' : []; };
+  if (ve.atividade) api('GET', 'engajamento?acao=resumo&dias=7', null, function(st, d){ inicio.resumo = resp(st, d); desenharInicio(); });
+  else if (ve.visitas) api('GET', 'engajamento?acao=envios&dias=7', null, function(st, d){ inicio.envios = resp(st, d); desenharInicio(); });
 }
 byId('inicioPlaybook').addEventListener('click', function(){ registrar('abriu', PLAYBOOKS[0].nome, {url: PLAYBOOKS[0].url, de: 'inicio'}); });
 byId('inicioConvidar').addEventListener('click', function(){ verSubaba('equipe', 'eqConvidar'); focoDepois = byId('convEmail'); });
@@ -931,6 +1030,7 @@ function desenharResumoInicio(ve){
   if (ve.atividade) {
     byId('tResumo').textContent = 'Seu time nos últimos 7 dias';
     if (!inicio.resumo) return byId('resumoSub').textContent = 'Carregando…';
+    if (inicio.resumo === 'sem-net') return byId('resumoSub').textContent = 'Sem internet: conecte-se para ver os números do time.';
     var time = inicio.resumo.filter(function(u){ return u.usuario !== eu.id; });
     var soma = function(c){ return time.reduce(function(t, u){ return t + (u[c] || 0); }, 0); };
     var envios = soma('envios'), abertos = soma('envios_abertos');
@@ -951,6 +1051,7 @@ function desenharResumoInicio(ve){
   } else {
     byId('tResumo').textContent = ve.visitas === 'meus' ? 'Seus links nos últimos 7 dias' : 'Links do time nos últimos 7 dias';
     if (!inicio.envios) return byId('resumoSub').textContent = 'Carregando…';
+    if (inicio.envios === 'sem-net') return byId('resumoSub').textContent = 'Sem internet: conecte-se para ver os números dos links.';
     var l = inicio.envios, ab = l.filter(function(v){ return v.visitas > 0; }).length;
     byId('resumoSub').textContent = 'O que os clientes fizeram nos links enviados.';
     [kpi(l.length, 'links enviados'), kpi(ab + (l.length ? ' (' + Math.round(ab / l.length * 100) + '%)' : ''), 'abertos pelo cliente'),
@@ -1295,7 +1396,10 @@ function itemEnvio(it, modo){
 function carregarEnvio(){
   desenharEnvio();
   api('GET', 'videos', null, function(st, d){
-    if (st !== 200) return msg('msgEnvio', d.erro || 'Não foi possível carregar os vídeos.', 'erro');
+    // sem internet, vale a última lista guardada no aparelho
+    if (st === 0 && le('videos', null)) d = {videos: le('videos', [])};
+    else if (st !== 200) return msg('msgEnvio', d.erro || 'Não foi possível carregar os vídeos.', 'erro');
+    else guarda('videos', d.videos || []);
     envio.videos = d.videos || [];
     desenharEnvio();
     desenharVideosMateriais();
@@ -1548,6 +1652,9 @@ function cardPagina(p, acoes){
 function carregarPaginas(){
   var superadmin = eu.papel === 'superadmin';
   api('GET', 'paginas', null, function(st, d){
+    // sem internet, vale a última lista guardada (sem as capas, que pesam até 200 KB cada)
+    if (st === 0 && le('paginas', null)) { st = 200; d = {paginas: le('paginas', [])}; }
+    else if (st === 200) guarda('paginas', (d.paginas || []).map(function(p){ var c = {}, k; for (k in p) if (p.hasOwnProperty(k) && k !== 'capa') c[k] = p[k]; return c; }));
     // Materiais → Páginas (só quando há alguma) e, para o superadmin, Administração → Páginas do painel, com editar e remover
     var lista = byId('listaPaginas'), adm = byId('listaAdmPaginas'), paginas = d.paginas || [];
     lista.innerHTML = ''; adm.innerHTML = '';
@@ -2050,6 +2157,70 @@ byId('fPermLote').addEventListener('submit', function(ev){
     carregarPermissoes(true);
   });
 });
+
+/* ---------- App instalável (só o painel) ----------
+   O service worker (sw.js, gerado pelo build) guarda a página para abrir sem internet; a API nunca fica guardada.
+   Instalar: Chrome e Edge avisam (beforeinstallprompt) e o botão abre a instalação; no iPhone e iPad não há botão, então
+   o cartão mostra o caminho manual. "Agora não" esconde o cartão do Início por 30 dias; no menu da conta a opção fica. */
+var instalacao = {pedido: null, ios: false};
+(function(){
+  var local = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || local)) navigator.serviceWorker.register('sw.js').catch(function(){});
+  var instalado = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+  if (instalado) return;
+  instalacao.ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); instalacao.pedido = e; mostrarInstalar(); });
+  window.addEventListener('appinstalled', function(){ instalacao.pedido = null; instalacao.ios = false; mostrarInstalar(); toast('App instalado. Abra pela tela inicial.'); });
+})();
+function podeInstalar(){ return !!(instalacao.pedido || instalacao.ios); }
+function mostrarInstalar(forcar){
+  var adiado = Date.now() - le('instalarAdiado', 0) < 30 * 864e5;
+  byId('menuInstalar').hidden = !podeInstalar();
+  byId('inicioInstalar').hidden = !podeInstalar() || (adiado && !forcar);
+  if (instalacao.ios) {
+    byId('instalarTxt').textContent = 'No iPhone ou iPad: toque em Compartilhar e depois em “Adicionar à Tela de Início”. O painel abre e envia ao cliente mesmo sem internet.';
+    byId('instalarOk').hidden = true; byId('instalarNao').textContent = 'Entendi';
+  }
+}
+function instalar(){
+  if (!instalacao.pedido) return;
+  instalacao.pedido.prompt();
+  instalacao.pedido.userChoice.then(function(){ instalacao.pedido = null; mostrarInstalar(); });
+}
+byId('instalarOk').addEventListener('click', instalar);
+byId('instalarNao').addEventListener('click', function(){ guarda('instalarAdiado', Date.now()); byId('inicioInstalar').hidden = true; });
+byId('menuInstalar').addEventListener('click', function(){
+  abrirConta(false);
+  if (instalacao.pedido) return instalar();
+  // iPhone: leva ao cartão do Início com o caminho manual, mesmo se tiver sido dispensado
+  mostrarInstalar(true);
+  focoDepois = byId('inicioInstalar');
+  if (vistaAtual === 'inicio') byId('inicioInstalar').scrollIntoView({block: 'nearest'}); else location.hash = '#/inicio';
+});
+
+/* ---------- Tema claro / escuro ----------
+   Abre no tema do aparelho; depois que a pessoa escolhe no botão, vale a escolha (guardada em pbvivo:tema, lida no <head>). */
+(function(){
+  var raiz = document.documentElement, botoes = document.querySelectorAll('[data-tema]');
+  function escuro(){
+    var t = raiz.getAttribute('data-theme');
+    return t ? t === 'dark' : !!(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+  }
+  function pintar(){
+    var e = escuro();
+    Array.prototype.forEach.call(botoes, function(b){ b.setAttribute('aria-pressed', String(e)); b.setAttribute('aria-label', e ? 'Usar tema claro' : 'Usar tema escuro'); });
+  }
+  Array.prototype.forEach.call(botoes, function(b){
+    b.addEventListener('click', function(){
+      var t = escuro() ? 'light' : 'dark';
+      raiz.setAttribute('data-theme', t);
+      try { localStorage.setItem('pbvivo:tema', JSON.stringify(t)); } catch (e) {}
+      pintar();
+    });
+  });
+  if (window.matchMedia) { var m = matchMedia('(prefers-color-scheme: dark)'); if (m.addEventListener) m.addEventListener('change', pintar); }
+  pintar();
+})();
 
 iniciar();
 </script>
