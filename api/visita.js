@@ -3,7 +3,7 @@
 // Visita de quem tem sessão no domínio (o próprio GN testando o link) fica marcada como interna.
 const s = require('./_sessao.js');
 
-const TIPOS = ['abriu', 'clique', 'etapa', 'rolagem', 'saiu', 'contato'];
+const TIPOS = ['abriu', 'clique', 'etapa', 'rolagem', 'saiu', 'contato', 'video'];
 const CODIGO = /^[A-Za-z0-9]{8,24}$/;
 
 function limpa(e){

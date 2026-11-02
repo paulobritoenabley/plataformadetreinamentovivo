@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Veja em poucos minutos como a plataforma leva o treinamento até a loja, o balcão e a linha de frente.">
+<meta name="theme-color" content="#660099">
+<link rel="icon" href="https://varejo.plataformadetreinamentovivo.tech/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="https://varejo.plataformadetreinamentovivo.tech/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="https://varejo.plataformadetreinamentovivo.tech/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Vivo Empresas">
+<meta property="og:url" content="https://paginas.plataformadetreinamentovivo.tech/video/">
+<meta property="og:title" content="Um vídeo para você · Plataforma de Treinamento Vivo Empresas">
+<meta property="og:description" content="Veja em poucos minutos como a plataforma leva o treinamento até a loja, o balcão e a linha de frente.">
+<meta property="og:image" content="https://varejo.plataformadetreinamentovivo.tech/og-cliente.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Plataforma de Treinamento Vivo Empresas: um vídeo para você.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Um vídeo para você · Plataforma de Treinamento Vivo Empresas">
+<meta name="twitter:description" content="Veja em poucos minutos como a plataforma leva o treinamento até a loja, o balcão e a linha de frente.">
+<meta name="twitter:image" content="https://varejo.plataformadetreinamentovivo.tech/og-cliente.png">
+<title>Vídeo · Plataforma de Treinamento Vivo Empresas</title>
+<script>(function(){try{if(JSON.parse(localStorage.getItem("pbvivo:tema"))==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}})();</script>
+<style>
+/* Vídeo para o cliente (/video/, pública): um vídeo do catálogo (tabela videos), tocado no player do Google Drive dentro da página.
+   O link do GN é /video/#v=<código>&gn=Nome&w=55DDDNUMERO&c=Empresa&e=<código do envio>; a página busca o vídeo em /api/video
+   (só vídeo marcado para o cliente). Exceção aprovada em 02/11/2026: o quadro do Drive é de fora e não avisa play, pausa nem avanço;
+   o que se mede é o clique dentro do vídeo e o tempo com a página à vista depois dele (estimativa).
+   Marca Vivo (Guia 2023): mesmos tokens da jornada, abre no claro; o escuro só pelo botão. */
+:root{
+  --purpura:#660099; --rosa:#EB3C7D; --lilas:#BD4AFF; --rose:#FF96B2; --roxo:#380054; --magenta:#CC3D70;
+  --font:"Vivo Type","Trebuchet MS",sans-serif;
+
+  --bg:#F8F4FB; --surface:#FFFFFF; --surface-2:#F1E9F7; --fg:#22102E; --fg-soft:#5B4868;
+  --line:rgba(56,0,84,.13); --line-strong:rgba(56,0,84,.28);
+  --accent:#660099; --etiq:#CC3D70; --marca:#660099;
+  --btn:#660099; --btn-fg:#FFFFFF; --btn-hover:#3D005C;
+  --shadow:0 18px 40px -24px rgba(56,0,84,.6);
+}
+:root[data-theme="dark"]{
+  --bg:#170722; --surface:#220E33; --surface-2:#2C1442; --fg:#F7EFFC; --fg-soft:#CDB9DB;
+  --line:rgba(255,255,255,.12); --line-strong:rgba(255,255,255,.28);
+  --accent:#FF96B2; --etiq:#FF96B2; --marca:#FFFFFF;
+  --btn:#FF96B2; --btn-fg:#380054; --btn-hover:#FFC0D1;
+  --shadow:0 18px 40px -24px rgba(0,0,0,.9);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+body{background:var(--bg);color:var(--fg);font:400 16px/1.55 var(--font);-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+h1,h2{margin:0;line-height:1.2;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--rosa);outline-offset:2px}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px),4vw);padding-right:max(16px,env(safe-area-inset-right,0px),4vw)}
+
+/* ---------- Cabeçalho ---------- */
+.topo{display:flex;align-items:center;gap:14px;padding-block:14px;background:var(--surface);border-bottom:1px solid var(--line)}
+.marca{display:flex;align-items:center;gap:12px;color:var(--marca);text-decoration:none;min-width:0}
+.marca svg{height:28px;width:auto;display:block;flex:0 0 auto}
+.marca-sep{width:1px;height:24px;background:var(--line-strong);flex:0 0 auto}
+.marca-t{display:grid;line-height:1.2;color:var(--fg)}
+.marca-t b{font-size:.95rem}
+.marca-t small{font-size:.78rem;color:var(--fg-soft)}
+.para-empresa{margin-left:auto;min-width:0;font-size:.85rem;color:var(--fg-soft);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.para-empresa b{color:var(--fg)}
+.para-empresa:not([hidden]) + .tema{margin-left:0}
+.tema{margin-left:auto;flex:0 0 auto;width:40px;height:40px;border-radius:4px;border:1.5px solid var(--line-strong);background:transparent;color:var(--fg);display:inline-grid;place-items:center;cursor:pointer;padding:0}
+.tema:hover{background:var(--surface-2)}
+.tema svg{width:20px;height:20px}
+.tema .sol{display:none}
+.tema[aria-pressed="true"] .sol{display:block}
+.tema[aria-pressed="true"] .lua{display:none}
+.fibra{height:4px;background:linear-gradient(90deg,var(--purpura),var(--rosa))}
+@media (max-width:560px){.marca-t small{display:none}.marca-sep{display:none}.marca-t b{font-size:.85rem;white-space:nowrap}.marca{flex:0 0 auto}}
+
+/* ---------- Vídeo ---------- */
+.palco{flex:1;width:100%;max-width:1040px;margin:0 auto;padding-block:28px 40px;display:grid;gap:22px;align-content:start}
+.etiq{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--etiq)}
+.cab{display:grid;gap:8px}
+.cab h1{font-size:clamp(1.5rem,3.4vw,2.2rem);color:var(--accent)}
+.cab .desc{color:var(--fg-soft);max-width:62ch}
+.cab .meta{font-size:.85rem;color:var(--fg-soft)}
+.player{position:relative;aspect-ratio:16/9;background:#1B0627;border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+@supports not (aspect-ratio:16/9){.player{height:0;padding-top:56.25%}}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+/* vídeo em pé (9:16): no desktop, o player à esquerda e o texto ao lado; no celular, um embaixo do outro */
+.palco.em-pe{grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto 1fr;grid-template-areas:"player cab" "player chamada" "player .";column-gap:clamp(20px,4vw,48px)}
+.palco.em-pe .cab{grid-area:cab;align-self:end}
+.palco.em-pe .chamada{grid-area:chamada}
+.palco.em-pe .player{grid-area:player;aspect-ratio:9/16;width:min(380px,calc((100vh - 150px) * 9 / 16));min-width:240px}
+@supports not (aspect-ratio:9/16){.palco.em-pe .player{height:0;padding-top:177.78%}}
+@media (max-width:760px){
+  .palco.em-pe{grid-template-columns:minmax(0,1fr);grid-template-rows:auto;grid-template-areas:"cab" "player" "chamada"}
+  .palco.em-pe .player{justify-self:center;width:min(100%,calc((100vh - 120px) * 9 / 16));min-width:0}
+}
+/* cobre o botão do Drive que abre o vídeo fora da página (lá aparece a conta dona do arquivo) */
+.player .tampa{position:absolute;top:0;right:0;width:76px;height:64px;z-index:2}
+.carregando{position:absolute;inset:0;display:grid;place-items:center;color:#CDB9DB;font-size:.95rem}
+.carregando span{display:inline-flex;align-items:center;gap:10px}
+.carregando span::before{content:"";width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.25);border-top-color:#FF96B2;animation:gira .8s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+.erro{display:grid;gap:8px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--rosa);border-radius:8px;padding:18px 20px}
+.erro h1{font-size:1.25rem;color:var(--accent)}
+.erro p{color:var(--fg-soft)}
+
+/* ---------- Chamada final ---------- */
+.chamada{display:grid;gap:12px;background:linear-gradient(120deg,var(--purpura),var(--roxo));color:#fff;border-radius:12px;padding:clamp(20px,3.4vw,32px)}
+.chamada h2{font-size:clamp(1.2rem,2.6vw,1.6rem)}
+.chamada p{color:#F1E9F7;max-width:60ch}
+.acoes{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:6px}
+.btn{display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;padding:13px 24px;border-radius:4px;background:var(--btn);color:var(--btn-fg);border:1.5px solid var(--btn);cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--btn-hover);border-color:var(--btn-hover)}
+.btn-claro{background:#fff;color:#660099;border-color:#fff}
+.btn-claro:hover{background:#F1E9F7;border-color:#F1E9F7}
+.btn-borda{background:transparent;color:#fff;border-color:rgba(255,255,255,.7)}
+.btn-borda:hover{background:rgba(255,255,255,.14);border-color:#fff}
+.btn-chama{animation:chama 1.8s ease-out infinite}
+@keyframes chama{0%{box-shadow:0 0 0 0 rgba(235,60,125,.45)}100%{box-shadow:0 0 0 14px rgba(235,60,125,0)}}
+@media (max-width:560px){.acoes .btn{flex:1 1 100%}}
+.aviso-rastro{margin:0;padding-block:8px 20px;font-size:.7rem;color:var(--fg-soft);opacity:.7;text-align:center}
+</style>
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="vivo-logo" viewBox="0 0 282.347 87.86"><g fill="currentColor"><path d="M27.932 80.359L32.805 80.359C33.628 80.359 36.767 79.93 38.5 76.777L58.67 41.035C60.738 37.248 58.299 34.035 56.146 33.238L50.781 30.834C47.892 29.545 44.425 30.909 43.123 33.926L30.457 59.366L30.265 59.366L17.616 33.926C16.314 30.909 12.844 29.545 9.96 30.834L4.596 33.238C2.438 34.035 0 37.248 2.067 41.035L22.242 76.777C23.971 79.93 27.112 80.359 27.932 80.359"/><path d="M116.552 80.359L121.425 80.359C122.249 80.359 125.389 79.93 127.118 76.777L147.291 41.035C149.356 37.248 146.919 34.035 144.762 33.238L139.398 30.834C136.511 29.545 133.046 30.909 131.743 33.926L119.077 59.366L118.888 59.366L106.233 33.926C104.928 30.909 101.463 29.545 98.578 30.834L93.215 33.238C91.057 34.035 88.617 37.248 90.688 41.035L110.858 76.777C112.59 79.93 115.728 80.359 116.552 80.359"/><path d="M175.742 30.517C161.843 30.517 150.571 41.791 150.571 55.687C150.571 69.592 161.843 80.865 175.742 80.865C189.651 80.865 200.917 69.592 200.917 55.687C200.917 41.791 189.651 30.517 175.742 30.517M175.742 65.626C170.255 65.626 165.806 61.178 165.806 55.687C165.806 50.201 170.255 45.754 175.742 45.754C181.226 45.754 185.68 50.201 185.68 55.687C185.68 61.178 181.226 65.626 175.742 65.626"/><path d="M84.53 16.189C84.53 21.64 80.112 26.052 74.663 26.052C69.214 26.052 64.797 21.64 64.797 16.189C64.797 10.74 69.214 6.327 74.663 6.327C80.112 6.327 84.53 10.74 84.53 16.189"/><path d="M66.08 37.123C66.08 33.76 68.8 31.04 72.163 31.04L77.252 31.04C80.614 31.04 83.34 33.76 83.34 37.123L83.34 74.274C83.34 77.636 80.614 80.357 77.252 80.357L72.163 80.357C68.8 80.357 66.08 77.636 66.08 74.274L66.08 37.123"/><path d="M266.327 16.148C266.327 19.258 265.225 24.109 261.801 27.534C260.597 28.737 259.552 29.46 258.717 29.999C257.107 31.041 255.943 31.765 256.592 33.504C257.23 35.213 259.219 34.684 261.098 34.259C261.705 34.114 273.514 31.288 273.661 31.281C276.835 30.681 279.9 32.688 280.643 35.791C280.646 35.804 281.591 39.749 281.599 39.784C282.347 42.888 280.529 46.069 277.431 46.977C277.299 47.037 264.394 50.139 264.373 50.146C261.922 50.77 260.486 51.985 260.486 54.349C260.486 55.406 261.098 56.552 261.852 57.505C261.852 57.505 275.873 74.883 275.946 75.017C277.854 77.62 277.366 81.251 274.887 83.262C274.878 83.27 271.728 85.824 271.697 85.847C269.222 87.86 265.57 87.593 263.414 85.191C263.303 85.096 254.596 74.393 253.672 73.258C252.746 72.124 251.585 70.397 249.972 70.397C248.361 70.397 247.2 72.124 246.273 73.258C245.351 74.393 236.642 85.096 236.533 85.191C234.374 87.593 230.723 87.86 228.246 85.847C228.219 85.824 225.067 83.27 225.058 83.262C222.579 81.251 222.093 77.62 223.999 75.017C224.07 74.883 238.093 57.505 238.093 57.505C238.844 56.552 239.458 55.406 239.458 54.349C239.458 51.985 238.026 50.77 235.572 50.146C235.549 50.139 222.646 47.037 222.512 46.977C219.417 46.069 217.598 42.888 218.344 39.784C218.353 39.749 219.301 35.804 219.302 35.791C220.046 32.688 223.108 30.681 226.282 31.281C226.431 31.288 238.238 34.114 238.844 34.259C240.729 34.684 242.715 35.213 243.353 33.504C244 31.765 242.837 31.041 241.228 29.999C240.391 29.46 239.348 28.737 238.145 27.534C234.72 24.109 233.617 19.258 233.617 16.148C233.617 7.231 241.054 0 249.972 0C258.89 0 266.327 7.231 266.327 16.148"/></g></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/></g></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></g></symbol>
+  </defs>
+</svg>
+
+<header class="topo gut">
+  <a class="marca" href="https://varejo.plataformadetreinamentovivo.tech/" aria-label="Vivo · Plataforma de Treinamento Vivo Empresas, página inicial">
+    <svg viewBox="0 0 282.347 87.86" role="img" aria-label="Vivo"><use href="#vivo-logo"/></svg>
+    <span class="marca-sep" aria-hidden="true"></span>
+    <span class="marca-t"><b>Plataforma de Treinamento</b><small>Vivo Empresas</small></span>
+  </a>
+  <span class="para-empresa" id="paraEmpresa" hidden></span>
+  <button class="tema" id="tema" type="button" aria-pressed="false" aria-label="Usar tema escuro">
+    <svg class="lua" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sol" aria-hidden="true"><use href="#i-sun"/></svg>
+  </button>
+</header>
+<div class="fibra" aria-hidden="true"></div>
+
+<main class="palco gut" id="palco">
+  <div class="cab" id="cab">
+    <p class="etiq">Vídeo</p>
+    <h1 id="titulo">Carregando o vídeo…</h1>
+    <p class="desc" id="desc" hidden></p>
+    <p class="meta" id="meta" hidden></p>
+  </div>
+  <div class="player" id="player">
+    <div class="carregando" id="carregando"><span>Carregando</span></div>
+  </div>
+  <section class="chamada" id="chamada" aria-labelledby="chamadaTit">
+    <h2 id="chamadaTit">Quer ver isso com o treinamento da sua empresa?</h2>
+    <p id="chamadaTxt"></p>
+    <div class="acoes" id="chamadaAcoes"></div>
+  </section>
+</main>
+<p class="aviso-rastro gut">As interações nesta página podem ser monitoradas.</p>
+
+<script>/* Rastro: o que o cliente faz na página aberta pelo link que o GN enviou (link seguro, jornada, linha de frente).
+   O build embute este arquivo no marcador do rastro de cada página (comRastro, no build.js). Só liga com o código do envio (e=) no link:
+   sem ele, nada é medido. Mede abertura, cliques (pelo rótulo do botão, nunca o que foi digitado), até onde rolou,
+   tempo na página e o contato pelo WhatsApp; cada página pode mandar eventos próprios (ex.: etapa da jornada).
+   Envia em lotes para /api/visita do próprio site, sem guardar nada além do id da visita na aba. Script ES5. */
+var Rastro = (function(){
+  var CODIGO = /^[A-Za-z0-9]{8,24}$/, LETRAS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var envio = '', sessao = '', fila = [], timer = null, inicio = 0, maxRolagem = 0, marcos = [25, 50, 75, 100], saiu = false;
+
+  function novoCodigo(n){
+    var s = '', i, v = null;
+    try{ v = new Uint8Array(n || 12); window.crypto.getRandomValues(v); }catch(e){ v = null; }
+    for(i = 0; i < (n || 12); i++) s += LETRAS.charAt((v ? v[i] : Math.floor(Math.random() * 256)) % LETRAS.length);
+    return s;
+  }
+  function idDaVisita(){
+    var chave = 'pbvivo:visita:' + envio, id = '';
+    try{ id = sessionStorage.getItem(chave) || ''; }catch(e){}
+    if(!CODIGO.test(id)){ id = novoCodigo(12); try{ sessionStorage.setItem(chave, id); }catch(e){} }
+    return id;
+  }
+  function rotulo(el){
+    var t = el.getAttribute('data-rastro') || el.getAttribute('aria-label') || el.textContent || '';
+    return t.replace(/\s+/g, ' ').trim().slice(0, 60);
+  }
+  function rolagem(){
+    var d = document.documentElement, alto = Math.max(d.scrollHeight, document.body ? document.body.scrollHeight : 0) - window.innerHeight;
+    return alto <= 0 ? 100 : Math.min(100, Math.round((window.pageYOffset || d.scrollTop || 0) / alto * 100));
+  }
+
+  function enviar(){
+    clearTimeout(timer); timer = null;
+    if(!fila.length) return;
+    var agora = Date.now(), lote = fila.splice(0, 50).map(function(e){ return {tipo:e.tipo, detalhe:e.detalhe, atras:agora - e.t}; });
+    var corpo = JSON.stringify({envio:envio, sessao:sessao, eventos:lote});
+    try{
+      if(window.fetch){ fetch('/api/visita', {method:'POST', keepalive:true, credentials:'same-origin', headers:{'Content-Type':'application/json'}, body:corpo})['catch'](function(){}); }
+      else{ var x = new XMLHttpRequest(); x.open('POST', '/api/visita', true); x.setRequestHeader('Content-Type', 'application/json'); x.send(corpo); }
+    }catch(e){}
+    if(fila.length) enviar();
+  }
+  function evento(tipo, detalhe){
+    if(!envio) return;
+    fila.push({tipo:tipo, detalhe:detalhe || null, t:Date.now()});
+    if(fila.length >= 20) return enviar();
+    if(!timer) timer = setTimeout(enviar, 5000);
+  }
+
+  function aoRolar(){
+    var r = rolagem();
+    if(r <= maxRolagem) return;
+    maxRolagem = r;
+    while(marcos.length && r >= marcos[0]) evento('rolagem', {ate:marcos.shift()});
+  }
+  function aoClicar(e){
+    var el = e.target && e.target.closest ? e.target.closest('a,button,[data-rastro]') : null;
+    if(!el || el.closest('[data-rastro-ignorar]')) return;
+    var href = el.getAttribute('href') || '';
+    if(/^https:\/\/(wa\.me|api\.whatsapp\.com)\//.test(href)) return evento('contato', {canal:'whatsapp', rotulo:rotulo(el)});
+    evento('clique', {rotulo:rotulo(el)});
+  }
+  /* a cada saída (aba escondida, app trocado, página fechada) vai o tempo total e a rolagem máxima até ali */
+  function aoSair(){
+    if(!saiu){ evento('saiu', {rolagem:maxRolagem, segundos:Math.round((Date.now() - inicio) / 1000)}); saiu = true; }
+    enviar();
+  }
+
+  function iniciar(codigo, pagina){
+    if(envio || !CODIGO.test(String(codigo || ''))) return false;
+    envio = String(codigo); sessao = idDaVisita(); inicio = Date.now();
+    evento('abriu', {pagina:pagina || location.pathname, tela:window.innerWidth + 'x' + window.innerHeight});
+    window.addEventListener('scroll', aoRolar, {passive:true});
+    document.addEventListener('click', aoClicar, true);
+    document.addEventListener('visibilitychange', function(){ if(document.visibilityState === 'hidden') aoSair(); else saiu = false; });
+    window.addEventListener('pagehide', aoSair);
+    setTimeout(aoRolar, 1500);
+    return true;
+  }
+
+  return {iniciar:iniciar, evento:evento, novoCodigo:novoCodigo, ativo:function(){ return !!envio; }};
+})();
+</script>
+<script>
+(function(){
+"use strict";
+var byId = function(id){ return document.getElementById(id) || document.createElement('div'); };
+function h(tag, a, kids){
+  var el = document.createElement(tag);
+  if(a){ for(var k in a){ var v = a[k]; if(v == null || v === false) continue;
+    if(k === 'text') el.textContent = v;
+    else if(k === 'class') el.className = v;
+    else if(k.slice(0,2) === 'on') el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? '' : v); } }
+  (kids||[]).forEach(function(c){ if(c == null || c === false) return; el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+  return el;
+}
+var store = {
+  get: function(k, d){ try{ var v = localStorage.getItem('pbvivo:'+k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set: function(k, v){ try{ localStorage.setItem('pbvivo:'+k, JSON.stringify(v)); }catch(e){} }
+};
+
+/* ---------- Link: vídeo, contato do GN e código do envio ---------- */
+/* o GN envia /video/#v=<código>&gn=Nome&w=55DDDNUMERO&c=Empresa&e=<código do envio>. Sem o próprio e= o vídeo não é medido:
+   o contato guardado de outra página (pbvivo:jornadaGN) só serve para o botão final, nunca para o rastro */
+function lerHash(){
+  var o = {};
+  (location.hash || '').replace(/^#/, '').split('&').forEach(function(par){
+    var i = par.indexOf('=');
+    if(i > 0){ try{ o[par.slice(0, i)] = decodeURIComponent(par.slice(i + 1)); }catch(e){} }
+  });
+  return o;
+}
+var HASH = lerHash();
+var CODIGO = /^[a-z0-9]+(-[a-z0-9]+)*$/.test(HASH.v || '') && HASH.v.length <= 40 ? HASH.v : '';
+var ENVIO = /^[A-Za-z0-9]{8,24}$/.test(HASH.e || '') ? HASH.e : '';
+var GN = HASH.w ? {nome:String(HASH.gn || '').slice(0, 60), zap:HASH.w.replace(/\D/g, '').slice(0, 15), empresa:String(HASH.c || '').slice(0, 60)}
+  : store.get('jornadaGN', null);
+var VIDEO = null;
+
+/* "Preparado para <empresa do cliente>" no topo, quando o GN preencheu */
+(function(){
+  var empresa = GN && GN.empresa ? String(GN.empresa).trim() : '', alvo = byId('paraEmpresa');
+  if(!empresa) return;
+  alvo.appendChild(document.createTextNode('Preparado para '));
+  alvo.appendChild(document.createElement('b')).textContent = empresa;
+  alvo.title = 'Preparado para ' + empresa;
+  alvo.hidden = false;
+})();
+
+/* ---------- Medição do vídeo ----------
+   O player do Drive é de outro site e não avisa nada. Quando o clique cai dentro dele, a página perde o foco para o quadro:
+   é esse o "clicou" (quase sempre o play). Depois dele, conta o tempo com a página à vista e manda o total a cada saída.
+   Os ouvintes entram antes do Rastro.iniciar, para o evento sair no mesmo lote do "saiu". */
+var clicou = false, vistoMs = 0, desde = 0;
+function tempoAteAgora(){ return vistoMs + (desde ? Date.now() - desde : 0); }
+function aoFocarQuadro(){
+  setTimeout(function(){
+    var f = document.activeElement;
+    if(!f || f.tagName !== 'IFRAME' || clicou) return;
+    clicou = true; desde = Date.now();
+    Rastro.evento('video', {acao:'clicou'});
+  }, 0);
+}
+function aoEsconder(){
+  if(!clicou) return;
+  if(desde){ vistoMs += Date.now() - desde; desde = 0; }
+  Rastro.evento('video', {acao:'tempo', segundos:Math.round(tempoAteAgora() / 1000)});
+}
+if(ENVIO){
+  window.addEventListener('blur', aoFocarQuadro);
+  document.addEventListener('visibilitychange', function(){
+    if(document.visibilityState === 'hidden') aoEsconder();
+    else if(clicou && !desde) desde = Date.now();
+  });
+  window.addEventListener('pagehide', aoEsconder);
+  Rastro.iniciar(ENVIO, 'video');
+}
+
+/* ---------- Vídeo ---------- */
+function minutos(s){ var m = Math.round(s / 60); return m < 1 ? 'menos de 1 min' : m + ' min'; }
+function mostra(v){
+  VIDEO = v;
+  document.title = v.titulo + ' · Plataforma de Treinamento Vivo Empresas';
+  byId('titulo').textContent = v.titulo;
+  if(v.descricao){ byId('desc').textContent = v.descricao; byId('desc').hidden = false; }
+  if(v.duracao){ byId('meta').textContent = 'Duração: ' + minutos(v.duracao); byId('meta').hidden = false; }
+  byId('palco').classList.toggle('em-pe', !!v.vertical);
+  var p = byId('player');
+  p.innerHTML = '';
+  p.appendChild(h('iframe', {src:'https://drive.google.com/file/d/' + encodeURIComponent(v.drive_id) + '/preview', title:'Vídeo: ' + v.titulo,
+    allow:'autoplay; fullscreen; picture-in-picture', allowfullscreen:true}));
+  p.appendChild(h('div', {class:'tampa', 'aria-hidden':'true', 'data-rastro-ignorar':''}));
+  chamada();
+}
+function semVideo(msg){
+  byId('cab').hidden = true;
+  var p = byId('player');
+  p.parentNode.replaceChild(h('section', {class:'erro', role:'alert'}, [h('h1', {text:'Este vídeo não está disponível'}), h('p', {text:msg})]), p);
+  chamada();
+}
+function carrega(){
+  if(!CODIGO) return semVideo('O link parece incompleto. Peça um novo link a quem enviou.');
+  var x = new XMLHttpRequest();
+  x.open('GET', '/api/video?v=' + encodeURIComponent(CODIGO), true);
+  x.onload = function(){
+    var v = null; try{ v = JSON.parse(x.responseText); }catch(e){}
+    if(x.status === 200 && v && v.drive_id) return mostra(v);
+    semVideo(x.status === 404 || x.status === 400 ? 'Ele pode ter saído do ar. Peça um novo link a quem enviou.' : 'Não conseguimos carregar agora. Tente de novo em instantes.');
+  };
+  x.onerror = function(){ semVideo('Sem conexão. Confira a internet e tente de novo.'); };
+  x.send(null);
+}
+
+/* ---------- Chamada final: com o contato do GN, abre o WhatsApp dele; sem ele, leva ao diagnóstico ---------- */
+function chamada(){
+  var comGN = GN && GN.zap, acoes = byId('chamadaAcoes'), contato = [];
+  acoes.innerHTML = '';
+  if(GN && GN.nome) contato.push('gn=' + encodeURIComponent(GN.nome));
+  if(comGN) contato.push('w=' + GN.zap);
+  if(GN && GN.empresa) contato.push('c=' + encodeURIComponent(GN.empresa));
+  var diag = 'https://paginas.plataformadetreinamentovivo.tech/descubra/' + (contato.length ? '#' + contato.join('&') : '');
+  if(comGN){
+    var texto = 'Olá' + (GN.nome ? ', ' + GN.nome.split(' ')[0] : '') + '! Assisti ao vídeo' + (VIDEO ? ' "' + VIDEO.titulo + '"' : '') +
+      ' e quero conversar sobre treinamento na ' + (GN.empresa || 'minha empresa') + '.';
+    byId('chamadaTxt').textContent = 'Fale com ' + (GN.nome || 'o seu consultor') + ' e veja como fica com os conteúdos e a operação da sua empresa.';
+    acoes.appendChild(h('a', {class:'btn btn-claro btn-chama', href:'https://wa.me/' + GN.zap + '?text=' + encodeURIComponent(texto), target:'_blank', rel:'noopener',
+      text:GN.nome ? 'Falar com ' + GN.nome.split(' ')[0] + ' no WhatsApp' : 'Falar com o consultor no WhatsApp'}));
+    acoes.appendChild(h('a', {class:'btn btn-borda', href:diag, text:'Fazer o diagnóstico da minha operação'}));
+  } else {
+    byId('chamadaTxt').textContent = 'Responda 8 perguntas rápidas e veja onde a plataforma entra na sua operação, com um caso parecido com o seu.';
+    acoes.appendChild(h('a', {class:'btn btn-claro', href:diag, text:'Fazer o diagnóstico'}));
+  }
+}
+
+/* ---------- Tema claro / escuro: abre no claro; o escuro só se o visitante escolher ---------- */
+(function(){
+  var bt = byId('tema'), root = document.documentElement;
+  function aplica(t){
+    if(t === 'dark') root.setAttribute('data-theme', 'dark'); else root.removeAttribute('data-theme');
+    bt.setAttribute('aria-pressed', String(t === 'dark'));
+    bt.setAttribute('aria-label', t === 'dark' ? 'Usar tema claro' : 'Usar tema escuro');
+  }
+  aplica(root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+  bt.addEventListener('click', function(){ var t = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; store.set('tema', t); aplica(t); });
+})();
+
+/* ---------- Início ---------- */
+chamada();
+carrega();
+})();
+</script>
+
+</body>
+</html>

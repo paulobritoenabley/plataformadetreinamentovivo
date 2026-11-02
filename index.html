@@ -445,17 +445,24 @@ footer.foot .aviso-rastro{font-size:.7rem;opacity:.7}
 .sp-head h3{font-size:1.05rem;color:var(--accent)}
 .sp-x{width:32px;height:32px;border-radius:4px;border:1.5px solid var(--line-strong);background:transparent;color:var(--fg);font-size:1.2rem;line-height:1;cursor:pointer}
 .send-pop>p{font-size:.92rem;color:var(--fg-soft)}
-.sp-link{font-size:.86rem;font-weight:700;color:var(--accent);background:var(--surface-2);border:1.5px dashed var(--line-strong);border-radius:6px;padding:10px 12px;word-break:break-all;user-select:all}
-.sp-jor{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:12px}
-.sp-jor h4{color:var(--accent)}
 .send-pop{max-height:calc(100vh - 110px);overflow-y:auto;overscroll-behavior:contain}
-.sp-pag{display:grid;gap:6px;padding-top:4px}
-.sp-pag b{font-size:.92rem}
+/* para quem (empresa), quem envia (nome e WhatsApp), o que (busca e lista) e como (WhatsApp, mensagem, link) */
 .sp-campos{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.sp-campos label{display:grid;gap:4px;font-size:.8rem;font-weight:700;color:var(--fg-soft)}
-.sp-campos input{font:inherit;font-size:.9rem;color:var(--fg);background:var(--surface);border:1.5px solid var(--line-strong);border-radius:4px;padding:8px 10px;width:100%;min-width:0}
-.sp-campos input:focus{outline:2px solid var(--rosa);outline-offset:1px}
-.sp-campos .sp-largo{grid-column:1 / -1}
+.sp-campos label,.sp-campo{display:grid;gap:4px;font-size:.8rem;font-weight:700;color:var(--fg-soft)}
+.sp-campos input,.sp-campo input,.sp-busca{font:inherit;font-size:.9rem;color:var(--fg);background:var(--surface);border:1.5px solid var(--line-strong);border-radius:4px;padding:8px 10px;width:100%;min-width:0}
+.sp-campos input:focus,.sp-campo input:focus,.sp-busca:focus{outline:2px solid var(--rosa);outline-offset:1px}
+.sp-de{font-size:.85rem;color:var(--fg-soft)}
+.sp-de b{color:var(--fg)}
+.sp-de .alerta{color:var(--magenta);font-weight:700}
+.sp-alterar{background:none;border:0;padding:0 0 0 6px;font:inherit;font-weight:700;color:var(--accent);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.sp-lista{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.sp-item{display:grid;gap:4px;background:var(--surface-2);border-radius:8px;padding:10px 12px}
+.sp-item .sp-tipo{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--magenta)}
+.sp-item b{font-size:.95rem;color:var(--fg)}
+.sp-item .hint{font-size:.84rem}
+.sp-acoes{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.sp-acoes .btn{flex:1 1 auto}
+.sp-vazio{font-size:.88rem;color:var(--fg-soft)}
 @media (max-width:760px){
   .send-btn{display:none}
   .send-fab{bottom:calc(76px + env(safe-area-inset-bottom,0px));right:16px;height:44px;padding:0 16px;font-size:.88rem}
@@ -1377,26 +1384,6 @@ rotuloTema();
 
 
 
-/* ---------- Enviar para o cliente ---------- */
-var LINK_CLIENTE = 'https://varejo.plataformadetreinamentovivo.tech/', pop = byId('sendPop');
-function envio(abrir){ pop.hidden = !abrir; ['sendTop', 'sendFab'].forEach(function(id){ byId(id).setAttribute('aria-expanded', String(abrir)); }); if(abrir) byId('sendCopy').focus(); }
-byId('sendTop').addEventListener('click', function(e){ e.stopPropagation(); envio(pop.hidden); });
-byId('sendFab').addEventListener('click', function(e){ e.stopPropagation(); envio(pop.hidden); });
-byId('sendX').addEventListener('click', function(){ envio(false); });
-document.addEventListener('click', function(e){ if(!pop.hidden && !e.target.closest('#sendPop')) envio(false); });
-document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !pop.hidden) envio(false); });
-/* cada cópia leva um código de envio (?e=): é por ele que o GN sabe se o cliente abriu e o que fez */
-function linkSeguro(forma){
-  var e = Rastro.novoCodigo(12);
-  
-  return LINK_CLIENTE + '?e=' + e;
-}
-byId('sendCopy').addEventListener('click', function(){ copy(linkSeguro('link'), 'Link seguro copiado. Pode enviar ao cliente.'); });
-byId('sendMsg').addEventListener('click', function(){
-  copy('Olá! Segue o material da Plataforma de Treinamento Vivo Empresas que comentei: ' + linkSeguro('mensagem') + '\n\n' +
-    'Nele você encontra como a plataforma funciona, resultados de empresas do seu segmento e uma calculadora para estimar o retorno com os números da sua operação.\n\n' +
-    'Fico à disposição para marcarmos uma demonstração com o conteúdo de vocês.', 'Mensagem copiada com o link seguro');
-});
 
 
 /* ---------- Início ---------- */

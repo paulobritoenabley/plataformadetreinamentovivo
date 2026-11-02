@@ -1,4 +1,4 @@
-// PUT {nome, sobrenome, foto?} → o próprio perfil. foto: data URL JPEG (reduzida no navegador), '' remove, ausente mantém.
+// PUT {nome, sobrenome, foto?, whatsapp?} → o próprio perfil. foto: data URL JPEG (reduzida no navegador); foto e whatsapp: '' remove, ausente mantém.
 // Quem grava é definir_meu_perfil no banco, sempre no auth.uid() do token: ninguém edita o perfil de outro por aqui.
 const s = require('./_sessao.js');
 
@@ -14,6 +14,13 @@ module.exports = async (req, res) => {
   if (nome.length > 60 || sobrenome.length > 80) return s.responder(res, 400, {erro: 'Nome ou sobrenome longo demais.'}, se.cookies);
 
   const corpo = {novo_nome: nome, novo_sobrenome: sobrenome};
+  if (b.whatsapp != null) {
+    // com DDD, com ou sem o 55 na frente; '' remove
+    let zap = String(b.whatsapp).replace(/\D/g, '');
+    if (zap && zap.length <= 11) zap = '55' + zap;
+    if (zap && !/^55[0-9]{10,11}$/.test(zap)) return s.responder(res, 400, {erro: 'WhatsApp inválido: use o DDD e o número.'}, se.cookies);
+    corpo.novo_whatsapp = zap;
+  }
   if (b.foto != null) {
     const foto = String(b.foto);
     if (foto && (foto.length > FOTO_MAX || !FOTO.test(foto))) return s.responder(res, 400, {erro: 'Foto inválida. Use uma imagem JPG ou PNG.'}, se.cookies);

@@ -2,16 +2,16 @@
 //  - interno.<domínio>/ abre a página de login e painel (repo/interno/)
 //  - /gn/ (playbook do GN, em qualquer subdomínio) só com login válido; sem login, vai para o interno com ?volta=
 //  - /interno/ fora do interno. volta para o interno
-//  - páginas para enviar ao cliente (/descubra/, /linha-de-frente/) moram em paginas.<domínio>; nos outros subdomínios, 308 para lá
+//  - páginas para enviar ao cliente (/descubra/, /linha-de-frente/, /video/) moram em paginas.<domínio>; nos outros subdomínios, 308 para lá
 //  - paginas.<domínio>/ (sem página própria) vai para o link seguro
 // A página do cliente (raiz dos subdomínios) continua pública.
 import s from './api/_sessao.js';
 
 export const config = {matcher: ['/', '/gn', '/gn/', '/gn/:path*', '/interno', '/interno/', '/interno/:path*',
-  '/descubra', '/descubra/:path*', '/linha-de-frente', '/linha-de-frente/:path*']};
+  '/descubra', '/descubra/:path*', '/linha-de-frente', '/linha-de-frente/:path*', '/video', '/video/:path*']};
 
 const LINK_CLIENTE = 'https://varejo.plataformadetreinamentovivo.tech/', LINK_PAGINAS = 'https://paginas.plataformadetreinamentovivo.tech/';
-const PAGINAS = new URL(LINK_PAGINAS).hostname, PUBLICAS = ['/descubra', '/linha-de-frente'];
+const PAGINAS = new URL(LINK_PAGINAS).hostname, PUBLICAS = ['/descubra', '/linha-de-frente', '/video'];
 
 // mesmas respostas que next() e rewrite() do @vercel/functions, sem depender do pacote
 function seguir(cookies){

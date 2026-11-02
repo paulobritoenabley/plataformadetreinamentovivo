@@ -223,6 +223,55 @@ a{color:var(--accent)}
 .pessoa{display:flex;align-items:center;gap:12px;min-width:0}
 .pessoa > div{min-width:0}
 .tabela select{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line-strong);border-radius:4px;padding:8px 10px;min-height:40px}
+.dica-campo{margin:-10px 0 18px;font-size:.85rem;color:var(--fg-soft)}
+/* enviar ao cliente: para quem, o que (filtro e busca) e como (WhatsApp, mensagem, link) */
+.envio-para{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px 20px;align-items:end;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:16px;margin:4px 0 16px}
+.envio-para .campo{margin:0}
+.envio-de{font-size:.92rem;color:var(--fg-soft);padding-bottom:12px}
+.envio-de b{color:var(--fg)}
+.envio-de .alerta{color:var(--erro);font-weight:700}
+.envio-de .btn-link{display:inline;margin:0 0 0 6px;padding:0}
+.envio-filtros{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.campo-busca{flex:1 1 240px;margin:0}
+.campo-busca input{min-height:42px;padding:8px 12px}
+.itens-envio{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.item-envio{display:grid;grid-template-columns:120px minmax(0,1fr) auto;gap:16px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:12px}
+.item-capa{position:relative;display:grid;place-items:center;width:120px;aspect-ratio:16 / 10;border-radius:3px;overflow:hidden;border:0;padding:0;font:inherit;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--purpura),var(--roxo));text-decoration:none}
+.item-capa img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.item-capa .rot{position:relative;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.item-capa .play{position:relative;width:34px;height:34px;border-radius:50%;background:rgba(56,0,84,.78);display:grid;place-items:center}
+.item-capa .play::before{content:"";margin-left:3px;border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent}
+.item-capa:hover{filter:brightness(1.08)}
+.item-txt{display:grid;gap:2px;min-width:0}
+.item-tipo{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--magenta)}
+.item-txt strong{font-size:1.05rem;color:var(--accent)}
+.item-txt > span:not(.item-tipo){font-size:.92rem;color:var(--fg-soft)}
+.item-txt .tag{justify-self:start;margin-top:4px;color:var(--fg-soft);font-weight:400}
+.item-txt .item-admin{display:flex;gap:14px;font-size:.85rem}
+.item-txt .item-admin .btn-link{margin:0;padding:2px 0}
+.item-acoes{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.item-acoes .btn{min-height:40px;padding:8px 14px;font-size:.92rem;white-space:nowrap}
+.marcas{display:grid;gap:10px;margin:0 0 16px}
+.marca-op{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-weight:700;font-size:.95rem;cursor:pointer}
+.marca-op input{width:18px;height:18px;margin:0;accent-color:var(--purpura);flex:0 0 auto;transform:translateY(3px)}
+.marca-op small{flex:1 0 100%;padding-left:28px;font-weight:400;color:var(--fg-soft)}
+.assistir{position:fixed;inset:0;z-index:30;background:rgba(23,7,34,.82);display:grid;place-items:center;padding:16px}
+.assistir-caixa{width:min(960px,100%);max-height:100%;display:grid;gap:10px}
+.assistir-topo{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#fff}
+.assistir-topo h3{margin:0;font-size:1.1rem}
+.assistir-x{flex:0 0 auto;width:40px;height:40px;border-radius:4px;border:1px solid rgba(255,255,255,.6);background:transparent;color:#fff;font-size:1.4rem;line-height:1;cursor:pointer}
+.assistir-player{position:relative;aspect-ratio:16 / 9;background:#000;border-radius:4px;overflow:hidden;justify-self:center;width:100%}
+.assistir-player.em-pe{aspect-ratio:9 / 16;width:min(100%,calc((100vh - 110px) * 9 / 16))}
+.assistir-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:40;background:var(--roxo);color:#fff;border-radius:4px;padding:12px 16px;font-size:.95rem;font-weight:700;box-shadow:0 18px 40px -18px rgba(0,0,0,.6);width:max-content;max-width:calc(100vw - 32px)}
+@media (max-width:767px){
+  .envio-para{grid-template-columns:1fr}
+  .envio-de{padding-bottom:0}
+  .item-envio{grid-template-columns:96px minmax(0,1fr);gap:12px}
+  .item-capa{width:96px}
+  .item-acoes{grid-column:1 / -1;justify-content:stretch}
+  .item-acoes .btn{flex:1 1 auto}
+}
 @media (max-width:767px){
   .topo .titulo{display:none}
   .topo .logo{margin-right:auto}
@@ -315,6 +364,45 @@ a{color:var(--accent)}
       <div><h1 id="ola">Olá</h1><span class="tag" id="quemPapel"></span></div>
     </div>
     <div class="grade">
+    <section class="bloco bloco-largo" id="secEnvio" aria-labelledby="tEnvio">
+      <div class="bloco-topo">
+        <div><h2 id="tEnvio">Enviar ao cliente</h2><p class="sub">Escolha o que mandar e envie pelo WhatsApp. Cada link leva um código: dá para saber se o cliente abriu e o que fez.</p></div>
+        <button class="btn btn-p" type="button" id="videoNovo" hidden>Adicionar vídeo</button>
+      </div>
+      <form class="pagina-form" id="fVideo" hidden novalidate>
+        <h3 id="videoFormTit">Novo vídeo</h3>
+        <div class="pagina-campos">
+          <label class="campo pc-largo"><span>Link do vídeo no Google Drive</span><input type="url" id="vdDrive" inputmode="url" maxlength="300" autocomplete="off" placeholder="https://drive.google.com/file/d/…" required></label>
+          <label class="campo"><span>Título</span><input type="text" id="vdTitulo" maxlength="80" autocomplete="off" required></label>
+          <label class="campo"><span>Código do link</span><input type="text" id="vdCodigo" maxlength="40" autocomplete="off" pattern="[a-z0-9-]+" placeholder="ex.: varejo" required></label>
+          <label class="campo pc-largo"><span>Descrição</span><input type="text" id="vdDescricao" maxlength="240" autocomplete="off"></label>
+          <label class="campo pc-largo"><span>Palavras para a busca</span><input type="text" id="vdPalavras" maxlength="200" autocomplete="off" placeholder="segmento, assunto, cargo…"></label>
+          <label class="campo"><span>Duração (min:seg)</span><input type="text" id="vdDuracao" inputmode="numeric" maxlength="8" autocomplete="off" placeholder="2:30"></label>
+          <label class="campo"><span>Ordem na lista</span><input type="number" id="vdOrdem" min="-999" max="999" step="1" value="0"></label>
+        </div>
+        <div class="marcas">
+          <label class="marca-op"><input type="checkbox" id="vdCliente" checked> Pode ser enviado ao cliente <small>Sem isso, fica só para assistir no painel.</small></label>
+          <label class="marca-op"><input type="checkbox" id="vdVertical"> Vídeo em pé (gravado no celular, 9:16)</label>
+        </div>
+        <p class="dica-campo">O arquivo no Drive precisa estar compartilhado com "qualquer pessoa com o link". O nome do arquivo aparece no player: não use o nome do fornecedor.</p>
+        <p class="msg" id="msgVideo" role="status"></p>
+        <div class="acoes"><button class="btn" type="submit">Salvar</button><button class="btn btn-sec" type="button" id="vdCancelar">Cancelar</button></div>
+      </form>
+      <div class="envio-para">
+        <label class="campo"><span>Para qual empresa?</span><input type="text" id="envEmpresa" maxlength="60" autocomplete="off" placeholder="Aparece no topo da página que o cliente abrir"></label>
+        <div class="envio-de" id="envDe" aria-live="polite"></div>
+      </div>
+      <div class="envio-filtros">
+        <div class="periodo" role="group" aria-label="Mostrar">
+          <button type="button" data-tipo="" aria-pressed="true">Tudo</button>
+          <button type="button" data-tipo="pagina" aria-pressed="false">Páginas</button>
+          <button type="button" data-tipo="video" aria-pressed="false">Vídeos</button>
+        </div>
+        <label class="campo campo-busca"><span class="sr-only">Buscar página ou vídeo</span><input type="search" id="envBusca" autocomplete="off" placeholder="Buscar página ou vídeo"></label>
+      </div>
+      <p class="msg" id="msgEnvio" role="status"></p>
+      <ul class="itens-envio" id="listaEnvio"></ul>
+    </section>
     <section class="bloco" aria-labelledby="tPlaybooks">
       <h2 id="tPlaybooks">Playbooks</h2>
       <p class="sub">Material de venda por segmento. Cada um abre numa nova aba; a página do cliente fica na raiz do mesmo endereço.</p>
@@ -325,7 +413,7 @@ a{color:var(--accent)}
       <div id="perfilVer">
         <div class="perfil-linha">
           <span class="avatar avatar-g" id="perfilAvatar" aria-hidden="true"></span>
-          <p><strong id="perfilNomeVer"></strong><small id="perfilEmail"></small></p>
+          <p><strong id="perfilNomeVer"></strong><small id="perfilEmail"></small><small id="perfilZapVer"></small></p>
         </div>
         <button class="btn btn-sec" type="button" id="perfilEditar">Editar perfil</button>
       </div>
@@ -340,6 +428,8 @@ a{color:var(--accent)}
         </div>
         <label class="campo"><span>Nome</span><input type="text" id="perfilNome" autocomplete="given-name" maxlength="60" required></label>
         <label class="campo"><span>Sobrenome</span><input type="text" id="perfilSobrenome" autocomplete="family-name" maxlength="80"></label>
+        <label class="campo"><span>WhatsApp com DDD</span><input type="tel" id="perfilZap" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="11 91234-5678" aria-describedby="perfilZapDica"></label>
+        <p class="dica-campo" id="perfilZapDica">É o número que o cliente chama no fim das páginas e vídeos que você envia.</p>
         <p class="msg" id="msgPerfil" role="status"></p>
         <div class="acoes"><button class="btn" type="submit">Salvar</button><button class="btn btn-sec" type="button" id="perfilCancelar">Cancelar</button></div>
       </form>
@@ -422,8 +512,8 @@ a{color:var(--accent)}
       <div id="pLinks" role="tabpanel" aria-labelledby="abaLinks" hidden>
         <div class="kpis" id="kpisLinks"></div>
         <div class="eng-filtros">
-          <label class="campo"><span>Página</span><select id="fPagina">
-            <option value="">Todas</option><option value="link-seguro">Link seguro</option><option value="descubra">Jornada</option><option value="linha-de-frente">Linha de frente</option>
+          <label class="campo"><span>Página</span><select id="fPaginaLink">
+            <option value="">Todas</option><option value="link-seguro">Link seguro</option><option value="descubra">Jornada</option><option value="linha-de-frente">Linha de frente</option><option value="video">Vídeos</option>
           </select></label>
           <label class="campo"><span>Situação</span><select id="fSituacao">
             <option value="">Todas</option><option value="nao">Ainda não aberto</option><option value="aberto">Aberto</option><option value="contato">Chamou no WhatsApp</option>
@@ -477,6 +567,13 @@ a{color:var(--accent)}
     </section>
     </div>
   </main>
+  <div class="assistir" id="assistir" role="dialog" aria-modal="true" aria-labelledby="assistirTit" hidden>
+    <div class="assistir-caixa">
+      <div class="assistir-topo"><h3 id="assistirTit"></h3><button class="assistir-x" type="button" id="assistirX" aria-label="Fechar">×</button></div>
+      <div class="assistir-player" id="assistirPlayer"></div>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 </div>
 
 <script>
@@ -629,6 +726,8 @@ function painel(){
   PLAYBOOKS.forEach(function(p){ lista.appendChild(cardPagina({titulo: p.nome, descricao: p.desc, url: p.url})); });
   fecharPerfil();
   fecharPagina();
+  fecharVideo();
+  carregarEnvio();
   registrar('abriu', 'painel');
   iniciarEngajamento();
   byId('paginaNova').hidden = eu.papel !== 'superadmin';
@@ -727,6 +826,257 @@ byId('fConvite').addEventListener('submit', function(e){
   });
 });
 
+/* ---------- Enviar ao cliente ----------
+   Para quem (empresa), o que (páginas fixas e vídeos de api/videos.js, com filtro e busca) e como (WhatsApp, mensagem ou link).
+   Cada envio leva um código novo (e=) e vira um evento "compartilhou": é por ele que o banco cria o registro em envios.
+   Nas páginas de paginas., o link leva o nome e o WhatsApp do perfil depois do #, para o botão final chamar quem enviou. */
+var LINK_CLIENTE = 'https://varejo.plataformadetreinamentovivo.tech/', LINK_PAGINAS = 'https://paginas.plataformadetreinamentovivo.tech/';
+var PAGINAS_ENVIO = [
+  {id: 'link-seguro', titulo: 'Link seguro', descricao: 'Como a plataforma funciona, resultados por segmento e a calculadora de retorno. Sem nada interno.',
+    palavras: 'material apresentação site roi calculadora casos resultados', url: LINK_CLIENTE, zap: false,
+    msg: function(l){ return 'Olá! Segue o material da Plataforma de Treinamento Vivo Empresas que comentei: ' + l + '\n\n' +
+      'Nele você encontra como a plataforma funciona, resultados de empresas do seu segmento e uma calculadora para estimar o retorno com os números da sua operação.\n\n' +
+      'Fico à disposição para marcarmos uma demonstração com o conteúdo de vocês.'; }},
+  {id: 'descubra', titulo: 'Jornada: como a plataforma pode ajudar', descricao: '8 perguntas, a operação do cliente montada na tela e o diagnóstico pronto. No fim, ele chama você no WhatsApp.',
+    palavras: 'diagnóstico perguntas quiz jogo descoberta', url: LINK_PAGINAS + 'descubra/', zap: true,
+    msg: function(l){ return 'Olá! Preparei um diagnóstico rápido para a gente conversar sobre treinamento na sua operação: ' + l + '\n\n' +
+      'São 8 perguntas, leva uns 2 minutos. No fim, você vê onde a Plataforma de Treinamento Vivo Empresas entra, com um caso parecido com o seu, e já me chama por ali.'; }},
+  {id: 'linha-de-frente', titulo: 'Treinar quem não tem computador', descricao: 'Repositor, vigilante e atendente: a rolagem mostra, como um vídeo, o treinamento da linha de frente indo para o celular.',
+    palavras: 'deskless linha de frente loja operação celular landing', url: LINK_PAGINAS + 'linha-de-frente/', zap: true,
+    msg: function(l){ return 'Olá! Separei uma página curta sobre como treinar quem não tem computador (repositor, vigilante, atendente de loja) pelo celular: ' + l + '\n\n' +
+      'Leva uns 2 minutos rolando, com resultados de empresas que já fazem isso com a Plataforma de Treinamento Vivo Empresas. No fim, é só me chamar por ali.'; }}
+];
+var envio = {tipo: '', videos: [], videoEditado: null};
+
+function semAcento(t){ t = String(t || ''); return (t.normalize ? t.normalize('NFD') : t).replace(/[̀-ͯ]/g, '').toLowerCase(); }
+// WhatsApp: '' (vazio), null (inválido) ou só dígitos com o 55
+function zapDigitos(t){
+  var z = String(t || '').replace(/\D/g, '');
+  if (!z) return '';
+  if (z.length <= 11) z = '55' + z;
+  return /^55[0-9]{10,11}$/.test(z) ? z : null;
+}
+function zapLegivel(z){
+  var m = /^55(\d{2})(\d{4,5})(\d{4})$/.exec(z || '');
+  return m ? '(' + m[1] + ') ' + m[2] + '-' + m[3] : z;
+}
+function minutos(s){ var m = Math.round(s / 60); return m < 1 ? 'menos de 1 min' : m + ' min'; }
+function codigoEnvio(){
+  var L = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', v = null, s = '', i;
+  try { v = new Uint8Array(12); window.crypto.getRandomValues(v); } catch (e) { v = null; }
+  for (i = 0; i < 12; i++) s += L.charAt((v ? v[i] : Math.floor(Math.random() * 256)) % L.length);
+  return s;
+}
+var toastT;
+function toast(t){ var el = byId('toast'); el.textContent = t; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(function(){ el.hidden = true; }, 2800); }
+function copiar(texto, ok){
+  function manual(){
+    var ta = h('textarea', {style: 'position:fixed;opacity:0'}); ta.value = texto; document.body.appendChild(ta); ta.select();
+    var foi = false; try { foi = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta); toast(foi ? ok : 'Não deu para copiar. Tente de novo.');
+  }
+  try { navigator.clipboard.writeText(texto).then(function(){ toast(ok); }, manual); } catch (e) { manual(); }
+}
+
+// quem envia: nome e WhatsApp do perfil (o WhatsApp é obrigatório só para as páginas com botão final)
+function mostrarRemetente(){
+  var el = byId('envDe');
+  el.innerHTML = '';
+  if (!eu) return;
+  var completar = h('button', {'class': 'btn-link', type: 'button', text: eu.whatsapp ? 'Alterar' : 'Colocar meu WhatsApp'});
+  completar.addEventListener('click', editarPerfil);
+  if (eu.whatsapp) el.appendChild(h('span', {}, [document.createTextNode('No fim das páginas e vídeos, o cliente chama '), h('b', {text: nomeCompleto(eu) + ' · ' + zapLegivel(eu.whatsapp)}), document.createTextNode('.')]));
+  else el.appendChild(h('span', {'class': 'alerta', text: 'Sem WhatsApp no perfil: só o link seguro pode ser enviado.'}));
+  el.appendChild(completar);
+}
+
+function linkDe(item, e){
+  if (item.tipo === 'pagina' && item.id === 'link-seguro') return LINK_CLIENTE + '?e=' + e;
+  var nome = nomeCompleto(eu) === eu.email ? '' : nomeCompleto(eu), empresa = byId('envEmpresa').value.trim();
+  var partes = (item.tipo === 'video' ? ['v=' + item.codigo] : []).concat(nome ? ['gn=' + encodeURIComponent(nome)] : [], ['w=' + eu.whatsapp],
+    empresa ? ['c=' + encodeURIComponent(empresa)] : [], ['e=' + e]);
+  return (item.tipo === 'video' ? LINK_PAGINAS + 'video/' : item.url) + '#' + partes.join('&');
+}
+function mensagemVideo(v, l){
+  return 'Olá! Separei um vídeo ' + (v.duracao ? 'de ' + minutos(v.duracao) + ' ' : 'curto ') + 'para você: "' + v.titulo + '".\n' + l + '\n\n' +
+    'Depois de assistir, é só me chamar por ali.';
+}
+// forma: 'whatsapp', 'mensagem' ou 'link'
+function enviar(item, forma){
+  if (item.zap && !eu.whatsapp) { toast('Coloque o seu WhatsApp no perfil: é ele que o cliente chama no fim.'); return editarPerfil(); }
+  var e = codigoEnvio(), link = linkDe(item, e), empresa = byId('envEmpresa').value.trim();
+  var texto = item.tipo === 'video' ? mensagemVideo(item, link) : item.msg(link);
+  var pagina = item.tipo === 'video' ? 'video' : item.id;
+  registrar('compartilhou', pagina, {envio: e, forma: forma, empresa: empresa, item: item.tipo === 'video' ? item.codigo : undefined, de: 'painel'});
+  if (forma === 'whatsapp') return window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank', 'noopener');
+  copiar(forma === 'link' ? link : texto, forma === 'link' ? 'Link copiado. Pode enviar ao cliente.' : 'Mensagem copiada com o link.');
+}
+
+function itensEnvio(){
+  var pags = PAGINAS_ENVIO.map(function(p){ return {tipo: 'pagina', id: p.id, titulo: p.titulo, descricao: p.descricao, palavras: p.palavras, url: p.url, zap: p.zap, msg: p.msg}; });
+  var vids = envio.videos.map(function(v){ var x = {}, k; for (k in v) if (v.hasOwnProperty(k)) x[k] = v[k]; x.tipo = 'video'; x.zap = true; return x; });
+  return pags.concat(vids);
+}
+function desenharEnvio(){
+  var lista = byId('listaEnvio'), busca = semAcento(byId('envBusca').value).trim(), superadmin = eu && eu.papel === 'superadmin';
+  var itens = itensEnvio().filter(function(it){
+    if (envio.tipo && it.tipo !== envio.tipo) return false;
+    var alvo = semAcento([it.titulo, it.descricao, it.palavras].join(' '));
+    return !busca || busca.split(/\s+/).every(function(p){ return alvo.indexOf(p) >= 0; });
+  });
+  lista.innerHTML = '';
+  msg('msgEnvio', itens.length ? '' : 'Nada encontrado' + (busca ? ' para "' + byId('envBusca').value.trim() + '"' : '') + '.', 'ok');
+  itens.forEach(function(it){ lista.appendChild(itemEnvio(it, superadmin)); });
+}
+function itemEnvio(it, superadmin){
+  var video = it.tipo === 'video', cliente = !video || it.para_cliente;
+  var capa;
+  if (video) {
+    capa = h('button', {'class': 'item-capa', type: 'button', 'aria-label': 'Assistir: ' + it.titulo}, [
+      h('img', {src: 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(it.drive_id) + '&sz=w320', alt: '', referrerpolicy: 'no-referrer'}),
+      h('span', {'class': 'play', 'aria-hidden': 'true'})]);
+    capa.addEventListener('click', function(){ assistir(it); });
+  } else {
+    capa = h('a', {'class': 'item-capa', href: it.url, target: '_blank', rel: 'noopener', 'aria-label': 'Ver ' + it.titulo + ' (abre em nova aba)'}, [h('span', {'class': 'rot', text: 'Ver página'})]);
+    capa.addEventListener('click', function(){ registrar('abriu', it.id, {url: it.url, de: 'enviar'}); });
+  }
+  var txt = h('div', {'class': 'item-txt'}, [
+    h('span', {'class': 'item-tipo', text: video ? 'Vídeo' + (it.duracao ? ' · ' + minutos(it.duracao) : '') : 'Página'}),
+    h('strong', {text: it.titulo}),
+    it.descricao ? h('span', {text: it.descricao}) : null,
+    cliente ? null : h('span', {'class': 'tag', text: 'Só para você assistir'})
+  ]);
+  if (video && superadmin) {
+    var editar = h('button', {'class': 'btn-link', type: 'button', text: 'Editar'}), remover = h('button', {'class': 'btn-link', type: 'button', text: 'Remover'});
+    editar.addEventListener('click', function(){ abrirVideo(it); });
+    remover.addEventListener('click', function(){ removerVideo(it, remover); });
+    txt.appendChild(h('div', {'class': 'item-admin'}, [editar, remover]));
+  }
+  var acoes = h('div', {'class': 'item-acoes'});
+  if (cliente) {
+    [['whatsapp', 'Enviar no WhatsApp', 'btn'], ['mensagem', 'Copiar mensagem', 'btn btn-sec'], ['link', 'Copiar link', 'btn btn-sec']].forEach(function(b){
+      var bt = h('button', {'class': b[2], type: 'button', text: b[1]});
+      bt.addEventListener('click', function(){ enviar(it, b[0]); });
+      acoes.appendChild(bt);
+    });
+  } else {
+    var ver = h('button', {'class': 'btn btn-sec', type: 'button', text: 'Assistir'});
+    ver.addEventListener('click', function(){ assistir(it); });
+    acoes.appendChild(ver);
+  }
+  return h('li', {'class': 'item-envio'}, [capa, txt, acoes]);
+}
+
+function carregarEnvio(){
+  byId('videoNovo').hidden = eu.papel !== 'superadmin';
+  desenharEnvio();
+  api('GET', 'videos', null, function(st, d){
+    if (st !== 200) return msg('msgEnvio', d.erro || 'Não foi possível carregar os vídeos.', 'erro');
+    envio.videos = d.videos || [];
+    desenharEnvio();
+  });
+}
+Array.prototype.forEach.call(document.querySelectorAll('#secEnvio .periodo button'), function(b){
+  b.addEventListener('click', function(){
+    envio.tipo = b.getAttribute('data-tipo');
+    Array.prototype.forEach.call(document.querySelectorAll('#secEnvio .periodo button'), function(x){ x.setAttribute('aria-pressed', String(x === b)); });
+    desenharEnvio();
+  });
+});
+byId('envBusca').addEventListener('input', desenharEnvio);
+
+// assistir no próprio painel: o player do Drive numa janela por cima (sem abrir o Drive)
+var focoAntes = null;
+function assistir(v){
+  focoAntes = document.activeElement;
+  byId('assistirTit').textContent = v.titulo;
+  var p = byId('assistirPlayer');
+  p.innerHTML = '';
+  p.className = 'assistir-player' + (v.vertical ? ' em-pe' : '');
+  p.appendChild(h('iframe', {src: 'https://drive.google.com/file/d/' + encodeURIComponent(v.drive_id) + '/preview', title: 'Vídeo: ' + v.titulo,
+    allow: 'autoplay; fullscreen; picture-in-picture', allowfullscreen: ''}));
+  byId('assistir').hidden = false;
+  byId('assistirX').focus();
+  registrar('abriu', 'video:' + v.codigo, {de: 'painel'});
+}
+function fecharAssistir(){
+  if (byId('assistir').hidden) return;
+  byId('assistir').hidden = true;
+  byId('assistirPlayer').innerHTML = '';
+  if (focoAntes && focoAntes.focus) focoAntes.focus();
+}
+byId('assistirX').addEventListener('click', fecharAssistir);
+byId('assistir').addEventListener('click', function(e){ if (e.target === this) fecharAssistir(); });
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') fecharAssistir(); });
+
+/* cadastro de vídeos: só o superadmin (api/videos.js; quem barra é a RLS) */
+function slug(t){ return semAcento(t).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40).replace(/-+$/, ''); }
+function lerDuracao(t){
+  t = String(t || '').trim();
+  if (!t) return '';
+  var m = /^(\d{1,3})(?::([0-5]\d))?$/.exec(t);
+  return m ? Number(m[1]) * 60 + (m[2] ? Number(m[2]) : 0) : null;
+}
+function abrirVideo(v){
+  envio.videoEditado = v || null;
+  byId('videoFormTit').textContent = v ? 'Editar vídeo' : 'Novo vídeo';
+  byId('vdDrive').value = v ? 'https://drive.google.com/file/d/' + v.drive_id + '/view' : '';
+  byId('vdTitulo').value = v ? v.titulo : '';
+  byId('vdCodigo').value = v ? v.codigo : '';
+  byId('vdCodigo').setAttribute('data-auto', v ? '' : '1');
+  byId('vdDescricao').value = v ? v.descricao || '' : '';
+  byId('vdPalavras').value = v ? v.palavras || '' : '';
+  byId('vdDuracao').value = v && v.duracao ? Math.floor(v.duracao / 60) + ':' + ('0' + v.duracao % 60).slice(-2) : '';
+  byId('vdOrdem').value = v ? v.ordem : 0;
+  byId('vdCliente').checked = v ? !!v.para_cliente : true;
+  byId('vdVertical').checked = v ? !!v.vertical : false;
+  msg('msgVideo', '');
+  byId('fVideo').hidden = false;
+  byId('videoNovo').hidden = true;
+  if (byId('fVideo').scrollIntoView) byId('fVideo').scrollIntoView({block: 'nearest'});
+  byId('vdDrive').focus();
+}
+function fecharVideo(){
+  envio.videoEditado = null;
+  byId('fVideo').hidden = true;
+  if (eu) byId('videoNovo').hidden = eu.papel !== 'superadmin';
+}
+function removerVideo(v, botao){
+  if (!window.confirm('Remover o vídeo "' + v.titulo + '"? Os links já enviados deixam de abrir.')) return;
+  botao.disabled = true;
+  api('DELETE', 'videos?id=' + encodeURIComponent(v.id), null, function(st, d){
+    botao.disabled = false;
+    if (st !== 200) return msg('msgEnvio', d.erro || 'Não foi possível remover o vídeo.', 'erro');
+    if (envio.videoEditado && envio.videoEditado.id === v.id) fecharVideo();
+    carregarEnvio();
+  });
+}
+byId('videoNovo').addEventListener('click', function(){ abrirVideo(null); });
+byId('vdCancelar').addEventListener('click', function(){ fecharVideo(); byId('videoNovo').focus(); });
+// o código do link acompanha o título até alguém mexer nele
+byId('vdTitulo').addEventListener('input', function(){ if (byId('vdCodigo').getAttribute('data-auto')) byId('vdCodigo').value = slug(this.value); });
+byId('vdCodigo').addEventListener('input', function(){ this.removeAttribute('data-auto'); });
+byId('fVideo').addEventListener('submit', function(e){
+  e.preventDefault();
+  var f = this, dur = lerDuracao(byId('vdDuracao').value);
+  var corpo = {drive: byId('vdDrive').value.trim(), titulo: byId('vdTitulo').value.trim(), codigo: byId('vdCodigo').value.trim(),
+    descricao: byId('vdDescricao').value.trim(), palavras: byId('vdPalavras').value.trim(), duracao: dur,
+    ordem: parseInt(byId('vdOrdem').value, 10) || 0, para_cliente: byId('vdCliente').checked, vertical: byId('vdVertical').checked};
+  if (!/^https:\/\/drive\.google\.com\/\S+$/.test(corpo.drive)) { byId('vdDrive').focus(); return msg('msgVideo', 'Cole o link do vídeo no Google Drive.', 'erro'); }
+  if (!corpo.titulo) { byId('vdTitulo').focus(); return msg('msgVideo', 'Informe o título.', 'erro'); }
+  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(corpo.codigo) || corpo.codigo.length < 3) { byId('vdCodigo').focus(); return msg('msgVideo', 'O código do link usa de 3 a 40 letras minúsculas, números e hífens.', 'erro'); }
+  if (dur === null) { byId('vdDuracao').focus(); return msg('msgVideo', 'Duração em minutos e segundos, como 2:30.', 'erro'); }
+  if (envio.videoEditado) corpo.id = envio.videoEditado.id;
+  ocupado(f, true); msg('msgVideo', 'Salvando…', 'ok');
+  api(envio.videoEditado ? 'PATCH' : 'POST', 'videos', corpo, function(st, d){
+    ocupado(f, false);
+    if (st !== 200 && st !== 201) return msg('msgVideo', d.erro || 'Não foi possível salvar o vídeo.', 'erro');
+    fecharVideo();
+    byId('videoNovo').focus();
+    carregarEnvio();
+  });
+});
+
 /* ---------- Conta e perfil ---------- */
 var FOTO_LADO = 192, FOTO_MAX = 80000;
 var fotoNova = null; /* null: mantém a atual; '': remove; data URL: troca */
@@ -739,6 +1089,8 @@ function mostrarEu(){
   byId('ola').textContent = 'Olá, ' + (eu.nome || nome).split(' ')[0];
   byId('perfilNomeVer').textContent = nome;
   byId('perfilEmail').textContent = eu.email;
+  byId('perfilZapVer').textContent = eu.whatsapp ? 'WhatsApp ' + zapLegivel(eu.whatsapp) : 'Sem WhatsApp';
+  mostrarRemetente();
   ['topoAvatar', 'olaAvatar', 'perfilAvatar'].forEach(function(id){ pintarAvatar(byId(id), eu); });
 }
 
@@ -752,6 +1104,7 @@ function editarPerfil(){
   fotoNova = null;
   byId('perfilNome').value = eu.nome || '';
   byId('perfilSobrenome').value = eu.sobrenome || '';
+  byId('perfilZap').value = eu.whatsapp ? zapLegivel(eu.whatsapp) : '';
   pintarAvatar(byId('perfilFoto'), eu);
   byId('perfilSemFoto').hidden = !eu.foto;
   msg('msgPerfil', '');
@@ -816,13 +1169,15 @@ byId('fPerfil').addEventListener('submit', function(e){
   e.preventDefault();
   var f = this, nome = byId('perfilNome').value.trim(), sobrenome = byId('perfilSobrenome').value.trim();
   if (!nome) { byId('perfilNome').focus(); return msg('msgPerfil', 'Informe seu nome.', 'erro'); }
-  var corpo = {nome: nome, sobrenome: sobrenome};
+  var zap = zapDigitos(byId('perfilZap').value);
+  if (zap === null) { byId('perfilZap').focus(); return msg('msgPerfil', 'WhatsApp inválido: use o DDD e o número.', 'erro'); }
+  var corpo = {nome: nome, sobrenome: sobrenome, whatsapp: zap};
   if (fotoNova !== null) corpo.foto = fotoNova;
   ocupado(f, true); msg('msgPerfil', 'Salvando…', 'ok');
   api('PUT', 'perfil', corpo, function(st, d){
     ocupado(f, false);
     if (st !== 200) return msg('msgPerfil', d.erro || 'Não foi possível salvar o perfil.', 'erro');
-    eu.nome = nome; eu.sobrenome = sobrenome || null;
+    eu.nome = nome; eu.sobrenome = sobrenome || null; eu.whatsapp = zap || null;
     if (fotoNova !== null) eu.foto = fotoNova || null;
     mostrarEu();
     fecharPerfil();
@@ -1040,10 +1395,10 @@ Array.prototype.forEach.call(document.querySelectorAll('.eng-abas [role="tab"]')
     byId(ABA_ID[eng.aba]).focus();
   });
 });
-Array.prototype.forEach.call(document.querySelectorAll('.periodo button'), function(b){
+Array.prototype.forEach.call(document.querySelectorAll('#secEngaj .periodo button'), function(b){
   b.addEventListener('click', function(){
     eng.dias = Number(b.getAttribute('data-dias'));
-    Array.prototype.forEach.call(document.querySelectorAll('.periodo button'), function(x){ x.setAttribute('aria-pressed', String(x === b)); });
+    Array.prototype.forEach.call(document.querySelectorAll('#secEngaj .periodo button'), function(x){ x.setAttribute('aria-pressed', String(x === b)); });
     byId('tempoUsuario').hidden = byId('tempoLink').hidden = true;
     carregarAba();
   });
@@ -1165,10 +1520,13 @@ window.addEventListener('resize', function(){ clearTimeout(redesenho); redesenho
 function descreverEvento(e){
   var d = e.detalhe || {};
   if (e.tipo === 'login') return 'Entrou no ambiente interno';
-  if (e.tipo === 'abriu') return 'Abriu ' + (ROTULO_PAGINA[e.pagina] || '“' + e.pagina + '”') + (d.app ? ' pelo app' : '') + (d.offline ? ', sem internet' : '');
+  if (e.tipo === 'abriu') return /^video:/.test(e.pagina || '') ? 'Assistiu no painel ao vídeo “' + e.pagina.slice(6) + '”'
+    : 'Abriu ' + (ROTULO_PAGINA[e.pagina] || '“' + e.pagina + '”') + (d.app ? ' pelo app' : '') + (d.offline ? ', sem internet' : '');
   if (e.tipo === 'navegou') return 'Ficou ' + duracao(d.segundos) + ' na aba ' + (ROTULO_ABA[d.aba] || d.aba) + (d.rolagem ? ' e rolou até ' + d.rolagem + '%' : '');
-  if (e.tipo === 'compartilhou') return 'Copiou ' + (e.pagina === 'link-seguro' ? 'o link seguro' : e.pagina === 'descubra' ? 'o link da jornada' : 'o link da página Linha de frente') +
-    (d.forma === 'mensagem' ? ' com a mensagem pronta' : '') + (d.empresa ? ' para ' + d.empresa : '');
+  if (e.tipo === 'compartilhou') {
+    var oque = e.pagina === 'link-seguro' ? 'o link seguro' : e.pagina === 'descubra' ? 'o link da jornada' : e.pagina === 'video' ? 'o vídeo “' + (d.item || '') + '”' : 'o link da página Linha de frente';
+    return (d.forma === 'whatsapp' ? 'Enviou pelo WhatsApp ' : 'Copiou ') + oque + (d.forma === 'mensagem' ? ' com a mensagem pronta' : '') + (d.empresa ? ' para ' + d.empresa : '');
+  }
   if (e.tipo === 'modo_cliente') return 'Ligou o modo cliente' + (d.aba ? ' na aba ' + (ROTULO_ABA[d.aba] || d.aba) : '');
   return e.tipo;
 }
@@ -1205,9 +1563,22 @@ function situacao(v){
   if (v.visitas) return {k: 'aberto', t: '● Aberto' + (v.visitas > 1 ? ' ' + v.visitas + ' vezes' : '') + ' · ' + dataHora(v.primeira), c: 'status-morno'};
   return {k: 'nao', t: '○ Ainda não aberto', c: 'status-morno'};
 }
+// o que foi enviado: a página ou o vídeo (pelo título)
+function oQue(v){
+  if (v.pagina === 'video') return 'Vídeo: ' + (v.item_titulo || v.item);
+  return ROTULO_PAGINA[v.pagina] && v.pagina !== 'link-seguro' ? ROTULO_PAGINA[v.pagina] : 'Link seguro';
+}
+// vídeo: o Drive não avisa play nem pausa; o tempo é com a página à vista depois do clique no vídeo (estimativa)
+function assistiu(v){
+  if (!v.video_clicou) return 'não clicou no vídeo';
+  if (!v.video_segundos) return 'clicou no vídeo';
+  var pct = v.duracao ? Math.min(100, Math.round(v.video_segundos / v.duracao * 100)) : null;
+  return 'assistiu ~' + duracao(v.video_segundos) + (pct != null ? ' (~' + pct + '%)' : '');
+}
 function ateOnde(v){
   if (!v.visitas) return '—';
   var partes = [];
+  if (v.pagina === 'video') partes.push(assistiu(v));
   if (v.etapa) partes.push(v.etapa);
   if (v.rolagem != null) partes.push('rolou ' + v.rolagem + '%');
   if (v.cliques) partes.push(v.cliques + (v.cliques === 1 ? ' clique' : ' cliques'));
@@ -1223,12 +1594,12 @@ function desenharLinks(){
   tabelaLinks();
 }
 function tabelaLinks(){
-  var pagina = byId('fPagina').value, sit = byId('fSituacao').value, busca = byId('fBuscaLink').value.trim().toLowerCase();
+  var pagina = byId('fPaginaLink').value, sit = byId('fSituacao').value, busca = byId('fBuscaLink').value.trim().toLowerCase();
   var tb = byId('tbLinks');
   tb.innerHTML = '';
   var linhas = eng.envios.filter(function(v){
     return (!pagina || v.pagina === pagina) && (!sit || situacao(v).k === sit || (sit === 'aberto' && v.visitas > 0)) &&
-      (!busca || ((v.empresa || '') + ' ' + v.quem).toLowerCase().indexOf(busca) >= 0);
+      (!busca || ((v.empresa || '') + ' ' + v.quem + ' ' + (v.item_titulo || '')).toLowerCase().indexOf(busca) >= 0);
   });
   if (!linhas.length) return tb.appendChild(h('tr', {}, [h('td', {colspan: '7', text: eng.envios.length ? 'Nenhum link com esses filtros.' : 'Nenhum link enviado neste período.'})]));
   linhas.forEach(function(v){
@@ -1239,7 +1610,7 @@ function tabelaLinks(){
     tb.appendChild(h('tr', {}, [
       td('Enviado em', h('div', {}, [h('span', {text: dataHora(v.criado_em)}), ver])),
       td('Quem enviou', v.quem),
-      td('Página', ROTULO_PAGINA[v.pagina] && v.pagina !== 'link-seguro' ? ROTULO_PAGINA[v.pagina] : 'Link seguro'),
+      td('Página', oQue(v)),
       td('Empresa', v.empresa || '—'),
       td('Situação', h('span', {'class': 'status ' + s.c, text: s.t})),
       td('Até onde foi', ateOnde(v)),
@@ -1247,7 +1618,7 @@ function tabelaLinks(){
     ]));
   });
 }
-['fPagina', 'fSituacao'].forEach(function(id){ byId(id).addEventListener('change', tabelaLinks); });
+['fPaginaLink', 'fSituacao'].forEach(function(id){ byId(id).addEventListener('change', tabelaLinks); });
 byId('fBuscaLink').addEventListener('input', tabelaLinks);
 
 function descreverVisita(x){
@@ -1258,6 +1629,7 @@ function descreverVisita(x){
   if (x.tipo === 'rolagem') return 'Rolou até ' + d.ate + '% da página';
   if (x.tipo === 'saiu') return 'Saiu da página depois de ' + duracao(d.segundos) + (d.rolagem != null ? ' (rolou até ' + d.rolagem + '%)' : '');
   if (x.tipo === 'contato') return 'Chamou no WhatsApp';
+  if (x.tipo === 'video') return d.acao === 'clicou' ? 'Clicou no vídeo (provavelmente deu play)' : 'Ficou ' + duracao(d.segundos) + ' com o vídeo aberto depois do clique (estimativa)';
   return x.tipo;
 }
 function abrirLink(v){
@@ -1274,7 +1646,7 @@ function abrirLink(v){
     var itens = (d.dados || []).map(function(x){
       return {em: x.em, texto: (sessoes.length > 1 ? 'Visita ' + num[x.sessao] + ' · ' : '') + descreverVisita(x), marca: x.interno ? 'visita de usuário logado' : ''};
     });
-    linhaDoTempo(box, (v.empresa ? v.empresa + ' · ' : '') + (v.pagina === 'link-seguro' ? 'Link seguro' : ROTULO_PAGINA[v.pagina]),
+    linhaDoTempo(box, (v.empresa ? v.empresa + ' · ' : '') + oQue(v),
       'Enviado por ' + v.quem + ' em ' + dataHora(v.criado_em) + ' · ' + visitas + (visitas === 1 ? ' visita do cliente' : ' visitas do cliente'), itens);
   });
 }

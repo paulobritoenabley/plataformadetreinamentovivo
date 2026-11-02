@@ -450,17 +450,24 @@ footer.foot .aviso-rastro{font-size:.7rem;opacity:.7}
 .sp-head h3{font-size:1.05rem;color:var(--accent)}
 .sp-x{width:32px;height:32px;border-radius:4px;border:1.5px solid var(--line-strong);background:transparent;color:var(--fg);font-size:1.2rem;line-height:1;cursor:pointer}
 .send-pop>p{font-size:.92rem;color:var(--fg-soft)}
-.sp-link{font-size:.86rem;font-weight:700;color:var(--accent);background:var(--surface-2);border:1.5px dashed var(--line-strong);border-radius:6px;padding:10px 12px;word-break:break-all;user-select:all}
-.sp-jor{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:12px}
-.sp-jor h4{color:var(--accent)}
 .send-pop{max-height:calc(100vh - 110px);overflow-y:auto;overscroll-behavior:contain}
-.sp-pag{display:grid;gap:6px;padding-top:4px}
-.sp-pag b{font-size:.92rem}
+/* para quem (empresa), quem envia (nome e WhatsApp), o que (busca e lista) e como (WhatsApp, mensagem, link) */
 .sp-campos{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.sp-campos label{display:grid;gap:4px;font-size:.8rem;font-weight:700;color:var(--fg-soft)}
-.sp-campos input{font:inherit;font-size:.9rem;color:var(--fg);background:var(--surface);border:1.5px solid var(--line-strong);border-radius:4px;padding:8px 10px;width:100%;min-width:0}
-.sp-campos input:focus{outline:2px solid var(--rosa);outline-offset:1px}
-.sp-campos .sp-largo{grid-column:1 / -1}
+.sp-campos label,.sp-campo{display:grid;gap:4px;font-size:.8rem;font-weight:700;color:var(--fg-soft)}
+.sp-campos input,.sp-campo input,.sp-busca{font:inherit;font-size:.9rem;color:var(--fg);background:var(--surface);border:1.5px solid var(--line-strong);border-radius:4px;padding:8px 10px;width:100%;min-width:0}
+.sp-campos input:focus,.sp-campo input:focus,.sp-busca:focus{outline:2px solid var(--rosa);outline-offset:1px}
+.sp-de{font-size:.85rem;color:var(--fg-soft)}
+.sp-de b{color:var(--fg)}
+.sp-de .alerta{color:var(--magenta);font-weight:700}
+.sp-alterar{background:none;border:0;padding:0 0 0 6px;font:inherit;font-weight:700;color:var(--accent);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.sp-lista{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.sp-item{display:grid;gap:4px;background:var(--surface-2);border-radius:8px;padding:10px 12px}
+.sp-item .sp-tipo{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--magenta)}
+.sp-item b{font-size:.95rem;color:var(--fg)}
+.sp-item .hint{font-size:.84rem}
+.sp-acoes{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.sp-acoes .btn{flex:1 1 auto}
+.sp-vazio{font-size:.88rem;color:var(--fg-soft)}
 @media (max-width:760px){
   .send-btn{display:none}
   .send-fab{bottom:calc(76px + env(safe-area-inset-bottom,0px));right:16px;height:44px;padding:0 16px;font-size:.88rem}
@@ -888,38 +895,15 @@ footer.foot .aviso-rastro{font-size:.7rem;opacity:.7}
 <button class="send-fab int" id="sendFab" type="button" aria-haspopup="dialog" aria-controls="sendPop">Enviar para o cliente</button>
 <div class="send-pop int" id="sendPop" role="dialog" aria-labelledby="sendTit" hidden>
   <div class="sp-head"><h3 id="sendTit">Enviar para o cliente</h3><button type="button" class="sp-x" id="sendX" aria-label="Fechar">×</button></div>
-  <p>Este é o <strong>link seguro</strong>: mostra só o que o cliente pode ver. Sem contas, objeções, concorrentes, time interno nem nome de clientes.</p>
-  <div class="sp-link" id="sendLink">https://varejo.plataformadetreinamentovivo.tech/</div>
-  <div class="row-btns">
-    <button class="btn btn-sm" type="button" id="sendCopy">Copiar link seguro</button>
-    <button class="btn btn-out btn-sm" type="button" id="sendMsg">Copiar mensagem pronta</button>
+  <label class="sp-campo">Para qual empresa?<input id="gnEmpresa" type="text" autocomplete="off" maxlength="60" placeholder="Aparece no topo da página do cliente"></label>
+  <p class="sp-de" id="spDe" aria-live="polite"></p>
+  <div class="sp-campos" id="spContato" hidden>
+    <label>Seu nome<input id="gnNome" type="text" autocomplete="name" placeholder="Como o cliente te conhece"></label>
+    <label>Seu WhatsApp<input id="gnZap" type="tel" inputmode="tel" autocomplete="tel" placeholder="11 91234-5678"></label>
   </div>
-  <p class="hint">Nunca envie o link desta página. Ela é só para o GN.</p>
-  <div class="sp-jor">
-    <h4>Páginas interativas</h4>
-    <p class="hint">Vão com o seu nome e WhatsApp no link: no fim, o cliente fala com você. A empresa do cliente aparece no topo da página.</p>
-    <div class="sp-campos">
-      <label>Seu nome<input id="gnNome" type="text" autocomplete="name" placeholder="Como o cliente te conhece"></label>
-      <label>Seu WhatsApp<input id="gnZap" type="tel" inputmode="tel" autocomplete="tel" placeholder="11 91234-5678"></label>
-      <label class="sp-largo">Empresa do cliente<input id="gnEmpresa" type="text" autocomplete="off" maxlength="60" placeholder="Para quem vai o link"></label>
-    </div>
-    <div class="sp-pag">
-      <b>Jornada: como a plataforma pode ajudar</b>
-      <p class="hint">O cliente responde 8 perguntas, vê a operação dele na tela e recebe o diagnóstico pronto.</p>
-      <div class="row-btns">
-        <button class="btn btn-sm" type="button" id="sendJor">Copiar link da jornada</button>
-        <button class="btn btn-out btn-sm" type="button" id="sendJorMsg">Copiar mensagem pronta</button>
-      </div>
-    </div>
-    <div class="sp-pag">
-      <b>Treinar quem não tem computador</b>
-      <p class="hint">Repositor, vigilante e atendente: a rolagem mostra, como um vídeo, o treinamento da linha de frente indo para o celular.</p>
-      <div class="row-btns">
-        <button class="btn btn-sm" type="button" id="sendLf">Copiar link da página</button>
-        <button class="btn btn-out btn-sm" type="button" id="sendLfMsg">Copiar mensagem pronta</button>
-      </div>
-    </div>
-  </div>
+  <input class="sp-busca" id="spBusca" type="search" autocomplete="off" placeholder="Buscar página ou vídeo" aria-label="Buscar página ou vídeo">
+  <ul class="sp-lista" id="spLista"></ul>
+  <p class="hint">Cada link leva um código: dá para saber se o cliente abriu. Nunca envie o link desta página: ela é só para o GN.</p>
 </div>
 <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
 
@@ -1740,14 +1724,17 @@ rotuloTema();
   var INTERNO = 'https://interno.' + DOMINIO + '/', menu = byId('contaMenu'), btn = byId('contaBtn');
   byId('conta').hidden = false;
   byId('contaPainel').href = INTERNO;
-  /* sem nome digitado para as páginas interativas, usa o nome e o sobrenome do perfil */
-  if(!byId('gnNome').value.trim()){
+  /* sem nome ou WhatsApp digitados para enviar ao cliente, usa os do perfil (nome, sobrenome e WhatsApp) */
+  if(!byId('gnNome').value.trim() || !byId('gnZap').value.trim()){
     var eu = new XMLHttpRequest();
     eu.open('GET', '/api/eu', true);
     eu.onload = function(){
       var p = null; try{ p = JSON.parse(eu.responseText); }catch(e){}
-      var nome = p && eu.status === 200 ? [p.nome, p.sobrenome].filter(function(x){ return x; }).join(' ') : '';
+      if(!p || eu.status !== 200) return;
+      var nome = [p.nome, p.sobrenome].filter(function(x){ return x; }).join(' '), zap = /^55(\d{10,11})$/.exec(p.whatsapp || '');
       if(nome && !byId('gnNome').value.trim()) byId('gnNome').value = nome;
+      if(zap && !byId('gnZap').value.trim()) byId('gnZap').value = zap[1];
+      store.set('gnContato', {nome:byId('gnNome').value.trim(), zap:byId('gnZap').value.trim()});
     };
     eu.send(null);
   }
@@ -1829,56 +1816,130 @@ if(noSite){
 }
 /*}INT*/
 
-/* ---------- Enviar para o cliente ---------- */
-var LINK_CLIENTE = 'https://varejo.plataformadetreinamentovivo.tech/', pop = byId('sendPop');
-function envio(abrir){ pop.hidden = !abrir; ['sendTop', 'sendFab'].forEach(function(id){ byId(id).setAttribute('aria-expanded', String(abrir)); }); if(abrir) byId('sendCopy').focus(); }
+/*INT{*/
+/* ---------- Enviar para o cliente ----------
+   Mesmo fluxo do painel interno: para quem (empresa), o que (páginas e vídeos, com busca) e como (WhatsApp, mensagem ou link).
+   Cada envio leva um código (e=) e vira um evento "compartilhou": é por ele que o GN sabe se o cliente abriu e o que fez.
+   Nas páginas de paginas., o link leva o nome e o WhatsApp do GN depois do #, para o botão final chamar quem enviou, e a empresa (c=),
+   que a página mostra no topo. Nome e WhatsApp ficam no aparelho (vêm do perfil quando vazios); a empresa muda a cada envio e não fica guardada.
+   Os vídeos vêm de /api/videos (só no site, com login) e ficam guardados no aparelho para enviar sem internet. */
+var LINK_CLIENTE = 'https://varejo.plataformadetreinamentovivo.tech/', LINK_PAGINAS = 'https://paginas.plataformadetreinamentovivo.tech/', pop = byId('sendPop');
+var PAGINAS_ENVIO = [
+  {id:'link-seguro', titulo:'Link seguro', descricao:'Como a plataforma funciona, resultados por segmento e a calculadora de retorno. Sem nada interno.',
+    palavras:'material apresentação site roi calculadora casos resultados', zap:false,
+    msg:function(l){ return 'Olá! Segue o material da Plataforma de Treinamento Vivo Empresas que comentei: ' + l + '\n\n' +
+      'Nele você encontra como a plataforma funciona, resultados de empresas do seu segmento e uma calculadora para estimar o retorno com os números da sua operação.\n\n' +
+      'Fico à disposição para marcarmos uma demonstração com o conteúdo de vocês.'; }},
+  {id:'descubra', titulo:'Jornada: como a plataforma pode ajudar', descricao:'8 perguntas, a operação do cliente na tela e o diagnóstico pronto. No fim, ele chama você.',
+    palavras:'diagnóstico perguntas quiz jogo descoberta', zap:true,
+    msg:function(l){ return 'Olá! Preparei um diagnóstico rápido para a gente conversar sobre treinamento na sua operação: ' + l + '\n\n' +
+      'São 8 perguntas, leva uns 2 minutos. No fim, você vê onde a Plataforma de Treinamento Vivo Empresas entra, com um caso parecido com o seu, e já me chama por ali.'; }},
+  {id:'linha-de-frente', titulo:'Treinar quem não tem computador', descricao:'Repositor, vigilante e atendente: o treinamento da linha de frente indo para o celular.',
+    palavras:'deskless linha de frente loja operação celular landing', zap:true,
+    msg:function(l){ return 'Olá! Separei uma página curta sobre como treinar quem não tem computador (repositor, vigilante, atendente de loja) pelo celular: ' + l + '\n\n' +
+      'Leva uns 2 minutos rolando, com resultados de empresas que já fazem isso com a Plataforma de Treinamento Vivo Empresas. No fim, é só me chamar por ali.'; }}
+];
+var videosEnvio = store.get('videosEnvio', []), videosPedidos = false;
+var gnContato = store.get('gnContato', {nome:'', zap:''});
+byId('gnNome').value = gnContato.nome || ''; byId('gnZap').value = gnContato.zap || '';
+
+function zapDoGN(){ var z = byId('gnZap').value.replace(/\D/g, ''); return z.length >= 10 && z.length <= 11 ? '55' + z : /^55\d{10,11}$/.test(z) ? z : ''; }
+function zapLegivel(z){ var m = /^55(\d{2})(\d{4,5})(\d{4})$/.exec(z); return m ? '(' + m[1] + ') ' + m[2] + '-' + m[3] : z; }
+function minutos(s){ var m = Math.round(s / 60); return m < 1 ? 'menos de 1 min' : m + ' min'; }
+/* quem envia: resumo numa linha; os campos só abrem em "Alterar" ou quando falta o WhatsApp */
+function mostrarRemetente(abrir){
+  var de = byId('spDe'), nome = byId('gnNome').value.trim(), zap = zapDoGN();
+  store.set('gnContato', {nome:nome, zap:byId('gnZap').value.trim()});
+  de.innerHTML = '';
+  if(zap && !abrir){
+    de.appendChild(document.createTextNode('No fim das páginas e vídeos, o cliente chama '));
+    de.appendChild(h('b', {text:(nome ? nome + ' · ' : '') + zapLegivel(zap)}));
+    de.appendChild(h('button', {type:'button', class:'sp-alterar', text:'Alterar', onclick:function(){ mostrarRemetente(true); byId('gnNome').focus(); }}));
+    byId('spContato').hidden = true;
+  } else {
+    if(!zap) de.appendChild(h('span', {class:'alerta', text:'Coloque seu nome e WhatsApp: é quem o cliente chama no fim das páginas e vídeos.'}));
+    else de.appendChild(document.createTextNode('Seu nome e WhatsApp vão no link:'));
+    byId('spContato').hidden = false;
+  }
+}
+['gnNome', 'gnZap'].forEach(function(id){ byId(id).addEventListener('change', function(){ mostrarRemetente(true); }); });
+
+function linkDe(it, e){
+  if(it.id === 'link-seguro') return LINK_CLIENTE + '?e=' + e;
+  var nome = byId('gnNome').value.trim(), empresa = byId('gnEmpresa').value.trim();
+  var partes = (it.tipo === 'video' ? ['v=' + it.codigo] : []).concat(nome ? ['gn=' + encodeURIComponent(nome)] : [], ['w=' + zapDoGN()],
+    empresa ? ['c=' + encodeURIComponent(empresa)] : [], ['e=' + e]);
+  return LINK_PAGINAS + (it.tipo === 'video' ? 'video/' : it.id + '/') + '#' + partes.join('&');
+}
+function mensagemVideo(v, l){
+  return 'Olá! Separei um vídeo ' + (v.duracao ? 'de ' + minutos(v.duracao) + ' ' : 'curto ') + 'para você: "' + v.titulo + '".\n' + l + '\n\n' +
+    'Depois de assistir, é só me chamar por ali.';
+}
+/* forma: whatsapp (abre o WhatsApp com a mensagem e o GN escolhe o contato), mensagem ou link (copiam) */
+function enviar(it, forma){
+  if(it.zap && !zapDoGN()){ toast('Coloque o seu WhatsApp com DDD: é ele que o cliente chama no fim.'); mostrarRemetente(true); byId('gnZap').focus(); return; }
+  var e = Rastro.novoCodigo(12), link = linkDe(it, e), texto = it.tipo === 'video' ? mensagemVideo(it, link) : it.msg(link);
+  registrarAtividade('compartilhou', it.tipo === 'video' ? 'video' : it.id, {envio:e, forma:forma, empresa:byId('gnEmpresa').value.trim(), item:it.tipo === 'video' ? it.codigo : undefined});
+  if(forma === 'whatsapp') return window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank', 'noopener');
+  copy(forma === 'link' ? link : texto, forma === 'link' ? 'Link copiado. Pode enviar ao cliente.' : 'Mensagem copiada com o link.');
+}
+
+function itensEnvio(){
+  return PAGINAS_ENVIO.map(function(p){ p.tipo = 'pagina'; return p; }).concat(videosEnvio.filter(function(v){ return v.para_cliente; }).map(function(v){
+    return {tipo:'video', codigo:v.codigo, titulo:v.titulo, descricao:v.descricao, palavras:v.palavras, duracao:v.duracao, zap:true};
+  }));
+}
+function desenharEnvio(){
+  var lista = byId('spLista'), busca = norm(byId('spBusca').value).trim();
+  var itens = itensEnvio().filter(function(it){
+    var alvo = norm([it.titulo, it.descricao, it.palavras, it.tipo === 'video' ? 'vídeo' : 'página'].join(' '));
+    return !busca || busca.split(/\s+/).every(function(p){ return alvo.indexOf(p) >= 0; });
+  });
+  lista.innerHTML = '';
+  if(!itens.length) lista.appendChild(h('li', {class:'sp-vazio', text:'Nada encontrado para "' + byId('spBusca').value.trim() + '".'}));
+  itens.forEach(function(it){
+    lista.appendChild(h('li', {class:'sp-item'}, [
+      h('span', {class:'sp-tipo', text:it.tipo === 'video' ? 'Vídeo' + (it.duracao ? ' · ' + minutos(it.duracao) : '') : 'Página'}),
+      h('b', {text:it.titulo}),
+      it.descricao ? h('span', {class:'hint', text:it.descricao}) : null,
+      h('div', {class:'sp-acoes'}, [
+        h('button', {type:'button', class:'btn btn-sm', text:'WhatsApp', 'aria-label':'Enviar no WhatsApp: ' + it.titulo, onclick:function(){ enviar(it, 'whatsapp'); }}),
+        h('button', {type:'button', class:'btn btn-out btn-sm', text:'Mensagem', 'aria-label':'Copiar mensagem: ' + it.titulo, onclick:function(){ enviar(it, 'mensagem'); }}),
+        h('button', {type:'button', class:'btn btn-out btn-sm', text:'Link', 'aria-label':'Copiar link: ' + it.titulo, onclick:function(){ enviar(it, 'link'); }})
+      ])
+    ]));
+  });
+}
+byId('spBusca').addEventListener('input', desenharEnvio);
+/* só no site com login: a lista nova substitui a guardada; sem internet, fica a guardada */
+function carregarVideos(){
+  if(videosPedidos || !noSite || navigator.onLine === false) return;
+  videosPedidos = true;
+  var x = new XMLHttpRequest();
+  x.open('GET', '/api/videos', true);
+  x.onload = function(){
+    var d = null; try{ d = JSON.parse(x.responseText); }catch(e){}
+    if(x.status !== 200 || !d || !d.videos) { videosPedidos = false; return; }
+    videosEnvio = d.videos.map(function(v){ return {codigo:v.codigo, titulo:v.titulo, descricao:v.descricao, palavras:v.palavras, duracao:v.duracao, para_cliente:v.para_cliente}; });
+    store.set('videosEnvio', videosEnvio);
+    if(!pop.hidden) desenharEnvio();
+  };
+  x.onerror = function(){ videosPedidos = false; };
+  x.send(null);
+}
+
+function envio(abrir){
+  pop.hidden = !abrir;
+  ['sendTop', 'sendFab'].forEach(function(id){ byId(id).setAttribute('aria-expanded', String(abrir)); });
+  if(!abrir) return;
+  mostrarRemetente(false); desenharEnvio(); carregarVideos();
+  byId('gnEmpresa').focus();
+}
 byId('sendTop').addEventListener('click', function(e){ e.stopPropagation(); envio(pop.hidden); });
 byId('sendFab').addEventListener('click', function(e){ e.stopPropagation(); envio(pop.hidden); });
 byId('sendX').addEventListener('click', function(){ envio(false); });
 document.addEventListener('click', function(e){ if(!pop.hidden && !e.target.closest('#sendPop')) envio(false); });
 document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !pop.hidden) envio(false); });
-/* cada cópia leva um código de envio (?e=): é por ele que o GN sabe se o cliente abriu e o que fez */
-function linkSeguro(forma){
-  var e = Rastro.novoCodigo(12);
-  /*INT{*/registrarAtividade('compartilhou', 'link-seguro', {envio:e, forma:forma, empresa:byId('gnEmpresa').value.trim()});/*}INT*/
-  return LINK_CLIENTE + '?e=' + e;
-}
-byId('sendCopy').addEventListener('click', function(){ copy(linkSeguro('link'), 'Link seguro copiado. Pode enviar ao cliente.'); });
-byId('sendMsg').addEventListener('click', function(){
-  copy('Olá! Segue o material da Plataforma de Treinamento Vivo Empresas que comentei: ' + linkSeguro('mensagem') + '\n\n' +
-    'Nele você encontra como a plataforma funciona, resultados de empresas do seu segmento e uma calculadora para estimar o retorno com os números da sua operação.\n\n' +
-    'Fico à disposição para marcarmos uma demonstração com o conteúdo de vocês.', 'Mensagem copiada com o link seguro');
-});
-/*INT{*/
-/* páginas interativas (em paginas.): o link leva o nome e o WhatsApp do GN depois do #, para o botão final chamar quem enviou,
-   e a empresa do cliente (c=), que a página mostra no topo. A empresa muda a cada envio, por isso não fica guardada. */
-var LINK_PAGINAS = 'https://paginas.plataformadetreinamentovivo.tech/';
-var gnContato = store.get('gnContato', {nome:'', zap:''});
-byId('gnNome').value = gnContato.nome || ''; byId('gnZap').value = gnContato.zap || '';
-function linkPagina(caminho, forma){
-  var nome = byId('gnNome').value.trim(), zap = byId('gnZap').value.replace(/\D/g, ''), empresa = byId('gnEmpresa').value.trim(), e = Rastro.novoCodigo(12);
-  if(zap.length && zap.length <= 11) zap = '55' + zap;
-  store.set('gnContato', {nome:nome, zap:byId('gnZap').value.trim()});
-  registrarAtividade('compartilhou', caminho.replace(/\/$/, ''), {envio:e, forma:forma, empresa:empresa});
-  return LINK_PAGINAS + caminho + '#' + (nome ? 'gn=' + encodeURIComponent(nome) + '&' : '') + 'w=' + zap +
-    (empresa ? '&c=' + encodeURIComponent(empresa) : '') + '&e=' + e;
-}
-function comZap(){
-  if(byId('gnZap').value.replace(/\D/g, '').length >= 10) return true;
-  toast('Coloque o seu WhatsApp com DDD: é ele que o cliente chama no fim.'); byId('gnZap').focus(); return false;
-}
-byId('sendJor').addEventListener('click', function(){ if(comZap()) copy(linkPagina('descubra/', 'link'), 'Link da jornada copiado. Pode enviar ao cliente.'); });
-byId('sendJorMsg').addEventListener('click', function(){
-  if(!comZap()) return;
-  copy('Olá! Preparei um diagnóstico rápido para a gente conversar sobre treinamento na sua operação: ' + linkPagina('descubra/', 'mensagem') + '\n\n' +
-    'São 8 perguntas, leva uns 2 minutos. No fim, você vê onde a Plataforma de Treinamento Vivo Empresas entra, com um caso parecido com o seu, e já me chama por ali.', 'Mensagem copiada com o link da jornada');
-});
-byId('sendLf').addEventListener('click', function(){ if(comZap()) copy(linkPagina('linha-de-frente/', 'link'), 'Link da página copiado. Pode enviar ao cliente.'); });
-byId('sendLfMsg').addEventListener('click', function(){
-  if(!comZap()) return;
-  copy('Olá! Separei uma página curta sobre como treinar quem não tem computador (repositor, vigilante, atendente de loja) pelo celular: ' + linkPagina('linha-de-frente/', 'mensagem') + '\n\n' +
-    'Leva uns 2 minutos rolando, com resultados de empresas que já fazem isso com a Plataforma de Treinamento Vivo Empresas. No fim, é só me chamar por ali.', 'Mensagem copiada com o link da página');
-});
 /*}INT*/
 
 /* ---------- Início ---------- */
