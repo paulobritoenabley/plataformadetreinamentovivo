@@ -1,4 +1,7 @@
 // Catálogo de vídeos (Google Drive) do painel interno. Quem vê e quem altera é decidido no banco (RLS de videos); aqui só se confere o pedido.
+//  GET ?v=<código>    → público, sem login: o vídeo que a página /video/ mostra ao cliente {titulo, descricao, drive_id, duracao, vertical}.
+//                       video_publico só entrega vídeo marcado para o cliente (o só para o GN dá 404).
+//                       Fica aqui, e não numa função própria, porque o plano da Vercel aceita no máximo 12 funções por deploy.
 //  GET                → todos os vídeos (qualquer usuário com perfil)
 //  POST   {codigo, titulo, descricao, palavras, drive, duracao, para_cliente, vertical, ordem} → cadastra (só superadmin)
 //  PATCH  {id, ...mesmos campos}  → altera (só superadmin)
@@ -40,7 +43,17 @@ function campos(b, novo){
 const falhou = r => r.status === 409 || (r.dados && r.dados.code === '23505')
   ? 'Já existe um vídeo com esse código de link.' : 'Não foi possível salvar o vídeo.';
 
+async function publico(req, res){
+  const v = String(req.query.v);
+  if (!CODIGO.test(v) || v.length > 40) return s.responder(res, 400, {erro: 'Vídeo não encontrado.'});
+  const r = await s.rest('rpc/video_publico', {metodo: 'POST', corpo: {cod: v}});
+  if (!r.ok) return s.responder(res, 502, {erro: 'Não foi possível carregar o vídeo agora.'});
+  const video = Array.isArray(r.dados) && r.dados[0];
+  s.responder(res, video ? 200 : 404, video || {erro: 'Vídeo não encontrado.'});
+}
+
 module.exports = async (req, res) => {
+  if (req.method === 'GET' && req.query && req.query.v != null) return publico(req, res);
   if (!s.pedidoJson(req)) return s.responder(res, 405, {erro: 'Pedido inválido.'});
   const se = await s.sessao(req);
   if (!se) return s.responder(res, 401, {erro: 'Sessão encerrada. Entre de novo.'}, s.cookiesSair(s.hostDe(req)));

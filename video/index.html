@@ -27,7 +27,7 @@
 <script>(function(){try{if(JSON.parse(localStorage.getItem("pbvivo:tema"))==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}})();</script>
 <style>
 /* Vídeo para o cliente (/video/, pública): um vídeo do catálogo (tabela videos), tocado no player do Google Drive dentro da página.
-   O link do GN é /video/#v=<código>&gn=Nome&w=55DDDNUMERO&c=Empresa&e=<código do envio>; a página busca o vídeo em /api/video
+   O link do GN é /video/#v=<código>&gn=Nome&w=55DDDNUMERO&c=Empresa&e=<código do envio>; a página busca o vídeo em /api/videos?v=
    (só vídeo marcado para o cliente). Exceção aprovada em 02/11/2026: o quadro do Drive é de fora e não avisa play, pausa nem avanço;
    o que se mede é o clique dentro do vídeo e o tempo com a página à vista depois dele (estimativa).
    Marca Vivo (Guia 2023): mesmos tokens da jornada, abre no claro; o escuro só pelo botão. */
@@ -351,7 +351,7 @@ function semVideo(msg){
 function carrega(){
   if(!CODIGO) return semVideo('O link parece incompleto. Peça um novo link a quem enviou.');
   var x = new XMLHttpRequest();
-  x.open('GET', '/api/video?v=' + encodeURIComponent(CODIGO), true);
+  x.open('GET', '/api/videos?v=' + encodeURIComponent(CODIGO), true);
   x.onload = function(){
     var v = null; try{ v = JSON.parse(x.responseText); }catch(e){}
     if(x.status === 200 && v && v.drive_id) return mostra(v);
