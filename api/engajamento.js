@@ -4,6 +4,7 @@
 //  GET ?acao=usuario&id=<uuid>&dias=  → linha do tempo de um usuário
 //  GET ?acao=envios&dias=30           → links enviados, com o que o cliente fez
 //  GET ?acao=visitas&id=<código>      → tudo o que aconteceu num link enviado
+//  GET ?acao=avisos[&desde=<ISO>]      → avisos escolhidos pela pessoa desde ali (sem desde: a fila desde o último visto) → {ate, avisos}
 // Permissões do painel (só o superadmin concede: regra em definir_permissao, no banco):
 //  GET ?acao=permissoes               → permissões de todos (o banco só devolve tudo ao superadmin)
 //  PUT {usuario, recurso, escopo}     → de uma pessoa; escopo '' tira o acesso
@@ -41,6 +42,12 @@ module.exports = async (req, res) => {
   if (q.acao === 'permissoes') {
     const p = await s.rest('permissoes?select=usuario,recurso,escopo', {token: se.token});
     return s.responder(res, p.ok ? 200 : 502, p.ok ? {permissoes: p.dados} : {erro: 'Não foi possível carregar as permissões.'}, se.cookies);
+  }
+  if (q.acao === 'avisos') {
+    const desde = q.desde ? new Date(String(q.desde)) : null;
+    if (desde && isNaN(desde.getTime())) return s.responder(res, 400, {erro: 'Pedido inválido.'}, se.cookies);
+    const a = await s.rest('rpc/avisos_desde', {metodo: 'POST', token: se.token, corpo: {desde: desde ? desde.toISOString() : null}});
+    return s.responder(res, a.ok ? 200 : 502, a.ok ? (a.dados || {ate: null, avisos: []}) : {erro: 'Não foi possível carregar os avisos.'}, se.cookies);
   }
   const ate = new Date(), de = new Date(ate.getTime() - dias * 24 * 3600 * 1000);
   const periodo = {de: de.toISOString(), ate: ate.toISOString()};

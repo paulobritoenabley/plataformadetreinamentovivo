@@ -96,8 +96,9 @@ html.sem-internet .precisa-net{display:block}
 .caixa .sub{margin:0 0 28px;color:var(--fg-soft)}
 .campo{display:block;margin-bottom:18px}
 .campo span{display:block;font-weight:700;font-size:.92rem;margin-bottom:6px}
-.campo input,.campo select{width:100%;font:inherit;font-size:1rem;color:var(--fg);background:var(--surface);border:1px solid var(--line-strong);border-radius:4px;padding:12px 14px;min-height:48px}
-.campo input:focus,.campo select:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
+.campo textarea{min-height:140px;resize:vertical;line-height:1.45}
+.campo input,.campo select,.campo textarea{width:100%;font:inherit;font-size:1rem;color:var(--fg);background:var(--surface);border:1px solid var(--line-strong);border-radius:4px;padding:12px 14px;min-height:48px}
+.campo textarea:focus,.campo input:focus,.campo select:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
 .btn{display:inline-flex;align-items:center;justify-content:center;font:inherit;font-size:1rem;border:0;border-radius:4px;padding:12px 22px;min-height:48px;cursor:pointer;background:var(--btn-bg);color:var(--btn-fg)}
 .btn[disabled]{opacity:.6;cursor:progress}
 .btn-cheio{width:100%}
@@ -116,7 +117,7 @@ html.sem-internet .precisa-net{display:block}
 }
 
 /* ---------- Painel ---------- */
-.topo{background:var(--purpura);color:#fff;display:flex;align-items:center;gap:16px;padding:12px max(16px,4vw);flex-wrap:wrap}
+.topo{background:var(--purpura);color:#fff;display:flex;align-items:center;gap:16px;padding:12px clamp(16px,2vw,28px);flex-wrap:wrap}
 .topo .logo{width:72px;height:auto;display:block}
 .topo .titulo{font-weight:300;font-size:1.05rem;margin-right:auto}
 .sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);border:0}
@@ -152,7 +153,8 @@ html.sem-internet .precisa-net{display:block}
 .atalho svg{grid-row:span 2;width:28px;height:28px;color:var(--accent)}
 .atalho strong{color:var(--accent);font-size:1.05rem}
 .atalho span{color:var(--fg-soft);font-size:.92rem}
-.painel{max-width:1120px;margin:0 auto;padding:32px max(16px,4vw) 64px;width:100%}
+/* sem largura máxima: o painel ocupa a tela toda ao lado do menu, só com o respiro das bordas */
+.painel{margin:0;padding:24px clamp(16px,2vw,28px) 48px;width:100%}
 /* Início: cada papel vê os cartões que fazem sentido para ele (pendências, envio, números do time, equipe, atalhos) */
 .ola-sub{margin:6px 0 0;color:var(--fg-soft)}
 .bloco.inicio-cta{background:linear-gradient(120deg,var(--purpura) 0%,var(--roxo) 100%);color:#fff;border:0}
@@ -197,6 +199,47 @@ html.sem-internet .precisa-net{display:block}
 .previa iframe{position:absolute;top:0;left:0;width:400%;height:400%;border:0;transform:scale(.25);transform-origin:0 0;pointer-events:none;background:#fff}
 .previa img{display:block;width:100%;height:100%;object-fit:cover}
 .bloco-topo{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+/* Novidades: a não vista tem fundo, faixa e ponto rosa; ao abrir, fica igual às outras */
+.lista-novidades{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}
+.novidade{position:relative;display:grid;grid-template-columns:32px minmax(0,1fr);gap:2px 12px;align-items:start;width:100%;text-align:left;font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:12px 30px 12px 14px;cursor:pointer}
+button.novidade:hover{border-color:var(--accent)}
+.nv-texto{display:grid;gap:2px;min-width:0}
+.nv-topo{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;font-size:.78rem;color:var(--fg-soft)}
+.nv-tag{font-weight:700;border:1px solid var(--line-strong);border-radius:4px;padding:0 6px}
+.novidade strong{font-size:.98rem;overflow-wrap:anywhere}
+.nv-desc{font-size:.88rem;color:var(--fg-soft)}
+.novidade.nao-lida{background:var(--surface-2);border-color:var(--accent);box-shadow:inset 4px 0 0 var(--rosa)}
+.novidade.nao-lida .nv-tag{background:var(--rosa);border-color:var(--rosa);color:#fff}
+.novidade.nao-lida strong{color:var(--accent)}
+.novidade.nao-lida::after{content:"";position:absolute;top:14px;right:12px;width:10px;height:10px;border-radius:50%;background:var(--rosa);box-shadow:0 0 0 3px rgba(235,60,125,.25)}
+.novidade .btn-link,.novidade > small{grid-column:2;justify-self:start;margin:2px 0 0}
+.novidade .ev-icone{grid-row:span 3}
+.sub-tit{margin:24px 0 8px;font-size:1rem}
+.novidade > .acoes{grid-column:2;margin-top:8px;align-items:center}
+.previa-titulo{margin:0 0 6px;font-weight:700;font-size:.92rem}
+.previa-msg{margin:0 0 16px;white-space:pre-wrap;overflow-wrap:anywhere;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--rosa);border-radius:4px;padding:12px 14px;font-size:.92rem}
+.menu a{position:relative}
+.menu-conta{margin-left:auto;min-width:20px;height:20px;border-radius:10px;background:var(--rosa);color:#fff;font-size:.72rem;font-weight:700;display:inline-grid;place-items:center;padding:0 6px;line-height:1}
+@media (max-width:767px){.menu-conta{position:absolute;top:2px;left:calc(50% + 6px);margin:0}}
+/* Início em blocos: duas colunas a partir de 900 px; cada bloco ocupa meia ou a largura inteira (data-largura), na ordem que a pessoa salvou */
+@media (min-width:900px){#gradeInicio{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#gradeInicio > [data-largura="2"]{grid-column:1 / -1}
+.boas-vindas .org-abrir{margin-left:auto;align-self:flex-start}
+.org-barra{position:sticky;top:8px;z-index:6;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;background:var(--surface-2);border:1px dashed var(--accent);border-radius:4px;padding:12px 16px;box-shadow:var(--shadow)}
+.org-barra > p{margin:0;flex:1 1 320px;font-size:.92rem}
+.org-barra .msg{flex-basis:100%}
+.organizando [data-bloco]{position:relative;outline:2px dashed var(--line-strong);outline-offset:-2px;padding-top:56px}
+.organizando [data-bloco] > :not(.org-ctl){pointer-events:none;user-select:none;-webkit-user-select:none}
+.org-ctl{position:absolute;top:8px;right:8px;left:8px;z-index:3;display:flex;align-items:center;gap:4px;background:var(--surface);color:var(--fg);border:1px solid var(--line-strong);border-radius:4px;padding:3px 3px 3px 10px;box-shadow:var(--shadow)}
+.org-ctl strong{flex:1 1 auto;min-width:0;font-size:.85rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.org-ctl button{min-width:36px;height:36px;border:0;border-radius:4px;background:transparent;color:var(--fg);font:inherit;font-weight:700;font-size:1rem;cursor:pointer}
+.org-ctl button:hover{background:var(--surface-2)}
+.org-ctl button:disabled{opacity:.35;cursor:default}
+.org-ctl .alca{cursor:grab;touch-action:none;font-size:1.2rem}
+.arrastando{opacity:.55;outline-color:var(--accent)!important}
+.arrastando .alca{cursor:grabbing}
+@media (max-width:899px){.org-ctl .org-largura{display:none}}
+@media (max-width:767px){.org-barra{position:static}}
 .pagina-form{background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:16px;margin:0 0 20px}
 .pagina-form h3{margin:0 0 14px;font-size:1.05rem}
 .pagina-campos{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
@@ -240,14 +283,82 @@ html.sem-internet .precisa-net{display:block}
 .status-morno{color:var(--fg-soft)}
 .status-incentivo{color:var(--erro)}
 .dica-eng{font-size:.85rem;color:var(--fg-soft);margin:12px 0 0}
-.linha-tempo{margin-top:20px;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:16px}
-.linha-tempo h3{margin:0 0 4px;font-size:1.05rem}
-.linha-tempo h4{margin:16px 0 6px;font-size:.9rem;color:var(--fg-soft)}
-.linha-tempo ol{list-style:none;margin:0;padding:0}
-.linha-tempo li{display:grid;grid-template-columns:52px minmax(0,1fr);gap:10px;padding:6px 0;border-bottom:1px solid var(--line);font-size:.92rem}
-.linha-tempo li:last-child{border-bottom:0}
-.linha-tempo time{color:var(--fg-soft);font-variant-numeric:tabular-nums}
-.linha-tempo .fechar{float:right}
+/* ---------- Gaveta: linha do tempo com score ---------- */
+.gaveta-fundo{position:fixed;inset:0;z-index:30;background:rgba(23,7,34,.55)}
+.gaveta{position:fixed;top:0;right:0;bottom:0;z-index:31;width:min(460px,100vw);background:var(--surface);color:var(--fg);border-left:1px solid var(--line);box-shadow:-18px 0 40px -24px rgba(0,0,0,.6);display:flex;flex-direction:column;animation:gaveta-entra .22s ease-out}
+@keyframes gaveta-entra{from{transform:translateX(24px);opacity:0}to{transform:none;opacity:1}}
+.gaveta-topo{display:flex;align-items:flex-start;gap:12px;padding:18px 20px 14px;border-bottom:1px solid var(--line)}
+.gaveta-topo > div{flex:1 1 auto;min-width:0}
+.gaveta-tipo{margin:0 0 4px;font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent)}
+.gaveta-topo h3{margin:0;font-size:1.2rem;line-height:1.2;overflow-wrap:anywhere}
+.gaveta-topo .sub{margin:4px 0 0;font-size:.88rem}
+.gaveta-x{flex:0 0 auto;width:40px;height:40px;border-radius:4px;border:1px solid var(--line-strong);background:transparent;color:var(--fg);font-size:1.4rem;line-height:1;cursor:pointer}
+.gaveta-x:hover{background:var(--surface-2)}
+.gaveta-corpo{flex:1 1 auto;overflow-y:auto;padding:18px 20px 32px;overscroll-behavior:contain}
+.gaveta-corpo h4{margin:22px 0 10px;font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--fg-soft)}
+.score-topo{display:flex;align-items:center;gap:18px;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:16px}
+.score-anel{position:relative;flex:0 0 auto;width:104px;height:104px}
+.score-anel svg{display:block;width:100%;height:100%;transform:rotate(-90deg)}
+.score-anel .trilha{fill:none;stroke:var(--surface-2);stroke-width:10}
+.score-anel .valor{fill:none;stroke:var(--barra);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset .6s ease-out}
+.score-anel b{position:absolute;inset:0;display:grid;place-content:center;text-align:center;font-size:1.9rem;line-height:1;font-variant-numeric:tabular-nums}
+.score-anel b small{display:block;font-size:.72rem;font-weight:400;color:var(--fg-soft);margin-top:2px}
+.score-faixa{display:inline-block;font-weight:700;font-size:.85rem;border:1px solid currentColor;border-radius:4px;padding:2px 8px;margin-bottom:6px}
+.faixa-alto{color:var(--accent)}
+.faixa-medio{color:var(--fg-soft)}
+.faixa-baixo{color:var(--erro)}
+.score-topo p{margin:0;font-size:.9rem;color:var(--fg-soft)}
+.criterios{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.criterio{display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:2px 12px;align-items:center}
+.criterio .ev-icone{grid-row:span 3}
+.criterio strong{font-size:.95rem}
+.criterio .pts{font-weight:700;font-variant-numeric:tabular-nums;font-size:.92rem;white-space:nowrap}
+.criterio .pts small{font-weight:400;color:var(--fg-soft)}
+.criterio .medidor{grid-column:2 / -1;height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+.criterio .medidor i{display:block;height:100%;background:var(--barra);border-radius:3px}
+.criterio .explica{grid-column:2 / -1;font-size:.82rem;color:var(--fg-soft)}
+.criterio.peso-alto strong::after{content:"vale muito";margin-left:8px;font-size:.7rem;font-weight:700;color:var(--accent);border:1px solid currentColor;border-radius:4px;padding:0 5px;vertical-align:2px}
+.como-calcula{margin-top:14px;font-size:.85rem;color:var(--fg-soft)}
+.como-calcula summary{cursor:pointer;font-weight:700;color:var(--accent)}
+.como-calcula p{margin:8px 0 0}
+/* ícone do evento: círculo com a cor da categoria */
+.ev-icone{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--surface-2);color:var(--accent);border:1.5px solid currentColor}
+.ev-icone svg{width:17px;height:17px}
+.ev-zap{color:var(--rosa);background:var(--rosa);}
+.ev-zap svg{color:#fff}
+.ev-video{color:var(--barra)}
+.ev-rolagem{color:var(--lilas)}
+.ev-clique,.ev-etapa{color:var(--magenta)}
+.ev-saiu,.ev-neutro{color:var(--fg-soft)}
+.eventos{list-style:none;margin:0;padding:0;position:relative}
+.eventos::before{content:"";position:absolute;left:15px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.eventos li{position:relative;display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;padding:6px 0;align-items:start}
+.eventos .ev-texto{padding-top:5px;font-size:.92rem;line-height:1.35}
+.eventos time{display:block;font-size:.78rem;color:var(--fg-soft);font-variant-numeric:tabular-nums}
+.eventos .visita{font-size:.72rem;font-weight:700;color:var(--accent);margin-right:6px}
+.score-pill{display:inline-grid;grid-template-columns:auto 44px;align-items:center;gap:8px;font-weight:700;font-variant-numeric:tabular-nums}
+.score-pill i{display:block;height:6px;border-radius:3px;background:linear-gradient(var(--barra),var(--barra)) no-repeat left / var(--p,0%) 100%,var(--surface-2)}
+/* ---------- Avisos ---------- */
+.avisos-grupo{border:1px solid var(--line);border-radius:4px;padding:12px 16px 4px;margin:0 0 16px}
+.avisos-grupo legend{font-weight:700;padding:0 6px}
+.avisos-grupo legend small{font-weight:400;color:var(--fg-soft)}
+.avisos-ops{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:2px 16px;margin-bottom:8px}
+.campo-curto{max-width:260px}
+.aviso-pop{position:fixed;top:84px;right:20px;z-index:35;width:min(380px,calc(100vw - 32px));display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;
+  background:var(--surface);color:var(--fg);border:1px solid var(--line-strong);border-left:4px solid var(--rosa);border-radius:4px;box-shadow:0 22px 48px -20px rgba(0,0,0,.55);padding:16px;animation:aviso-entra .25s ease-out}
+@keyframes aviso-entra{from{transform:translateY(-10px);opacity:0}to{transform:none;opacity:1}}
+.aviso-corpo{min-width:0}
+.aviso-quando{margin:0 0 2px;font-size:.78rem;color:var(--fg-soft)}
+.aviso-pop h3{margin:0 0 4px;font-size:1.1rem;line-height:1.2;overflow-wrap:anywhere}
+.aviso-pop p{margin:0}
+.aviso-lista{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px;max-height:40vh;overflow-y:auto;font-size:.9rem}
+.aviso-lista li{border-top:1px solid var(--line);padding-top:6px}
+.aviso-lista b{display:block}
+.aviso-rodape{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px}
+.aviso-rodape span{font-size:.82rem;color:var(--fg-soft)}
+@media (max-width:767px){.gaveta{width:100vw;border-left:0}.aviso-pop{top:auto;bottom:84px;right:16px}}
+@media (prefers-reduced-motion: reduce){.aviso-pop{animation:none}}
+@media (prefers-reduced-motion: reduce){.gaveta{animation:none}}
 .interna{font-size:.75rem;color:var(--fg-soft);border:1px solid var(--line-strong);border-radius:4px;padding:0 6px;margin-left:6px}
 .perm-lote{display:grid;grid-template-columns:1fr 1fr 1.4fr auto;gap:12px;align-items:end;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:16px;margin-bottom:8px}
 .perm-lote .campo{margin:0}
@@ -264,6 +375,7 @@ html.sem-internet .precisa-net{display:block}
 .link-acesso strong{display:block;margin-bottom:8px}
 .link-acesso p{margin:8px 0 0;font-size:.9rem;color:var(--fg-soft)}
 .link-linha{display:flex;gap:8px}
+.link-acesso .acoes{margin-top:12px}
 .link-linha input{flex:1 1 auto;min-width:0;font:inherit;font-size:.9rem;color:var(--fg);background:var(--surface);border:1px solid var(--line-strong);border-radius:4px;padding:10px 12px}
 .btn-link{display:block;background:none;border:0;padding:6px 0;margin-top:4px;font:inherit;font-size:.88rem;color:var(--accent);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .tabela{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:4px}
@@ -306,6 +418,7 @@ html.sem-internet .precisa-net{display:block}
 .marca-op{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-weight:700;font-size:.95rem;cursor:pointer}
 .marca-op input{width:18px;height:18px;margin:0;accent-color:var(--purpura);flex:0 0 auto;transform:translateY(3px)}
 .marca-op small{flex:1 0 100%;padding-left:28px;font-weight:400;color:var(--fg-soft)}
+.marca-op > span{flex:1 1 0;min-width:0}
 .assistir{position:fixed;inset:0;z-index:30;background:rgba(23,7,34,.82);display:grid;place-items:center;padding:16px}
 .assistir-caixa{width:min(960px,100%);max-height:100%;display:grid;gap:10px}
 .assistir-topo{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#fff}
@@ -365,6 +478,18 @@ html.sem-internet .precisa-net{display:block}
   <symbol id="i-materiais" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10l2 2.5h6.5A1.5 1.5 0 0 1 20 8v10.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="M8 13h8M8 16.5h5"/></g></symbol>
   <symbol id="i-equipe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.8c2 .7 3.2 2.4 3.5 5.2"/></g></symbol>
   <symbol id="i-resultados" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></g></symbol>
+  <!-- eventos da linha do tempo -->
+  <symbol id="i-ev-abriu" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g></symbol>
+  <symbol id="i-ev-rolagem" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M12 8v7M9 12.5l3 3 3-3"/></g></symbol>
+  <symbol id="i-ev-clique" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l10 9-4.5.7 2.6 5.3-2.2 1-2.6-5.3L9 17.5z"/></g></symbol>
+  <symbol id="i-ev-etapa" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></g></symbol>
+  <symbol id="i-ev-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
+  <symbol id="i-ev-marco" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5A8.5 8.5 0 0 1 12 20.5z" fill="currentColor"/></g></symbol>
+  <symbol id="i-ev-zap" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8.4 19z"/><path d="M9 10c.4 2 2.4 4 4.5 4.5l1.2-1.2 2 1"/></g></symbol>
+  <symbol id="i-ev-saiu" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M10 16l-4-4 4-4M6 12h10"/></g></symbol>
+  <symbol id="i-ev-tempo" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></g></symbol>
+  <symbol id="i-ev-login" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4"/><path d="M14 16l4-4-4-4M18 12H8"/></g></symbol>
+  <symbol id="i-ev-voltou" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/></g></symbol>
   <symbol id="i-sol" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/></g></symbol>
   <symbol id="i-lua" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></g></symbol>
   <symbol id="i-admin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></g></symbol>
@@ -431,7 +556,7 @@ html.sem-internet .precisa-net{display:block}
   <p class="sem-net" id="semNet" role="status" hidden>Sem internet. Dá para enviar ao cliente normalmente: os registros sobem quando a conexão voltar.</p>
   <div class="app">
   <nav class="menu" id="menu" aria-label="Seções do painel">
-    <a href="#/inicio" data-ir="inicio"><svg aria-hidden="true"><use href="#i-inicio"/></svg><span>Início</span></a>
+    <a href="#/inicio" data-ir="inicio"><svg aria-hidden="true"><use href="#i-inicio"/></svg><span>Início</span><b class="menu-conta" id="menuNovas" hidden></b></a>
     <a href="#/enviar" data-ir="enviar"><svg aria-hidden="true"><use href="#i-enviar"/></svg><span>Enviar</span></a>
     <a href="#/materiais" data-ir="materiais"><svg aria-hidden="true"><use href="#i-materiais"/></svg><span>Materiais</span></a>
     <a href="#/equipe" data-ir="equipe" hidden><svg aria-hidden="true"><use href="#i-equipe"/></svg><span>Equipe</span></a>
@@ -442,30 +567,41 @@ html.sem-internet .precisa-net{display:block}
     <div class="boas-vindas" data-vista="inicio">
       <span class="avatar avatar-g" id="olaAvatar" aria-hidden="true"></span>
       <div><h1 id="ola">Olá</h1><span class="tag" id="quemPapel"></span><p class="ola-sub" id="olaSub"></p></div>
+      <button class="btn btn-sec btn-p org-abrir" type="button" id="orgAbrir">Organizar o Início</button>
     </div>
     <div class="grade" id="gradeInicio">
-    <section class="bloco pendencias" id="inicioPendencias" data-vista="inicio" aria-labelledby="tPendencias" hidden>
+    <div class="org-barra bloco-largo" id="orgBarra" data-vista="inicio" role="region" aria-label="Organizar o Início" hidden>
+      <p><b>Organizando o Início.</b> Arraste cada bloco pela alça ⠿ (ou use ↑ ↓) e troque a largura em ⇔. No celular, os blocos ficam um embaixo do outro, na mesma ordem.</p>
+      <div class="acoes"><button class="btn btn-p" type="button" id="orgSalvar">Salvar visualização</button><button class="btn btn-sec btn-p" type="button" id="orgPadrao">Voltar ao padrão</button><button class="btn btn-sec btn-p" type="button" id="orgCancelar">Cancelar</button></div>
+      <p class="msg" id="msgOrg" role="status"></p>
+    </div>
+    <section class="bloco pendencias" id="inicioPendencias" data-vista="inicio" data-bloco="pendencias" aria-labelledby="tPendencias" hidden>
       <h2 id="tPendencias">Para resolver</h2>
       <ul id="listaPendencias"></ul>
     </section>
-    <section class="bloco inicio-cta" id="inicioEnviar" data-vista="inicio" aria-labelledby="tInicioEnviar">
+    <section class="bloco inicio-cta" id="inicioEnviar" data-vista="inicio" data-bloco="enviar" aria-labelledby="tInicioEnviar">
       <h2 id="tInicioEnviar">Enviar ao cliente</h2>
       <p>Páginas e vídeos com o seu nome e WhatsApp no link. Cada envio é rastreado: dá para saber quando o cliente abriu.</p>
       <div class="acoes"><a class="btn" href="#/enviar">Escolher o que enviar</a><a class="btn btn-sec" id="inicioPlaybook" target="_blank" rel="noopener">Abrir o playbook ↗</a></div>
     </section>
-    <section class="bloco" id="inicioResumo" data-vista="inicio" aria-labelledby="tResumo" hidden>
+    <section class="bloco" id="inicioNovidades" data-vista="inicio" data-bloco="novidades" aria-labelledby="tNovidades" hidden>
+      <h2 id="tNovidades">Novidades</h2>
+      <p class="sub" id="novidadesSub"></p>
+      <ul class="lista-novidades" id="listaNovidades"></ul>
+    </section>
+    <section class="bloco" id="inicioResumo" data-vista="inicio" data-bloco="resumo" aria-labelledby="tResumo" hidden>
       <div class="bloco-topo"><div><h2 id="tResumo">Seu time nos últimos 7 dias</h2><p class="sub" id="resumoSub"></p></div><a class="btn btn-sec btn-p" href="#/resultados">Ver resultados</a></div>
       <div class="kpis" id="kpisInicio"></div>
       <div id="incentivoInicio"></div>
     </section>
-    <section class="bloco" id="inicioTime" data-vista="inicio" aria-labelledby="tTime" hidden>
+    <section class="bloco" id="inicioTime" data-vista="inicio" data-bloco="time" aria-labelledby="tTime" hidden>
       <div class="bloco-topo"><div><h2 id="tTime">Equipe</h2><p class="sub" id="timeSub"></p></div><a class="btn btn-p" href="#/equipe" id="inicioConvidar">Convidar pessoa</a></div>
     </section>
-    <section class="bloco instalar" id="inicioInstalar" data-vista="inicio" aria-labelledby="tInstalar" tabindex="-1" hidden>
+    <section class="bloco instalar" id="inicioInstalar" data-vista="inicio" data-bloco="instalar" aria-labelledby="tInstalar" tabindex="-1" hidden>
       <div><h2 id="tInstalar">Instale o app</h2><p class="sub" id="instalarTxt">Abra o painel direto da tela inicial, como um app. Ele abre e envia ao cliente mesmo sem internet.</p></div>
       <div class="acoes"><button class="btn btn-p" type="button" id="instalarOk">Instalar</button><button class="btn btn-sec btn-p" type="button" id="instalarNao">Agora não</button></div>
     </section>
-    <section class="bloco" data-vista="inicio" aria-labelledby="tAtalhos">
+    <section class="bloco" id="inicioAtalhos" data-vista="inicio" data-bloco="atalhos" aria-labelledby="tAtalhos">
       <h2 id="tAtalhos">Ir para</h2>
       <ul class="atalhos" id="atalhos"></ul>
     </section>
@@ -510,7 +646,7 @@ html.sem-internet .precisa-net{display:block}
         <ul class="itens-envio" id="listaVideos"></ul>
       </div>
     </section>
-    <section class="bloco" id="secPerfil" data-vista="perfil" aria-labelledby="tPerfil">
+    <section class="bloco bloco-largo" id="secPerfil" data-vista="perfil" aria-labelledby="tPerfil">
       <h2 id="tPerfil">Meu perfil</h2>
       <div id="perfilVer">
         <div class="perfil-linha">
@@ -534,6 +670,33 @@ html.sem-internet .precisa-net{display:block}
         <p class="dica-campo" id="perfilZapDica">É o número que o cliente chama no fim das páginas e vídeos que você envia.</p>
         <p class="msg" id="msgPerfil" role="status"></p>
         <div class="acoes"><button class="btn" type="submit">Salvar</button><button class="btn btn-sec" type="button" id="perfilCancelar">Cancelar</button></div>
+      </form>
+    </section>
+    <section class="bloco bloco-largo" id="secAvisos" data-vista="perfil" aria-labelledby="tAvisos">
+      <h2 id="tAvisos">Notificações</h2>
+      <p class="sub">Com o painel aberto, você ouve um sinal suave e vê um aviso com a empresa e o que aconteceu. Com o painel fechado, os avisos esperam e aparecem quando você abrir.</p>
+      <form id="fAvisos" novalidate>
+        <fieldset class="avisos-grupo">
+          <legend>Nos links que você enviou, me avise quando o cliente…</legend>
+          <div class="avisos-ops" id="avisosOps"></div>
+          <label class="campo campo-curto"><span>Score mínimo do link (1 a 100)</span><input type="number" id="avScoreMin" min="1" max="100" step="1" inputmode="numeric"></label>
+        </fieldset>
+        <fieldset class="avisos-grupo" id="avisosEquipe" hidden>
+          <legend>Equipe <small>(só o superadmin)</small></legend>
+          <div class="avisos-ops">
+            <label class="marca-op"><input type="checkbox" id="avEqClientes"> <span>Os mesmos eventos nos links que a equipe enviou</span></label>
+            <label class="marca-op"><input type="checkbox" id="avEqLogin"> <span>Alguém da equipe entrou no painel</span></label>
+            <label class="marca-op"><input type="checkbox" id="avEqEnvio"> <span>Alguém da equipe enviou um link</span></label>
+            <label class="marca-op"><input type="checkbox" id="avEqScore"> <span>O score de uma pessoa ficou abaixo do mínimo</span> <small>Conferido uma vez por dia, nos últimos 30 dias.</small></label>
+          </div>
+          <label class="campo campo-curto"><span>Score mínimo da pessoa (1 a 100)</span><input type="number" id="avEqScoreMin" min="1" max="100" step="1" inputmode="numeric"></label>
+        </fieldset>
+        <div class="marcas">
+          <label class="marca-op"><input type="checkbox" id="avSom"> <span>Tocar um sinal sonoro</span></label>
+          <label class="marca-op"><input type="checkbox" id="avSistema"> <span>Avisar também com o painel em segundo plano</span> <small>O aparelho pede a sua permissão. Funciona com o painel aberto em outra aba ou minimizado.</small></label>
+        </div>
+        <p class="msg" id="msgAvisos" role="status"></p>
+        <div class="acoes"><button class="btn" type="submit">Salvar</button><button class="btn btn-sec" type="button" id="avTestar">Testar aviso</button></div>
       </form>
     </section>
     <section class="bloco bloco-largo" aria-labelledby="tEngaj" id="secEngaj" data-vista="resultados" hidden>
@@ -570,6 +733,7 @@ html.sem-internet .precisa-net{display:block}
           <thead><tr>
             <th scope="col"><button type="button" class="ordena" data-col="nome">Pessoa</button></th>
             <th scope="col"><button type="button" class="ordena" data-col="status">Status</button></th>
+            <th scope="col"><button type="button" class="ordena" data-col="score">Score</button></th>
             <th scope="col"><button type="button" class="ordena" data-col="ultimo_acesso">Último acesso</button></th>
             <th scope="col"><button type="button" class="ordena" data-col="dias_ativos">Dias ativos</button></th>
             <th scope="col"><button type="button" class="ordena" data-col="segundos_playbook">Tempo no playbook</button></th>
@@ -578,8 +742,7 @@ html.sem-internet .precisa-net{display:block}
           </tr></thead>
           <tbody id="tbEquipe"></tbody>
         </table>
-        <p class="dica-eng"><b>Engajado</b>: ativo em pelo menos um quarto dos dias do período (mínimo 2) ou com 3 links enviados. <b>Precisa de incentivo</b>: sem acesso há mais de 14 dias, ou nunca entrou. <b>Morno</b>: os demais.</p>
-        <div class="linha-tempo" id="tempoUsuario" hidden></div>
+        <p class="dica-eng"><b>Engajado</b>: ativo em pelo menos um quarto dos dias do período (mínimo 2) ou com 3 links enviados. <b>Precisa de incentivo</b>: sem acesso há mais de 14 dias, ou nunca entrou. <b>Morno</b>: os demais. <b>Score</b> (0 a 100): frequência, links enviados, resposta dos clientes e último acesso; clique na pessoa para ver de onde vieram os pontos.</p>
       </div>
 
       <div id="pLinks" role="tabpanel" aria-labelledby="abaLinks" hidden>
@@ -596,11 +759,10 @@ html.sem-internet .precisa-net{display:block}
         <table class="tabela tabela-eng" id="tLinks">
           <thead><tr>
             <th scope="col">Enviado em</th><th scope="col">Quem enviou</th><th scope="col">Página</th><th scope="col">Empresa</th>
-            <th scope="col">Situação</th><th scope="col">Até onde foi</th><th scope="col">Tempo</th>
+            <th scope="col">Situação</th><th scope="col">Score</th><th scope="col">Até onde foi</th><th scope="col">Tempo</th>
           </tr></thead>
           <tbody id="tbLinks"></tbody>
         </table>
-        <div class="linha-tempo" id="tempoLink" hidden></div>
       </div>
 
     </section>
@@ -616,7 +778,11 @@ html.sem-internet .precisa-net{display:block}
       <div class="link-acesso" id="linkBox" hidden>
         <strong id="linkTit">Link de acesso</strong>
         <div class="link-linha"><input type="text" id="linkUrl" readonly aria-labelledby="linkTit"><button class="btn" type="button" id="linkCopiar">Copiar</button></div>
-        <p>Envie só para essa pessoa. O link vale uma vez e expira; se expirar, gere outro em Pessoas.</p>
+        <div class="acoes">
+          <button class="btn btn-p" type="button" id="linkZap">Enviar no WhatsApp</button>
+          <button class="btn btn-sec btn-p" type="button" id="linkMsg">Copiar mensagem</button>
+        </div>
+        <p>A mensagem pronta leva o nome, o papel, o que é a plataforma, o que fazer no primeiro acesso e o link. Envie só para essa pessoa: o link vale uma vez e expira; se expirar, gere outro em Pessoas.</p>
       </div>
       <div id="eqPessoas" role="tabpanel" aria-labelledby="subPessoas">
         <div class="eng-filtros eq-filtros">
@@ -645,6 +811,7 @@ html.sem-internet .precisa-net{display:block}
       <div class="eng-abas subabas" role="tablist" aria-label="Administração" data-subabas="admin">
         <button type="button" role="tab" id="subAdmVideos" data-sub="admVideos" aria-controls="admVideos" aria-selected="true">Vídeos</button>
         <button type="button" role="tab" id="subAdmPaginas" data-sub="admPaginas" aria-controls="admPaginas" aria-selected="false">Páginas do painel</button>
+        <button type="button" role="tab" id="subAdmNovidades" data-sub="admNovidades" aria-controls="admNovidades" aria-selected="false">Novidades</button>
         <button type="button" role="tab" id="subAdmPermissoes" data-sub="admPermissoes" aria-controls="admPermissoes" aria-selected="false">Permissões</button>
       </div>
       <div id="admVideos" role="tabpanel" aria-labelledby="subAdmVideos">
@@ -666,6 +833,7 @@ html.sem-internet .precisa-net{display:block}
         <div class="marcas">
           <label class="marca-op"><input type="checkbox" id="vdCliente" checked> Pode ser enviado ao cliente <small>Sem isso, fica só para assistir no painel.</small></label>
           <label class="marca-op"><input type="checkbox" id="vdVertical"> Vídeo em pé (gravado no celular, 9:16)</label>
+          <label class="marca-op" id="vdNovidadeOp" hidden><input type="checkbox" id="vdNovidade"> <span>Avisar a equipe como novidade</span> <small>Aparece no Início de todos como "Atualizado". Vídeo novo já entra sozinho.</small></label>
         </div>
         <p class="dica-campo">O arquivo no Drive precisa estar compartilhado com "qualquer pessoa com o link". O nome do arquivo aparece no player: não use o nome do fornecedor.</p>
         <p class="msg" id="msgVideo" role="status"></p>
@@ -675,6 +843,27 @@ html.sem-internet .precisa-net{display:block}
         <ul class="itens-envio" id="listaAdmVideos"></ul>
       </div>
       <div id="admPaginas" role="tabpanel" aria-labelledby="subAdmPaginas" hidden>
+        <h3 class="sub-tit">Páginas para enviar ao cliente</h3>
+        <p class="sub">As três páginas rastreadas de Enviar ao cliente. O endereço e a medição são fixos; aqui você muda o texto, a mensagem pronta, a ordem e se a página aparece.</p>
+        <form class="pagina-form" id="fPaginaEnvio" hidden novalidate>
+          <h3 id="peFormTit">Editar página de envio</h3>
+          <div class="pagina-campos">
+            <label class="campo"><span>Título</span><input type="text" id="peTitulo" maxlength="80" autocomplete="off" required></label>
+            <label class="campo"><span>Ordem em Enviar</span><input type="number" id="peOrdem" min="-999" max="999" step="1"></label>
+            <label class="campo pc-largo"><span>Descrição</span><input type="text" id="peDescricao" maxlength="240" autocomplete="off"></label>
+            <label class="campo pc-largo"><span>Palavras para a busca</span><input type="text" id="pePalavras" maxlength="200" autocomplete="off"></label>
+            <label class="campo pc-largo"><span>Mensagem pronta</span><textarea id="peMensagem" rows="6" maxlength="1200" aria-describedby="peMsgDica"></textarea></label>
+          </div>
+          <p class="dica-campo" id="peMsgDica"><b>{link}</b> vira o link do envio (obrigatório) e <b>{produto}</b> o nome do produto. Não cite o fornecedor nem clientes pelo nome: o servidor recusa.</p>
+          <p class="previa-titulo">Como o cliente recebe</p>
+          <p class="previa-msg" id="pePrevia"></p>
+          <div class="marcas"><label class="marca-op"><input type="checkbox" id="peAtivo"> <span>Aparece em Enviar ao cliente</span></label></div>
+          <p class="msg" id="msgPaginaEnvio" role="status"></p>
+          <div class="acoes"><button class="btn" type="submit">Salvar</button><button class="btn btn-sec" type="button" id="peCancelar">Cancelar</button></div>
+        </form>
+        <p class="msg" id="msgAdmEnvio" role="status"></p>
+        <ul class="lista-novidades" id="listaAdmEnvio"></ul>
+        <h3 class="sub-tit">Páginas do painel</h3>
         <div class="bloco-topo">
           <p class="sub">Páginas que aparecem em Materiais, para quem tem o papel escolhido.</p>
           <button class="btn btn-p" type="button" id="paginaNova">Adicionar página</button>
@@ -697,11 +886,30 @@ html.sem-internet .precisa-net{display:block}
             <button class="btn-link" type="button" id="pgSemCapa" hidden>Tirar a capa e mostrar a página</button>
           </div>
         </div>
+        <div class="marcas" id="pgNovidadeOp" hidden><label class="marca-op"><input type="checkbox" id="pgNovidade"> <span>Avisar a equipe como novidade</span> <small>Aparece no Início de quem vê a página, como "Atualizado". Página nova já entra sozinha.</small></label></div>
         <p class="msg" id="msgPagina" role="status"></p>
         <div class="acoes"><button class="btn" type="submit">Salvar</button><button class="btn btn-sec" type="button" id="pgCancelar">Cancelar</button></div>
       </form>
         <p class="msg" id="msgAdmPaginas" role="status"></p>
         <ul class="cards cards-pag" id="listaAdmPaginas"></ul>
+      </div>
+      <div id="admNovidades" role="tabpanel" aria-labelledby="subAdmNovidades" hidden>
+        <p class="sub">Vídeos e páginas novos entram sozinhos nas Novidades do Início de todos. Numa alteração, marque "Avisar a equipe como novidade" ao salvar. Playbook novo ou outro aviso, publique aqui. O Início mostra as 7 últimas que cada papel vê.</p>
+        <form class="pagina-form" id="fNovidade" novalidate>
+          <h3>Publicar novidade</h3>
+          <div class="pagina-campos">
+            <label class="campo"><span>Tipo</span><select id="nvTipo"><option value="playbook">Playbook</option><option value="outro">Outro aviso</option></select></label>
+            <label class="campo"><span>Quem vê</span><select id="nvPapel"></select></label>
+            <label class="campo pc-largo"><span>Título</span><input type="text" id="nvTitulo" maxlength="80" autocomplete="off" required></label>
+            <label class="campo pc-largo"><span>Descrição</span><input type="text" id="nvDescricao" maxlength="240" autocomplete="off"></label>
+            <label class="campo pc-largo"><span>Link (https://…, opcional)</span><input type="url" id="nvLink" inputmode="url" maxlength="500" autocomplete="off" placeholder="https://"></label>
+          </div>
+          <p class="msg" id="msgNovidade" role="status"></p>
+          <div class="acoes"><button class="btn" type="submit">Publicar</button></div>
+        </form>
+        <h3 class="sub-tit">Últimas publicadas</h3>
+        <p class="msg" id="msgAdmNovidades" role="status"></p>
+        <ul class="lista-novidades" id="listaAdmNovidades"></ul>
       </div>
       <div id="admPermissoes" role="tabpanel" aria-labelledby="subAdmPermissoes" hidden>
         <p class="sub">Libere o painel para outras pessoas, inteiro ou em parte. <b>Atividade dos usuários</b>: logins, páginas abertas, navegação e links enviados. <b>Visitas dos clientes</b>: se o cliente abriu o link enviado e o que fez na página. "Só os próprios" é o que a pessoa mesma fez ou enviou.</p>
@@ -725,6 +933,24 @@ html.sem-internet .precisa-net{display:block}
     <div class="assistir-caixa">
       <div class="assistir-topo"><h3 id="assistirTit"></h3><button class="assistir-x" type="button" id="assistirX" aria-label="Fechar">×</button></div>
       <div class="assistir-player" id="assistirPlayer"></div>
+    </div>
+  </div>
+  <div class="gaveta-fundo" id="gavetaFundo" hidden></div>
+  <aside class="gaveta" id="gaveta" role="dialog" aria-modal="true" aria-labelledby="gavetaTit" hidden>
+    <div class="gaveta-topo">
+      <div><p class="gaveta-tipo" id="gavetaTipo"></p><h3 id="gavetaTit"></h3><p class="sub" id="gavetaSub"></p></div>
+      <button class="gaveta-x" type="button" id="gavetaX" aria-label="Fechar">×</button>
+    </div>
+    <div class="gaveta-corpo" id="gavetaCorpo"></div>
+  </aside>
+  <div class="aviso-pop" id="avisoPop" role="alertdialog" aria-labelledby="avisoTit" aria-describedby="avisoTxt" hidden>
+    <span id="avisoIcone"></span>
+    <div class="aviso-corpo">
+      <p class="aviso-quando" id="avisoQuando"></p>
+      <h3 id="avisoTit"></h3>
+      <p id="avisoTxt"></p>
+      <ul class="aviso-lista" id="avisoLista" hidden></ul>
+      <div class="aviso-rodape"><span id="avisoConta"></span><button class="btn btn-p" type="button" id="avisoOk">OK</button></div>
     </div>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -954,6 +1180,7 @@ function painel(){
   verSubaba('equipe', subabaAtual('equipe'));
   if (eu.papel === 'superadmin') verSubaba('admin', subabaAtual('admin'));
   carregarPaginas();
+  carregarNovidades();
   var concede = eu.concede || [];
   byId('secUsuarios').hidden = !concede.length;
   if (concede.length) {
@@ -968,6 +1195,7 @@ function painel(){
   enviarFila();
   iniciarInicio();
   irPara(rotaDoEndereco(), true);
+  iniciarAvisos();
 }
 
 /* ---------- Início por papel ----------
@@ -992,7 +1220,7 @@ byId('inicioConvidar').addEventListener('click', function(){ verSubaba('equipe',
 
 function desenharInicio(){
   if (!eu) return;
-  var ve = eu.ve || {}, gestor = !!(ve.atividade || (ve.visitas && ve.visitas !== 'meus'));
+  var ve = eu.ve || {};
   // pendências: o que falta para o painel funcionar bem
   var pend = [];
   if (!eu.whatsapp) pend.push({t: 'Sem WhatsApp no perfil: as páginas e vídeos que você envia não têm para quem chamar.', b: 'Colocar meu WhatsApp', f: editarPerfil});
@@ -1010,9 +1238,7 @@ function desenharInicio(){
   byId('inicioPendencias').hidden = !pend.length;
   // números do time (ou dos próprios links), antes do envio para quem gerencia
   desenharResumoInicio(ve);
-  var grade = byId('gradeInicio');
-  if (gestor) grade.insertBefore(byId('inicioResumo'), byId('inicioEnviar'));
-  else grade.insertBefore(byId('inicioResumo'), byId('inicioTime'));
+  if (!organizar.ligado) aplicarLayoutInicio();
   // equipe: quem pode convidar vê quantas pessoas estão abaixo
   var concede = eu.concede || [];
   byId('inicioTime').hidden = !concede.length;
@@ -1059,6 +1285,121 @@ function desenharResumoInicio(ve){
   }
 }
 
+/* --- Organizar o Início ---
+   Cada bloco do Início tem data-bloco; a ordem e a largura (1 = meia, 2 = inteira) ficam em perfis.preferencias -> 'inicio'
+   ({blocos: [{id, l}]}), pela api/perfil.js. Sem nada salvo, vale o padrão do papel. Bloco que o papel não vê continua escondido
+   (o hidden das permissões); bloco novo, que a pessoa ainda não organizou, entra na posição do padrão. */
+var organizar = {ligado: false};
+function gestorInicio(){ var ve = eu.ve || {}; return !!(ve.atividade || (ve.visitas && ve.visitas !== 'meus')); }
+function layoutPadrao(){
+  var gestor = gestorInicio(), largura = {pendencias: 2, enviar: 1, resumo: gestor ? 2 : 1, novidades: 1, time: 1, instalar: 1, atalhos: 2};
+  var ordem = gestor ? ['pendencias', 'resumo', 'enviar', 'novidades', 'time', 'instalar', 'atalhos'] : ['pendencias', 'enviar', 'novidades', 'resumo', 'time', 'instalar', 'atalhos'];
+  return ordem.map(function(id){ return {id: id, l: largura[id]}; });
+}
+function layoutSalvo(){ var p = eu.preferencias && eu.preferencias.inicio; return p && p.blocos && p.blocos.length ? p.blocos : null; }
+function blocosInicio(){ return Array.prototype.slice.call(document.querySelectorAll('#gradeInicio > [data-bloco]')); }
+function aplicarLayoutInicio(lista){
+  var grade = byId('gradeInicio'), ancora = byId('secEnvio'), padrao = layoutPadrao(), porId = {}, largura = {}, ordem = [];
+  blocosInicio().forEach(function(b){ porId[b.getAttribute('data-bloco')] = b; });
+  padrao.forEach(function(x){ largura[x.id] = x.l; });
+  (lista || layoutSalvo() || padrao).forEach(function(x){ if (porId[x.id] && ordem.indexOf(x.id) < 0) { ordem.push(x.id); largura[x.id] = x.l === 2 ? 2 : 1; } });
+  // o que não estava salvo entra logo depois de quem vem antes dele no padrão
+  padrao.forEach(function(x, i){
+    if (!porId[x.id] || ordem.indexOf(x.id) >= 0) return;
+    var antes = padrao.slice(0, i).map(function(y){ return ordem.indexOf(y.id); }).filter(function(k){ return k >= 0; });
+    ordem.splice(antes.length ? Math.max.apply(null, antes) + 1 : 0, 0, x.id);
+  });
+  ordem.forEach(function(id){ porId[id].setAttribute('data-largura', String(largura[id] || 1)); grade.insertBefore(porId[id], ancora); });
+}
+function layoutAtual(){ return blocosInicio().map(function(b){ return {id: b.getAttribute('data-bloco'), l: b.getAttribute('data-largura') === '2' ? 2 : 1}; }); }
+
+function nomeBloco(b){ var t = b.querySelector('h2'); return t ? t.textContent : b.getAttribute('data-bloco'); }
+function vizinho(b, passo){
+  var v = blocosInicio().filter(function(x){ return !x.hidden; }), i = v.indexOf(b) + passo;
+  return i >= 0 && i < v.length ? v[i] : null;
+}
+function moverBloco(b, passo){
+  var alvo = vizinho(b, passo);
+  if (!alvo) return;
+  byId('gradeInicio').insertBefore(b, passo < 0 ? alvo : alvo.nextSibling);
+  atualizarControles();
+  var botao = b.querySelector(passo < 0 ? '.org-subir' : '.org-descer');
+  (botao && !botao.disabled ? botao : b.querySelector('.alca')).focus();
+}
+function atualizarControles(){
+  blocosInicio().forEach(function(b){
+    var c = b.querySelector('.org-ctl');
+    if (!c) return;
+    c.querySelector('.org-subir').disabled = !vizinho(b, -1);
+    c.querySelector('.org-descer').disabled = !vizinho(b, 1);
+    var larga = b.getAttribute('data-largura') === '2', l = c.querySelector('.org-largura');
+    l.setAttribute('aria-pressed', String(larga));
+    l.title = larga ? 'Largura inteira (clique para meia)' : 'Meia largura (clique para inteira)';
+  });
+}
+// arrastar pela alça: mouse e toque (pointer events); o bloco entra antes ou depois do bloco sob o dedo
+function arrastar(e, b){
+  if (e.button > 0) return;
+  e.preventDefault();
+  // ouve no documento (e não só na alça): funciona mesmo onde a captura do ponteiro falha
+  var grade = byId('gradeInicio');
+  b.classList.add('arrastando');
+  function mover(ev){
+    if (ev.clientY < 70) window.scrollBy(0, -14); else if (ev.clientY > window.innerHeight - 70) window.scrollBy(0, 14);
+    var sob = document.elementFromPoint(ev.clientX, ev.clientY), alvo = sob && sob.closest ? sob.closest('#gradeInicio > [data-bloco]') : null;
+    if (!alvo || alvo === b || alvo.hidden) return;
+    var r = alvo.getBoundingClientRect(), meia = r.width < grade.clientWidth * 0.75;
+    var depois = meia ? ev.clientX > r.left + r.width / 2 : ev.clientY > r.top + r.height / 2;
+    grade.insertBefore(b, depois ? alvo.nextSibling : alvo);
+  }
+  function soltar(){
+    b.classList.remove('arrastando');
+    document.removeEventListener('pointermove', mover); document.removeEventListener('pointerup', soltar); document.removeEventListener('pointercancel', soltar);
+    atualizarControles();
+  }
+  document.addEventListener('pointermove', mover); document.addEventListener('pointerup', soltar); document.addEventListener('pointercancel', soltar);
+}
+function ligarOrganizar(sim){
+  organizar.ligado = sim;
+  byId('gradeInicio').classList.toggle('organizando', sim);
+  byId('orgBarra').hidden = !sim;
+  byId('orgAbrir').hidden = sim;
+  msg('msgOrg', '');
+  blocosInicio().forEach(function(b){
+    var velho = b.querySelector('.org-ctl');
+    if (velho) b.removeChild(velho);
+    if (!sim) return;
+    var nome = nomeBloco(b);
+    var alca = h('button', {'class': 'alca', type: 'button', 'aria-label': 'Arrastar ' + nome, title: 'Arrastar', text: '⠿'});
+    var subir = h('button', {'class': 'org-subir', type: 'button', 'aria-label': 'Subir ' + nome, text: '↑'});
+    var descer = h('button', {'class': 'org-descer', type: 'button', 'aria-label': 'Descer ' + nome, text: '↓'});
+    var larg = h('button', {'class': 'org-largura', type: 'button', 'aria-label': 'Largura inteira: ' + nome, text: '⇔'});
+    alca.addEventListener('pointerdown', function(e){ arrastar(e, b); });
+    alca.addEventListener('keydown', function(e){ if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); moverBloco(b, e.key === 'ArrowUp' ? -1 : 1); } });
+    subir.addEventListener('click', function(){ moverBloco(b, -1); });
+    descer.addEventListener('click', function(){ moverBloco(b, 1); });
+    larg.addEventListener('click', function(){ b.setAttribute('data-largura', b.getAttribute('data-largura') === '2' ? '1' : '2'); atualizarControles(); });
+    b.insertBefore(h('div', {'class': 'org-ctl'}, [alca, h('strong', {text: nome}), subir, descer, larg]), b.firstChild);
+  });
+  if (sim) { atualizarControles(); byId('orgSalvar').focus(); } else byId('orgAbrir').focus();
+}
+byId('orgAbrir').addEventListener('click', function(){ ligarOrganizar(true); });
+byId('orgCancelar').addEventListener('click', function(){ aplicarLayoutInicio(); ligarOrganizar(false); });
+byId('orgPadrao').addEventListener('click', function(){ aplicarLayoutInicio(layoutPadrao()); atualizarControles(); msg('msgOrg', 'Voltou ao padrão. Salve para manter assim.', 'ok'); });
+byId('orgSalvar').addEventListener('click', function(){
+  var botao = this, valor = {blocos: layoutAtual()};
+  botao.disabled = true;
+  api('PUT', 'perfil', {preferencia: 'inicio', valor: valor}, function(st, d){
+    botao.disabled = false;
+    if (st !== 200) return msg('msgOrg', st === 0 ? 'Sem internet: conecte-se e salve de novo.' :d.erro || 'Não foi possível salvar.', 'erro');
+    eu.preferencias = eu.preferencias || {};
+    eu.preferencias.inicio = d.valor || valor;
+    guarda('eu', eu);
+    ligarOrganizar(false);
+    toast('Visualização do Início salva.');
+  });
+});
+
 /* ---------- Vistas do painel ----------
    Uma vista por vez, pelo endereço (#/inicio, #/enviar, #/materiais, #/equipe, #/resultados, #/perfil): o Voltar do navegador funciona
    e dá para mandar o link de uma parte. Cada bloco diz a vista em data-vista; o menu só mostra a vista que tem algum bloco liberado
@@ -1094,6 +1435,8 @@ function atualizarMenu(){
 // sem rota liberada, volta ao Início; "inicial" é a primeira abertura (não rouba o foco nem acrescenta histórico)
 function irPara(id, inicial){
   if (!VISTAS_PAINEL[id] || !vistaLiberada(id)) id = 'inicio';
+  // saiu do Início no meio da organização: desfaz o que não foi salvo
+  if (id !== 'inicio' && organizar.ligado) { aplicarLayoutInicio(); ligarOrganizar(false); }
   vistaAtual = id;
   Array.prototype.forEach.call(document.querySelectorAll('#painelMain [data-vista]'), function(b){ b.classList.toggle('na-vista', b.getAttribute('data-vista') === id); });
   if (location.hash !== '#/' + id) history.replaceState(null, '', location.pathname + location.search + '#/' + id);
@@ -1195,7 +1538,7 @@ function linhaUsuario(u){
         novoLink.disabled = false;
         if (st !== 200) return msg('msgUsuarios', d.erro || 'Não foi possível gerar o link.', 'erro');
         msg('msgUsuarios', '');
-        mostrarLink(d.link, nomeCompleto(u));
+        mostrarLink(d.link, nomeCompleto(u), u.papel, 'acesso');
       });
     });
   } else {
@@ -1205,12 +1548,36 @@ function linhaUsuario(u){
   return h('tr', {}, [pessoa, papel]);
 }
 
-function mostrarLink(link, pessoa){
-  byId('linkTit').textContent = 'Link de acesso para ' + pessoa;
+// o link gerado e quem vai recebê-lo; tipo 'convite' (primeiro acesso) ou 'acesso' (novo link para quem já entrou)
+var linkGerado = null;
+function mostrarLink(link, pessoa, papel, tipo){
+  linkGerado = {link: link, pessoa: pessoa, papel: papel, tipo: tipo};
+  byId('linkTit').textContent = (tipo === 'convite' ? 'Convite para ' : 'Link de acesso para ') + pessoa;
   byId('linkUrl').value = link;
   byId('linkBox').hidden = false;
-  byId('linkCopiar').focus();
+  byId('linkZap').focus();
 }
+// mensagem pronta: nome, papel, o que é a plataforma, o que fazer no primeiro acesso e o link
+function mensagemAcesso(g){
+  var nome = /@/.test(g.pessoa) ? '' : g.pessoa.split(' ')[0], ola = 'Olá' + (nome ? ', ' + nome : '') + '!';
+  var quem = eu ? nomeCompleto(eu) : '', papel = PAPEL[g.papel] || g.papel;
+  if (g.tipo !== 'convite') return ola + ' Segue um novo link de acesso ao painel da Plataforma de Treinamento Vivo Empresas' + (papel ? ' (seu papel: ' + papel + ')' : '') + '.\n\n' +
+    '1. Abra o link abaixo (ele vale uma vez e expira; abra assim que puder).\n' +
+    '2. Confirme o seu nome e crie uma senha nova, com pelo menos 8 caracteres.\n\n' + g.link;
+  return ola + ' Você recebeu um convite' + (quem && quem !== eu.email ? ' de ' + quem : '') + ' para entrar no painel da Plataforma de Treinamento Vivo Empresas como ' + papel + '.\n\n' +
+    'O painel reúne o playbook de vendas e as páginas e vídeos para enviar aos seus clientes pelo WhatsApp, e mostra quando o cliente abriu cada link e o que fez nele.\n\n' +
+    'No primeiro acesso:\n' +
+    '1. Abra o link abaixo (ele vale uma vez e expira; abra assim que puder).\n' +
+    '2. Informe o seu nome e crie uma senha com pelo menos 8 caracteres.\n' +
+    '3. Em Meu perfil, coloque o seu WhatsApp: é ele que o cliente chama no fim das páginas que você enviar.\n' +
+    '4. Se quiser, instale o app pelo menu da conta, para abrir o painel direto da tela inicial.\n\n' + g.link;
+}
+byId('linkZap').addEventListener('click', function(){
+  if (linkGerado) window.open('https://wa.me/?text=' + encodeURIComponent(mensagemAcesso(linkGerado)), '_blank', 'noopener');
+});
+byId('linkMsg').addEventListener('click', function(){
+  if (linkGerado) copiar(mensagemAcesso(linkGerado), 'Mensagem copiada com o link.');
+});
 
 byId('linkCopiar').addEventListener('click', function(){
   var campo = byId('linkUrl'), botao = this;
@@ -1228,7 +1595,8 @@ byId('fConvite').addEventListener('submit', function(e){
     ocupado(f, false);
     if (st !== 201 && st !== 207) return msg('msgUsuarios', d.erro || 'Não foi possível gerar o convite.', 'erro');
     msg('msgUsuarios', d.aviso || '', d.aviso ? 'erro' : 'ok');
-    mostrarLink(d.link, nome || email);
+    // 207: o papel não pôde ser aplicado e ficou GN (o aviso explica)
+    mostrarLink(d.link, nome || email, st === 207 ? 'gn' : papel, 'convite');
     byId('convEmail').value = byId('convNome').value = '';
     carregarUsuarios();
   });
@@ -1320,8 +1688,32 @@ function enviar(item, forma){
   copiar(forma === 'link' ? link : texto, forma === 'link' ? 'Link copiado. Pode enviar ao cliente.' : 'Mensagem copiada com o link.');
 }
 
+// texto, mensagem, ordem e "aparece" vêm do banco (Administração → Páginas do painel); sem ele (antes de carregar, ou o
+// schema ainda sem a tabela), vale o texto do código. Endereço, botão final (zap) e medição são sempre os do código.
+function paginasDeEnvio(){
+  var banco = {};
+  (envio.paginas || []).forEach(function(p){ banco[p.id] = p; });
+  return PAGINAS_ENVIO.map(function(p, i){
+    var b = banco[p.id], x = {tipo: 'pagina', id: p.id, url: p.url, zap: p.zap, noBanco: !!b};
+    if (!b) { x.titulo = p.titulo; x.descricao = p.descricao; x.palavras = p.palavras; x.msg = p.msg; x.ativo = true; x.ordem = i + 1; return x; }
+    x.titulo = b.titulo; x.descricao = b.descricao || ''; x.palavras = b.palavras || ''; x.ativo = !!b.ativo; x.ordem = b.ordem; x.mensagem = b.mensagem;
+    x.msg = function(l){ return mensagemPronta(b.mensagem, l); };
+    return x;
+  }).sort(function(a, b){ return a.ordem - b.ordem; });
+}
+function mensagemPronta(texto, link){ return String(texto || '').split('{link}').join(link).split('{produto}').join('Plataforma de Treinamento Vivo Empresas'); }
+function carregarPaginasEnvio(){
+  api('GET', 'paginas?acao=envio', null, function(st, d){
+    if (st === 0) d = {paginas: le('paginasEnvio', [])};
+    else if (st !== 200) { if (eu.papel === 'superadmin') msg('msgAdmEnvio', d.erro || 'Não foi possível carregar as páginas de envio.', 'erro'); return desenharAdmEnvio(); }
+    else guarda('paginasEnvio', d.paginas || []);
+    envio.paginas = d.paginas || [];
+    desenharEnvio();
+    desenharAdmEnvio();
+  });
+}
 function itensEnvio(){
-  var pags = PAGINAS_ENVIO.map(function(p){ return {tipo: 'pagina', id: p.id, titulo: p.titulo, descricao: p.descricao, palavras: p.palavras, url: p.url, zap: p.zap, msg: p.msg}; });
+  var pags = paginasDeEnvio().filter(function(p){ return p.ativo; });
   // em Enviar só entra vídeo para o cliente; o só para o GN fica em Materiais → Vídeos
   return pags.concat(videosComo(envio.videos.filter(function(v){ return v.para_cliente; })));
 }
@@ -1395,6 +1787,7 @@ function itemEnvio(it, modo){
 
 function carregarEnvio(){
   desenharEnvio();
+  carregarPaginasEnvio();
   api('GET', 'videos', null, function(st, d){
     // sem internet, vale a última lista guardada no aparelho
     if (st === 0 && le('videos', null)) d = {videos: le('videos', [])};
@@ -1461,6 +1854,8 @@ function abrirVideo(v){
   byId('vdOrdem').value = v ? v.ordem : 0;
   byId('vdCliente').checked = v ? !!v.para_cliente : true;
   byId('vdVertical').checked = v ? !!v.vertical : false;
+  byId('vdNovidadeOp').hidden = !v;
+  byId('vdNovidade').checked = false;
   msg('msgVideo', '');
   byId('fVideo').hidden = false;
   byId('videoNovo').hidden = true;
@@ -1497,14 +1892,16 @@ byId('fVideo').addEventListener('submit', function(e){
   if (!corpo.titulo) { byId('vdTitulo').focus(); return msg('msgVideo', 'Informe o título.', 'erro'); }
   if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(corpo.codigo) || corpo.codigo.length < 3) { byId('vdCodigo').focus(); return msg('msgVideo', 'O código do link usa de 3 a 40 letras minúsculas, números e hífens.', 'erro'); }
   if (dur === null) { byId('vdDuracao').focus(); return msg('msgVideo', 'Duração em minutos e segundos, como 2:30.', 'erro'); }
-  if (envio.videoEditado) corpo.id = envio.videoEditado.id;
+  if (envio.videoEditado) { corpo.id = envio.videoEditado.id; corpo.novidade = byId('vdNovidade').checked; }
   ocupado(f, true); msg('msgVideo', 'Salvando…', 'ok');
   api(envio.videoEditado ? 'PATCH' : 'POST', 'videos', corpo, function(st, d){
     ocupado(f, false);
     if (st !== 200 && st !== 201) return msg('msgVideo', d.erro || 'Não foi possível salvar o vídeo.', 'erro');
     fecharVideo();
     byId('videoNovo').focus();
+    if (d.aviso) msg('msgAdmVideos', d.aviso, 'erro');
     carregarEnvio();
+    carregarNovidades();
   });
 });
 
@@ -1709,6 +2106,8 @@ function abrirPagina(p){
   byId('pgDescricao').value = p ? p.descricao || '' : '';
   sel.value = p ? p.papel_minimo : 'gn';
   byId('pgOrdem').value = p ? p.ordem : 0;
+  byId('pgNovidadeOp').hidden = !p;
+  byId('pgNovidade').checked = false;
   msg('msgPagina', '');
   atualizarPrevia();
   byId('fPagina').hidden = false;
@@ -1749,14 +2148,183 @@ byId('fPagina').addEventListener('submit', function(e){
   if (!corpo.titulo) { byId('pgTitulo').focus(); return msg('msgPagina', 'Informe o título.', 'erro'); }
   if (!/^https:\/\/\S+$/.test(url)) { byId('pgUrl').focus(); return msg('msgPagina', 'Informe o endereço completo, começando com https://', 'erro'); }
   if (capaNova !== null) corpo.capa = capaNova;
-  if (paginaEditada) corpo.id = paginaEditada.id;
+  if (paginaEditada) { corpo.id = paginaEditada.id; corpo.novidade = byId('pgNovidade').checked; }
   ocupado(f, true); msg('msgPagina', 'Salvando…', 'ok');
   api(paginaEditada ? 'PATCH' : 'POST', 'paginas', corpo, function(st, d){
     ocupado(f, false);
     if (st !== 200 && st !== 201) return msg('msgPagina', d.erro || 'Não foi possível salvar a página.', 'erro');
     fecharPagina();
     byId('paginaNova').focus();
+    if (d.aviso) msg('msgAdmPaginas', d.aviso, 'erro');
     carregarPaginas();
+    carregarNovidades();
+  });
+});
+
+/* Administração → Páginas do painel → Páginas para enviar ao cliente (só superadmin; quem barra é a RLS de paginas_envio,
+   e a trava do white label fica em api/paginas.js) */
+var paginaEnvioEditada = null;
+function desenharAdmEnvio(){
+  var ul = byId('listaAdmEnvio');
+  ul.innerHTML = '';
+  if (!eu || eu.papel !== 'superadmin') return;
+  var lista = paginasDeEnvio(), noBanco = lista.some(function(p){ return p.noBanco; });
+  if (!noBanco) msg('msgAdmEnvio', 'As páginas de envio ainda não estão no banco: rode o supabase/schema.sql no SQL Editor para poder editar.', 'erro');
+  else if (byId('msgAdmEnvio').className.indexOf('erro') >= 0) msg('msgAdmEnvio', '');
+  lista.forEach(function(p){
+    var editar = h('button', {'class': 'btn btn-sec btn-p', type: 'button', text: 'Editar'});
+    editar.disabled = !p.noBanco;
+    editar.addEventListener('click', function(){ abrirPaginaEnvio(p); });
+    ul.appendChild(h('li', {'class': 'novidade'}, [
+      icone(p.zap ? 'i-ev-zap' : 'i-ev-abriu', p.ativo ? (p.zap ? 'ev-zap' : '') : 'ev-neutro'),
+      h('div', {'class': 'nv-texto'}, [
+        h('span', {'class': 'nv-topo'}, [h('span', {'class': 'nv-tag', text: p.ativo ? 'Aparece em Enviar' : 'Escondida'}), h('span', {text: 'Ordem ' + p.ordem})]),
+        h('strong', {text: p.titulo}), p.descricao ? h('span', {'class': 'nv-desc', text: p.descricao}) : null
+      ]),
+      h('div', {'class': 'acoes'}, [editar, h('a', {'class': 'btn-link', href: p.url, target: '_blank', rel: 'noopener', text: 'Ver página ↗'})])
+    ]));
+  });
+}
+function previaMensagem(){
+  var texto = byId('peMensagem').value;
+  byId('pePrevia').textContent = texto ? mensagemPronta(texto, paginaEnvioEditada ? paginaEnvioEditada.url + '#gn=…&e=…' : '') : '(vazia)';
+}
+function abrirPaginaEnvio(p){
+  paginaEnvioEditada = p;
+  byId('peFormTit').textContent = 'Editar: ' + p.titulo;
+  byId('peTitulo').value = p.titulo;
+  byId('peOrdem').value = p.ordem;
+  byId('peDescricao').value = p.descricao || '';
+  byId('pePalavras').value = p.palavras || '';
+  byId('peMensagem').value = p.mensagem || '';
+  byId('peAtivo').checked = p.ativo;
+  msg('msgPaginaEnvio', '');
+  previaMensagem();
+  byId('fPaginaEnvio').hidden = false;
+  if (byId('fPaginaEnvio').scrollIntoView) byId('fPaginaEnvio').scrollIntoView({block: 'nearest'});
+  byId('peTitulo').focus();
+}
+function fecharPaginaEnvio(){ paginaEnvioEditada = null; byId('fPaginaEnvio').hidden = true; }
+byId('peMensagem').addEventListener('input', previaMensagem);
+byId('peCancelar').addEventListener('click', function(){ fecharPaginaEnvio(); });
+byId('fPaginaEnvio').addEventListener('submit', function(e){
+  e.preventDefault();
+  if (!paginaEnvioEditada) return;
+  var f = this, corpo = {acao: 'envio', id: paginaEnvioEditada.id, titulo: byId('peTitulo').value.trim(), ordem: parseInt(byId('peOrdem').value, 10) || 0,
+    descricao: byId('peDescricao').value.trim(), palavras: byId('pePalavras').value.trim(), mensagem: byId('peMensagem').value.trim(), ativo: byId('peAtivo').checked};
+  if (!corpo.titulo) { byId('peTitulo').focus(); return msg('msgPaginaEnvio', 'Informe o título.', 'erro'); }
+  if (corpo.mensagem.indexOf('{link}') < 0) { byId('peMensagem').focus(); return msg('msgPaginaEnvio', 'A mensagem precisa ter {link}, onde entra o link do envio.', 'erro'); }
+  ocupado(f, true); msg('msgPaginaEnvio', 'Salvando…', 'ok');
+  api('PATCH', 'paginas', corpo, function(st, d){
+    ocupado(f, false);
+    if (st !== 200) return msg('msgPaginaEnvio', d.erro || 'Não foi possível salvar.', 'erro');
+    fecharPaginaEnvio();
+    msg('msgAdmEnvio', 'Salvo. Enviar ao cliente já usa o texto novo.', 'ok');
+    carregarPaginasEnvio();
+  });
+});
+
+/* ---------- Novidades ----------
+   As 7 últimas que o papel vê (api/paginas.js?acao=novidades; o banco filtra por papel_minimo). A não vista fica em destaque,
+   com o número no menu Início; ao clicar, abre (vídeo no player, página em nova aba, vista do painel) e deixa de ser destaque.
+   Superadmin: Administração → Novidades publica à mão (playbook, outro aviso) e remove. */
+var novidades = {lista: []};
+var TIPO_NOVIDADE = {video: 'Vídeo', pagina: 'Página', playbook: 'Playbook', outro: 'Aviso'};
+var ICONE_NOVIDADE = {video: ['i-ev-play', 'ev-video'], pagina: ['i-ev-abriu', ''], playbook: ['i-materiais', ''], outro: ['i-inicio', 'ev-neutro']};
+function carregarNovidades(){
+  api('GET', 'paginas?acao=novidades', null, function(st, d){
+    if (st === 0 && le('novidades', null)) { st = 200; d = {novidades: le('novidades', [])}; }
+    if (st !== 200) return;
+    novidades.lista = d.novidades || [];
+    guarda('novidades', novidades.lista);
+    desenharNovidades();
+  });
+}
+function linhaNovidade(n, tag){
+  var ic = ICONE_NOVIDADE[n.tipo] || ICONE_NOVIDADE.outro;
+  return [icone(ic[0], ic[1]), h(tag || 'span', {'class': 'nv-texto'}, [
+    h('span', {'class': 'nv-topo'}, [h('span', {'class': 'nv-tag', text: n.acao === 'atualizada' ? 'Atualizado' : 'Novo'}), h('span', {text: TIPO_NOVIDADE[n.tipo] || ''}),
+      h('time', {datetime: n.criado_em, text: haQuanto(n.criado_em)})]),
+    h('strong', {text: n.titulo}),
+    n.descricao ? h('span', {'class': 'nv-desc', text: n.descricao}) : null
+  ])];
+}
+function desenharNovidades(foco){
+  var ul = byId('listaNovidades'), l = novidades.lista, novas = l.filter(function(n){ return !n.lida; }).length;
+  byId('inicioNovidades').hidden = !l.length;
+  byId('novidadesSub').textContent = novas ? (novas === 1 ? '1 novidade para ver.' : novas + ' novidades para ver.') : 'Você já viu todas.';
+  ul.innerHTML = '';
+  l.forEach(function(n, i){
+    var b = h('button', {'class': 'novidade' + (n.lida ? '' : ' nao-lida'), type: 'button', 'aria-label': (n.lida ? '' : 'Não vista. ') + (n.acao === 'atualizada' ? 'Atualizado: ' : 'Novo: ') + n.titulo}, linhaNovidade(n));
+    b.addEventListener('click', function(){ abrirNovidade(n, i); });
+    ul.appendChild(h('li', {}, [b]));
+  });
+  if (foco != null && ul.children[foco]) ul.children[foco].firstChild.focus();
+  var conta = byId('menuNovas');
+  conta.textContent = novas > 9 ? '9+' : String(novas);
+  conta.hidden = !novas;
+  conta.setAttribute('aria-label', novas + (novas === 1 ? ' novidade' : ' novidades'));
+}
+function abrirNovidade(n, i){
+  if (!n.lida) {
+    n.lida = true;
+    guarda('novidades', novidades.lista);
+    desenharNovidades(i);
+    api('POST', 'paginas', {acao: 'lida', id: n.id}, function(){});
+  }
+  var link = n.link || '';
+  if (/^video:/.test(link)) {
+    var v = envio.videos.filter(function(x){ return x.codigo === link.slice(6); })[0];
+    if (v) return assistir(v);
+    verSubaba('materiais', 'mVideos');
+    location.hash = '#/materiais';
+  } else if (/^#\//.test(link)) location.hash = link;
+  else if (/^https:\/\//.test(link)) {
+    registrar('abriu', n.titulo, {url: link, de: 'novidades'});
+    window.open(link, '_blank', 'noopener');
+  }
+}
+
+/* Administração → Novidades (só superadmin; quem barra é a RLS de novidades) */
+AO_ABRIR_SUBABA.admNovidades = function(){ carregarAdmNovidades(); };
+function carregarAdmNovidades(){
+  var sel = byId('nvPapel');
+  if (!sel.options.length) ['gn', 'bdm', 'gerente', 'admin', 'superadmin'].forEach(function(k){ sel.appendChild(h('option', {value: k, text: QUEM_VE[k]})); });
+  msg('msgAdmNovidades', 'Carregando…', 'ok');
+  api('GET', 'paginas?acao=novidades&quantas=30', null, function(st, d){
+    var ul = byId('listaAdmNovidades');
+    ul.innerHTML = '';
+    if (st !== 200) return msg('msgAdmNovidades', d.erro || 'Não foi possível carregar as novidades.', 'erro');
+    msg('msgAdmNovidades', (d.novidades || []).length ? '' : 'Nenhuma novidade ainda.');
+    (d.novidades || []).forEach(function(n){
+      var tirar = h('button', {'class': 'btn-link', type: 'button', text: 'Remover'});
+      tirar.addEventListener('click', function(){
+        if (!window.confirm('Remover a novidade "' + n.titulo + '"? Ela some do Início de todos.')) return;
+        tirar.disabled = true;
+        api('DELETE', 'paginas?novidade=' + encodeURIComponent(n.id), null, function(st2, d2){
+          tirar.disabled = false;
+          if (st2 !== 200) return msg('msgAdmNovidades', d2.erro || 'Não foi possível remover.', 'erro');
+          carregarAdmNovidades(); carregarNovidades();
+        });
+      });
+      var quem = h('small', {'class': 'nv-desc', text: 'Quem vê: ' + (QUEM_VE[n.papel_minimo] || n.papel_minimo)});
+      ul.appendChild(h('li', {'class': 'novidade'}, linhaNovidade(n, 'div').concat([quem, tirar])));
+    });
+  });
+}
+byId('fNovidade').addEventListener('submit', function(e){
+  e.preventDefault();
+  var f = this, corpo = {acao: 'novidade', tipo: byId('nvTipo').value, papel_minimo: byId('nvPapel').value,
+    titulo: byId('nvTitulo').value.trim(), descricao: byId('nvDescricao').value.trim(), link: byId('nvLink').value.trim()};
+  if (!corpo.titulo) { byId('nvTitulo').focus(); return msg('msgNovidade', 'Informe o título.', 'erro'); }
+  if (corpo.link && !/^https:\/\/\S+$/.test(corpo.link)) { byId('nvLink').focus(); return msg('msgNovidade', 'O link precisa começar com https:// (ou ficar vazio).', 'erro'); }
+  ocupado(f, true);
+  api('POST', 'paginas', corpo, function(st, d){
+    ocupado(f, false);
+    if (st !== 201) return msg('msgNovidade', d.erro || 'Não foi possível publicar.', 'erro');
+    byId('nvTitulo').value = byId('nvDescricao').value = byId('nvLink').value = '';
+    msg('msgNovidade', 'Publicada. Já aparece no Início de quem tem o papel escolhido.', 'ok');
+    carregarAdmNovidades(); carregarNovidades();
   });
 });
 
@@ -1843,7 +2411,7 @@ Array.prototype.forEach.call(document.querySelectorAll('#secEngaj .periodo butto
   b.addEventListener('click', function(){
     eng.dias = Number(b.getAttribute('data-dias'));
     Array.prototype.forEach.call(document.querySelectorAll('#secEngaj .periodo button'), function(x){ x.setAttribute('aria-pressed', String(x === b)); });
-    byId('tempoUsuario').hidden = byId('tempoLink').hidden = true;
+    fecharGaveta();
     carregarAba();
   });
 });
@@ -1856,7 +2424,7 @@ function statusDe(u){
 }
 function desenharEquipe(){
   var lista = eng.resumo;
-  lista.forEach(function(u){ u.status = statusDe(u); u.nomeVer = pessoaNome(u); });
+  lista.forEach(function(u){ u.status = statusDe(u); u.nomeVer = pessoaNome(u); u.score = u.pontos ? u.pontos.score || 0 : 0; });
   var ativos = lista.filter(function(u){ return u.dias_ativos > 0; }).length;
   var soma = function(k){ return lista.reduce(function(t, u){ return t + (u[k] || 0); }, 0); };
   var envios = soma('envios'), abertos = soma('envios_abertos'), incentivo = lista.filter(function(u){ return u.status === 'incentivo'; }).length;
@@ -1891,7 +2459,7 @@ function tabelaEquipe(){
   });
   var tb = byId('tbEquipe');
   tb.innerHTML = '';
-  if (!linhas.length) return tb.appendChild(h('tr', {}, [h('td', {colspan: '7', text: 'Ninguém com esses filtros.'})]));
+  if (!linhas.length) return tb.appendChild(h('tr', {}, [h('td', {colspan: '8', text: 'Ninguém com esses filtros.'})]));
   linhas.forEach(function(u){
     var foto = h('span', {'class': 'avatar avatar-p', 'aria-hidden': 'true'});
     pintarAvatar(foto, u);
@@ -1901,6 +2469,7 @@ function tabelaEquipe(){
     tb.appendChild(h('tr', {}, [
       h('td', {}, [h('div', {'class': 'pessoa'}, [foto, h('div', {}, [h('strong', {text: u.nomeVer}), h('small', {text: PAPEL[u.papel] || u.papel}), ver])])]),
       td('Status', h('span', {'class': 'status status-' + u.status, text: st.s + ' ' + st.t})),
+      td('Score', u.pontos ? pilulaScore(u.score) : '—'),
       td('Último acesso', u.ultimo_acesso ? haQuanto(u.ultimo_acesso) : 'Nunca entrou'),
       td('Dias ativos', String(u.dias_ativos), 'num'),
       td('Tempo no playbook', u.segundos_playbook ? duracao(u.segundos_playbook) : '—', 'num'),
@@ -1974,30 +2543,121 @@ function descreverEvento(e){
   if (e.tipo === 'modo_cliente') return 'Ligou o modo cliente' + (d.aba ? ' na aba ' + (ROTULO_ABA[d.aba] || d.aba) : '');
   return e.tipo;
 }
-// lista agrupada por dia (mais recente primeiro)
-function linhaDoTempo(box, titulo, sub, itens){
+/* --- Gaveta: linha do tempo com o score (de um link enviado ou de um usuário) ---
+   O score vem pronto do banco (score_envio, score_usuario); aqui só se mostra de onde vieram os pontos. */
+var gaveta = {pedido: 0, volta: null};
+function icone(id, classe){
+  var NS = 'http://www.w3.org/2000/svg', s = document.createElementNS(NS, 'svg'), u = document.createElementNS(NS, 'use');
+  s.setAttribute('aria-hidden', 'true'); u.setAttribute('href', '#' + id); s.appendChild(u);
+  return h('span', {'class': 'ev-icone ' + (classe || '')}, [s]);
+}
+function faixaScore(n){ return n >= 70 ? {c: 'faixa-alto', t: 'Engajamento alto'} : n >= 40 ? {c: 'faixa-medio', t: 'Engajamento médio'} : {c: 'faixa-baixo', t: 'Engajamento baixo'}; }
+function pilulaScore(n){
+  n = Math.max(0, Math.min(100, Math.round(n || 0)));
+  return h('span', {'class': 'score-pill', title: faixaScore(n).t + ' (' + n + ' de 100)', style: '--p:' + n + '%'}, [h('span', {text: String(n)}), h('i', {'aria-hidden': 'true'})]);
+}
+function anelScore(n){
+  var NS = 'http://www.w3.org/2000/svg', C = 2 * Math.PI * 46, s = document.createElementNS(NS, 'svg');
+  s.setAttribute('viewBox', '0 0 104 104'); s.setAttribute('aria-hidden', 'true');
+  [['trilha', 0], ['valor', C * (1 - n / 100)]].forEach(function(c){
+    var el = document.createElementNS(NS, 'circle');
+    el.setAttribute('class', c[0]); el.setAttribute('cx', 52); el.setAttribute('cy', 52); el.setAttribute('r', 46);
+    if (c[0] === 'valor') { el.setAttribute('stroke-dasharray', C.toFixed(2)); el.setAttribute('stroke-dashoffset', c[1].toFixed(2)); if (!n) el.setAttribute('stroke-opacity', '0'); }
+    s.appendChild(el);
+  });
+  return h('div', {'class': 'score-anel', role: 'img', 'aria-label': 'Score ' + n + ' de 100'}, [s, h('b', {text: String(n)}, [h('small', {text: 'de 100'})])]);
+}
+
+function abrirGaveta(tipo, titulo, sub){
+  if (byId('gaveta').hidden) gaveta.volta = document.activeElement;
+  byId('gavetaTipo').textContent = tipo;
+  byId('gavetaTit').textContent = titulo;
+  byId('gavetaSub').textContent = sub || '';
+  var corpo = byId('gavetaCorpo');
+  corpo.innerHTML = '';
+  corpo.appendChild(h('div', {id: 'gScore'}));
+  corpo.appendChild(h('h4', {text: 'Linha do tempo'}));
+  corpo.appendChild(h('div', {id: 'gEventos'}, [h('p', {'class': 'sub', text: 'Carregando…'})]));
+  corpo.scrollTop = 0;
+  byId('gavetaFundo').hidden = byId('gaveta').hidden = false;
+  document.body.style.overflow = 'hidden';
+  byId('gavetaX').focus();
+  return ++gaveta.pedido;
+}
+function fecharGaveta(){
+  if (byId('gaveta').hidden) return;
+  gaveta.pedido++;
+  byId('gavetaFundo').hidden = byId('gaveta').hidden = true;
+  document.body.style.overflow = '';
+  if (gaveta.volta && gaveta.volta.focus) gaveta.volta.focus();
+}
+byId('gavetaX').addEventListener('click', fecharGaveta);
+byId('gavetaFundo').addEventListener('click', fecharGaveta);
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') fecharGaveta(); });
+
+// criterios: [{icone, classe, nome, pts, max, explica, alto}]
+function pintarScore(n, resumo, criterios, como){
+  var box = byId('gScore');
   box.innerHTML = '';
-  var fechar = h('button', {'class': 'btn-link fechar', type: 'button', text: 'Fechar'});
-  fechar.addEventListener('click', function(){ box.hidden = true; });
-  box.appendChild(fechar);
-  box.appendChild(h('h3', {text: titulo}));
-  if (sub) box.appendChild(h('p', {'class': 'sub', text: sub}));
-  if (!itens.length) box.appendChild(h('p', {text: 'Nada registrado neste período.'}));
+  if (n == null) return box.appendChild(h('p', {'class': 'sub', text: 'Sem score para mostrar.'}));
+  var f = faixaScore(n);
+  box.appendChild(h('div', {'class': 'score-topo'}, [anelScore(n), h('div', {}, [h('span', {'class': 'score-faixa ' + f.c, text: f.t}), h('p', {text: resumo})])]));
+  box.appendChild(h('h4', {text: 'De onde vieram os pontos'}));
+  box.appendChild(h('ul', {'class': 'criterios'}, criterios.map(function(c){
+    var pts = c.pts == null ? null : c.pts;
+    return h('li', {'class': 'criterio' + (c.alto ? ' peso-alto' : '')}, [
+      icone(c.icone, c.classe), h('strong', {text: c.nome}),
+      h('span', {'class': 'pts', text: pts == null ? '—' : String(pts)}, [h('small', {text: ' / ' + c.max})]),
+      h('div', {'class': 'medidor', 'aria-hidden': 'true'}, [h('i', {style: 'width:' + (pts ? Math.round(pts / c.max * 100) : 0) + '%'})]),
+      h('span', {'class': 'explica', text: c.explica})
+    ]);
+  })));
+  box.appendChild(h('details', {'class': 'como-calcula'}, [h('summary', {text: 'Como o score é calculado'}), h('p', {text: como})]));
+}
+// itens: [{em, texto, icone, classe, visita, marca}], do mais antigo ou do mais recente, agrupados por dia
+function pintarEventos(itens, erro){
+  var box = byId('gEventos');
+  box.innerHTML = '';
+  if (!itens) return box.appendChild(h('p', {'class': 'msg erro', text: erro || 'Não foi possível carregar.'}));
+  if (!itens.length) return box.appendChild(h('p', {'class': 'sub', text: 'Nada registrado neste período.'}));
   var dia = '', ol = null;
   itens.forEach(function(it){
     var d = diaDe(it.em);
-    if (d !== dia) { dia = d; box.appendChild(h('h4', {text: d})); ol = h('ol'); box.appendChild(ol); }
-    ol.appendChild(h('li', {}, [h('time', {datetime: it.em, text: hora(it.em)}), h('span', {text: it.texto}, it.marca ? [h('span', {'class': 'interna', text: it.marca})] : [])]));
+    if (d !== dia) { dia = d; box.appendChild(h('h4', {text: d})); ol = h('ol', {'class': 'eventos'}); box.appendChild(ol); }
+    var texto = h('div', {'class': 'ev-texto'}, [it.visita ? h('span', {'class': 'visita', text: it.visita}) : null, document.createTextNode(it.texto),
+      it.marca ? h('span', {'class': 'interna', text: it.marca}) : null, h('time', {datetime: it.em, text: hora(it.em)})]);
+    ol.appendChild(h('li', {}, [icone(it.icone, it.classe), texto]));
   });
-  box.hidden = false;
-  if (box.scrollIntoView) box.scrollIntoView({block: 'nearest'});
+}
+
+/* --- Score do usuário --- */
+var COMO_USUARIO = 'Frequência (30): dias com acesso ÷ dias úteis do período. Links enviados (25): meta de 1 link a cada 3 dias. ' +
+  'Resposta dos clientes (30): média do score dos links enviados no período (quem não enviou fica com 0). Último acesso (15): hoje 15, até 3 dias 10, até 7 dias 5. ' +
+  'Sem permissão para ver as visitas da pessoa, o score usa só os outros 70 pontos.';
+function criteriosUsuario(u, p){
+  return [
+    {icone: 'i-ev-login', nome: 'Frequência', pts: p.frequencia, max: 30, explica: 'Ativo em ' + u.dias_ativos + (u.dias_ativos === 1 ? ' dia' : ' dias') + ' dos últimos ' + eng.dias},
+    {icone: 'i-enviar', nome: 'Links enviados', pts: p.envios, max: 25, explica: u.envios + (u.envios === 1 ? ' link' : ' links') + ' no período (meta: 1 a cada 3 dias)'},
+    {icone: 'i-ev-zap', classe: 'ev-zap', nome: 'Resposta dos clientes', pts: p.clientes, max: 30,
+      explica: p.clientes == null ? 'Você não vê as visitas dos clientes desta pessoa: o score usa os outros 70 pontos.'
+        : u.envios ? u.envios_abertos + ' de ' + u.envios + ' abertos' + (u.contatos ? ' · ' + u.contatos + ' no WhatsApp' : '') : 'Nenhum link enviado no período'},
+    {icone: 'i-ev-tempo', nome: 'Último acesso', pts: p.recencia, max: 15, explica: u.ultimo_acesso ? haQuanto(u.ultimo_acesso) : 'Nunca entrou'}
+  ];
+}
+function iconeEvento(e){
+  if (e.tipo === 'login') return ['i-ev-login', ''];
+  if (e.tipo === 'navegou') return ['i-ev-tempo', 'ev-neutro'];
+  if (e.tipo === 'compartilhou') return ['i-enviar', e.detalhe && e.detalhe.forma === 'whatsapp' ? 'ev-zap' : ''];
+  if (e.tipo === 'abriu' && /^video:/.test(e.pagina || '')) return ['i-ev-play', 'ev-video'];
+  return ['i-ev-abriu', e.tipo === 'modo_cliente' ? 'ev-neutro' : ''];
 }
 function abrirUsuario(u){
-  var box = byId('tempoUsuario');
-  box.hidden = false; box.innerHTML = ''; box.appendChild(h('p', {text: 'Carregando a linha do tempo…'}));
+  var n = abrirGaveta('Uso da plataforma', u.nomeVer, (PAPEL[u.papel] || u.papel) + ' · últimos ' + eng.dias + ' dias');
+  var p = u.pontos || {};
+  pintarScore(u.pontos ? u.score : null, STATUS[u.status].s + ' ' + STATUS[u.status].t + ' no período.', criteriosUsuario(u, p), COMO_USUARIO);
   pedirEng('usuario', '&id=' + encodeURIComponent(u.usuario), function(dados, erro){
-    if (!dados) { box.innerHTML = ''; return box.appendChild(h('p', {'class': 'msg erro', text: erro || 'Não foi possível carregar.'})); }
-    linhaDoTempo(box, u.nomeVer, 'Últimos ' + eng.dias + ' dias · ' + dados.length + ' registros', dados.map(function(e){ return {em: e.em, texto: descreverEvento(e)}; }));
+    if (n !== gaveta.pedido) return;
+    pintarEventos(dados && dados.map(function(e){ var ic = iconeEvento(e); return {em: e.em, texto: descreverEvento(e), icone: ic[0], classe: ic[1]}; }), erro);
   });
 }
 
@@ -2045,7 +2705,7 @@ function tabelaLinks(){
     return (!pagina || v.pagina === pagina) && (!sit || situacao(v).k === sit || (sit === 'aberto' && v.visitas > 0)) &&
       (!busca || ((v.empresa || '') + ' ' + v.quem + ' ' + (v.item_titulo || '')).toLowerCase().indexOf(busca) >= 0);
   });
-  if (!linhas.length) return tb.appendChild(h('tr', {}, [h('td', {colspan: '7', text: eng.envios.length ? 'Nenhum link com esses filtros.' : 'Nenhum link enviado neste período.'})]));
+  if (!linhas.length) return tb.appendChild(h('tr', {}, [h('td', {colspan: '8', text: eng.envios.length ? 'Nenhum link com esses filtros.' : 'Nenhum link enviado neste período.'})]));
   linhas.forEach(function(v){
     var s = situacao(v), ver = h('button', {'class': 'btn-link', type: 'button', text: 'O que o cliente fez'});
     ver.addEventListener('click', function(){ abrirLink(v); });
@@ -2057,6 +2717,7 @@ function tabelaLinks(){
       td('Página', oQue(v)),
       td('Empresa', v.empresa || '—'),
       td('Situação', h('span', {'class': 'status ' + s.c, text: s.t})),
+      td('Score', v.pontos ? pilulaScore(v.pontos.score) : '—'),
       td('Até onde foi', ateOnde(v)),
       td('Tempo', v.segundos ? duracao(v.segundos) : '—', 'num')
     ]));
@@ -2073,25 +2734,58 @@ function descreverVisita(x){
   if (x.tipo === 'rolagem') return 'Rolou até ' + d.ate + '% da página';
   if (x.tipo === 'saiu') return 'Saiu da página depois de ' + duracao(d.segundos) + (d.rolagem != null ? ' (rolou até ' + d.rolagem + '%)' : '');
   if (x.tipo === 'contato') return 'Chamou no WhatsApp';
-  if (x.tipo === 'video') return d.acao === 'clicou' ? 'Clicou no vídeo (provavelmente deu play)' : 'Ficou ' + duracao(d.segundos) + ' com o vídeo aberto depois do clique (estimativa)';
+  if (x.tipo === 'video') {
+    if (d.acao === 'clicou') return 'Clicou no vídeo (provavelmente deu play)';
+    if (d.acao === 'marco') return d.pct >= 100 ? 'Assistiu o vídeo até o fim (estimativa)' : 'Passou da metade do vídeo (estimativa)';
+    return 'Ficou ' + duracao(d.segundos) + ' com o vídeo aberto depois do clique (estimativa)';
+  }
   return x.tipo;
 }
+var ICONE_VISITA = {abriu: ['i-ev-abriu', ''], clique: ['i-ev-clique', 'ev-clique'], etapa: ['i-ev-etapa', 'ev-etapa'], rolagem: ['i-ev-rolagem', 'ev-rolagem'],
+  saiu: ['i-ev-saiu', 'ev-saiu'], contato: ['i-ev-zap', 'ev-zap']};
+function iconeVisita(x){
+  if (x.tipo !== 'video') return ICONE_VISITA[x.tipo] || ['i-ev-abriu', 'ev-neutro'];
+  var a = (x.detalhe || {}).acao;
+  return [a === 'clicou' ? 'i-ev-play' : a === 'marco' ? 'i-ev-marco' : 'i-ev-tempo', 'ev-video'];
+}
+
+/* --- Score do link --- */
+var COMO_LINK = 'Página: abriu 10 · leitura com atenção 35 · interação 10 · voltou 10 · chamou no WhatsApp 35. Leitura com atenção = 35 × profundidade × atenção: ' +
+  'a profundidade vem da rolagem (25/50/75/100% valem 15/40/70/100%; na jornada, as etapas, se forem mais longe) e a atenção é o tempo na página ÷ o tempo esperado ' +
+  '(2 min no link seguro, 1 min 30 s nas outras), até 100%. Rolar até o fim em poucos segundos vale pouco. Interação: 1 clique 5, 3 ou mais 10. ' +
+  'Vídeo: abriu 10 · play 10 · assistiu 35 (até a metade 15, até o fim 35) · voltou 10 · WhatsApp 35. O quanto assistiu é estimado pelo tempo com a página à vista depois do play, ' +
+  'comparado com a duração cadastrada: o player do Drive não informa o avanço. Visitas de usuário logado não contam.';
+function criteriosLink(v, p){
+  var video = v.pagina === 'video', esperado = v.pagina === 'link-seguro' ? 120 : 90, lista = [
+    {icone: 'i-ev-abriu', nome: 'Abriu o link', pts: p.abriu, max: 10, explica: v.visitas ? 'Aberto em ' + dataHora(v.primeira) : 'Ainda não abriu'}
+  ];
+  if (video) {
+    lista.push({icone: 'i-ev-play', classe: 'ev-video', nome: 'Deu play', pts: p.acao, max: 10, explica: v.video_clicou ? 'Clicou no vídeo' : 'Não clicou no vídeo'});
+    lista.push({icone: 'i-ev-marco', classe: 'ev-video', nome: 'Assistiu', pts: p.conteudo, max: 35, alto: true,
+      explica: !v.duracao ? 'Vídeo sem duração cadastrada: não dá para estimar quanto assistiu' : '~' + (p.assistido || 0) + '% do vídeo (estimativa)'});
+  } else {
+    lista.push({icone: 'i-ev-rolagem', classe: 'ev-rolagem', nome: 'Leitura com atenção', pts: p.conteudo, max: 35, alto: true,
+      explica: (v.pagina === 'descubra' && v.etapa ? 'Chegou em: ' + v.etapa + ' · ' : '') + 'Rolou até ' + (p.rolagem || 0) + '% · ' + duracao(p.segundos || 0) +
+        ' na página (esperado: ' + duracao(esperado) + ')'});
+    lista.push({icone: 'i-ev-clique', classe: 'ev-clique', nome: 'Interação', pts: p.acao, max: 10, explica: (p.cliques || 0) + ((p.cliques || 0) === 1 ? ' clique' : ' cliques')});
+  }
+  lista.push({icone: 'i-ev-voltou', nome: 'Voltou à página', pts: p.voltou, max: 10, explica: (p.visitas || 0) > 1 ? p.visitas + ' visitas' : 'Uma visita até agora'});
+  lista.push({icone: 'i-ev-zap', classe: 'ev-zap', nome: 'Chamou no WhatsApp', pts: p.contato, max: 35, alto: true, explica: v.contato ? 'Chamou você no WhatsApp' : 'Ainda não chamou'});
+  return lista;
+}
 function abrirLink(v){
-  var box = byId('tempoLink');
-  box.hidden = false; box.innerHTML = ''; box.appendChild(h('p', {text: 'Carregando…'}));
+  var n = abrirGaveta('O que o cliente fez', (v.empresa ? v.empresa + ' · ' : '') + oQue(v), 'Enviado por ' + v.quem + ' em ' + dataHora(v.criado_em));
+  var p = v.pontos || {};
+  pintarScore(v.pontos ? p.score : null, situacao(v).t + '.', criteriosLink(v, p), COMO_LINK);
   api('GET', 'engajamento?acao=visitas&id=' + encodeURIComponent(v.id), null, function(st, d){
-    if (st !== 200) { box.innerHTML = ''; return box.appendChild(h('p', {'class': 'msg erro', text: d.erro || 'Não foi possível carregar.'})); }
-    var sessoes = [], num = {}, deFora = {};
-    (d.dados || []).forEach(function(x){
-      if (!(x.sessao in num)) { num[x.sessao] = sessoes.length + 1; sessoes.push(x.sessao); }
-      if (!x.interno) deFora[x.sessao] = true;
-    });
-    var visitas = Object.keys(deFora).length;
-    var itens = (d.dados || []).map(function(x){
-      return {em: x.em, texto: (sessoes.length > 1 ? 'Visita ' + num[x.sessao] + ' · ' : '') + descreverVisita(x), marca: x.interno ? 'visita de usuário logado' : ''};
-    });
-    linhaDoTempo(box, (v.empresa ? v.empresa + ' · ' : '') + oQue(v),
-      'Enviado por ' + v.quem + ' em ' + dataHora(v.criado_em) + ' · ' + visitas + (visitas === 1 ? ' visita do cliente' : ' visitas do cliente'), itens);
+    if (n !== gaveta.pedido) return;
+    if (st !== 200) return pintarEventos(null, d.erro);
+    var num = {}, total = 0;
+    (d.dados || []).forEach(function(x){ if (!(x.sessao in num)) num[x.sessao] = ++total; });
+    pintarEventos((d.dados || []).map(function(x){
+      var ic = iconeVisita(x);
+      return {em: x.em, texto: descreverVisita(x), icone: ic[0], classe: ic[1], visita: total > 1 ? 'Visita ' + num[x.sessao] : '', marca: x.interno ? 'visita de usuário logado' : ''};
+    }));
   });
 }
 
@@ -2157,6 +2851,221 @@ byId('fPermLote').addEventListener('submit', function(ev){
     carregarPermissoes(true);
   });
 });
+
+/* ---------- Avisos ----------
+   Cada pessoa escolhe em Meu perfil o que gera aviso (perfis.preferencias -> 'avisos'). Com o painel aberto, ele pergunta ao
+   servidor a cada minuto (2 em segundo plano) o que aconteceu desde a última vez (avisos_desde, no banco, já filtrado pela escolha).
+   Cada aviso toca um sinal suave e abre um cartão com a empresa, o evento e o OK; vários de uma vez entram na fila.
+   Com o painel fechado, os avisos esperam no servidor (avisos_vistos_em) e, ao abrir, vêm juntos em "Enquanto você estava fora".
+   Só depois do OK no último a fila anda no servidor. O score baixo de alguém da equipe (superadmin) é conferido uma vez por dia. */
+var AVISOS = [{k: 'abriu', t: 'Abrir o link'}, {k: 'play', t: 'Dar play no vídeo'}, {k: 'video50', t: 'Assistir 50% do vídeo'}, {k: 'video100', t: 'Assistir o vídeo até o fim'},
+  {k: 'rolou50', t: 'Rolar 50% da página'}, {k: 'rolou75', t: 'Rolar 75% da página'}, {k: 'rolou100', t: 'Rolar a página até o fim'},
+  {k: 'whatsapp', t: 'Clicar no botão do WhatsApp'}, {k: 'saiu', t: 'Fechar ou sair da página'}, {k: 'score', t: 'Atingir o score mínimo'}];
+var avisos = {ate: null, timer: 0, ultima: 0, fila: [], vistos: {}, visto: null, som: null};
+
+function prefsAvisos(){
+  var p = (eu && eu.preferencias && eu.preferencias.avisos) || {}, eq = p.equipe || {};
+  return {eventos: p.eventos || ['abriu', 'whatsapp'], score_min: p.score_min || 70, som: p.som !== false, sistema: !!p.sistema,
+    equipe: {clientes: !!eq.clientes, login: !!eq.login, envio: !!eq.envio, score_abaixo: eq.score_abaixo || null}};
+}
+function preencherAvisos(){
+  var p = prefsAvisos(), ops = byId('avisosOps');
+  if (!ops.firstChild) AVISOS.forEach(function(a){
+    ops.appendChild(h('label', {'class': 'marca-op'}, [h('input', {type: 'checkbox', value: a.k, 'data-aviso': ''}), h('span', {text: a.t})]));
+  });
+  Array.prototype.forEach.call(ops.querySelectorAll('[data-aviso]'), function(c){ c.checked = p.eventos.indexOf(c.value) >= 0; });
+  byId('avScoreMin').value = p.score_min;
+  byId('avSom').checked = p.som;
+  byId('avSistema').checked = p.sistema && !!window.Notification && Notification.permission === 'granted';
+  byId('avisosEquipe').hidden = eu.papel !== 'superadmin';
+  byId('avEqClientes').checked = p.equipe.clientes;
+  byId('avEqLogin').checked = p.equipe.login;
+  byId('avEqEnvio').checked = p.equipe.envio;
+  byId('avEqScore').checked = !!p.equipe.score_abaixo;
+  byId('avEqScoreMin').value = p.equipe.score_abaixo || 40;
+}
+function notaCampo(id){ var n = Math.round(Number(byId(id).value)); return n >= 1 && n <= 100 ? n : null; }
+byId('fAvisos').addEventListener('submit', function(e){
+  e.preventDefault();
+  var f = this, min = notaCampo('avScoreMin'), minEq = notaCampo('avEqScoreMin');
+  if (!min) return msg('msgAvisos', 'O score mínimo do link vai de 1 a 100.', 'erro');
+  if (byId('avEqScore').checked && !minEq) return msg('msgAvisos', 'O score mínimo da pessoa vai de 1 a 100.', 'erro');
+  var valor = {
+    eventos: Array.prototype.filter.call(byId('avisosOps').querySelectorAll('[data-aviso]'), function(c){ return c.checked; }).map(function(c){ return c.value; }),
+    score_min: min, som: byId('avSom').checked, sistema: byId('avSistema').checked,
+    equipe: {clientes: byId('avEqClientes').checked, login: byId('avEqLogin').checked, envio: byId('avEqEnvio').checked, score_abaixo: byId('avEqScore').checked ? minEq : null}
+  };
+  ocupado(f, true);
+  api('PUT', 'perfil', {preferencia: 'avisos', valor: valor}, function(st, d){
+    ocupado(f, false);
+    if (st !== 200) return msg('msgAvisos', d.erro || 'Não foi possível salvar as notificações.', 'erro');
+    eu.preferencias = eu.preferencias || {};
+    eu.preferencias.avisos = d.valor || valor;
+    guarda('eu', eu);
+    msg('msgAvisos', valor.eventos.length ? 'Notificações salvas.' : 'Salvo: nenhum evento dos clientes vai gerar aviso.', 'ok');
+  });
+});
+byId('avSistema').addEventListener('change', function(){
+  var c = this;
+  if (!c.checked) return;
+  if (!window.Notification) { c.checked = false; return msg('msgAvisos', 'Este navegador não mostra avisos com o painel em segundo plano.', 'erro'); }
+  if (Notification.permission === 'granted') return;
+  var feito = function(r){ if (r !== 'granted') { c.checked = false; msg('msgAvisos', 'Sem a permissão do aparelho, o aviso aparece só com o painel à vista.', 'erro'); } };
+  var p = Notification.requestPermission(feito);
+  if (p && p.then) p.then(feito);
+});
+byId('avTestar').addEventListener('click', function(){
+  receberAvisos([{chave: 'teste' + Date.now(), tipo: 'whatsapp', em: new Date().toISOString(), empresa: 'Empresa de exemplo', pagina: 'descubra', meu: true}], false, true);
+});
+
+/* --- Texto de cada aviso --- */
+function oQueAviso(a){
+  if (a.pagina === 'video') return 'o vídeo “' + (a.item_titulo || 'enviado') + '”';
+  return {'link-seguro': 'o link seguro', descubra: 'a Jornada', 'linha-de-frente': 'a página Linha de frente'}[a.pagina] || 'o link';
+}
+// "o vídeo" → "do vídeo"; "a Jornada" → "da Jornada"
+function deAviso(a){ return 'd' + oQueAviso(a); }
+function textoAviso(a){
+  var d = a.detalhe || {}, oque = oQueAviso(a), equipe = /^equipe_/.test(a.tipo), t;
+  if (a.tipo === 'abriu') t = ['i-ev-abriu', '', 'Abriu ' + oque];
+  else if (a.tipo === 'play') t = ['i-ev-play', 'ev-video', 'Deu play n' + oque];
+  else if (a.tipo === 'video50') t = ['i-ev-marco', 'ev-video', 'Assistiu metade ' + deAviso(a) + ' (estimativa)'];
+  else if (a.tipo === 'video100') t = ['i-ev-marco', 'ev-video', 'Assistiu ' + oque + ' até o fim (estimativa)'];
+  else if (/^rolou/.test(a.tipo)) t = ['i-ev-rolagem', 'ev-rolagem', a.tipo === 'rolou100' ? 'Rolou ' + oque + ' até o fim' : 'Rolou ' + a.tipo.slice(5) + '% ' + deAviso(a)];
+  else if (a.tipo === 'whatsapp') t = ['i-ev-zap', 'ev-zap', a.meu === false ? 'Chamou ' + (a.quem || 'quem enviou') + ' no WhatsApp' : 'Chamou você no WhatsApp'];
+  else if (a.tipo === 'saiu') t = ['i-ev-saiu', 'ev-saiu', 'Saiu ' + deAviso(a) + (d.segundos ? ' depois de ' + duracao(d.segundos) : '')];
+  else if (a.tipo === 'score') t = ['i-ev-marco', '', 'O engajamento com ' + oque + ' chegou a ' + d.score + ' de 100 (mínimo: ' + d.minimo + ')'];
+  else if (a.tipo === 'equipe_login') t = ['i-ev-login', '', 'Entrou no painel'];
+  else if (a.tipo === 'equipe_envio') t = ['i-enviar', 'ev-zap', 'Enviou ' + oque + (a.empresa ? ' para ' + a.empresa : '')];
+  else if (a.tipo === 'equipe_score') t = ['i-ev-tempo', 'ev-saiu', 'Score caiu para ' + d.score + ' nos últimos 30 dias (mínimo: ' + d.minimo + ')'];
+  else t = ['i-ev-abriu', 'ev-neutro', a.tipo];
+  return {icone: t[0], classe: t[1], titulo: equipe ? (a.quem || 'Alguém da equipe') : (a.empresa || 'Cliente sem empresa informada'),
+    texto: t[2] + (!equipe && a.meu === false && a.tipo !== 'whatsapp' && a.quem ? ' · link de ' + a.quem : '')};
+}
+
+/* --- Consulta ao servidor --- */
+function iniciarAvisos(){
+  preencherAvisos();
+  clearTimeout(avisos.timer);
+  // outra pessoa entrou no mesmo aparelho: a fila começa do zero
+  if (avisos.dono !== eu.id) { avisos.dono = eu.id; avisos.ate = avisos.visto = null; avisos.vistos = {}; avisos.fila = []; byId('avisoPop').hidden = true; }
+  if (painelSemNet) return agendarAvisos();
+  consultarAvisos(true);
+}
+function agendarAvisos(){
+  clearTimeout(avisos.timer);
+  if (eu) avisos.timer = setTimeout(function(){ consultarAvisos(false); }, document.hidden ? 120000 : 60000);
+}
+function consultarAvisos(primeira){
+  if (!eu) return;
+  if (navigator.onLine === false) return agendarAvisos();
+  avisos.ultima = Date.now();
+  api('GET', 'engajamento?acao=avisos' + (avisos.ate ? '&desde=' + encodeURIComponent(avisos.ate) : ''), null, function(st, d){
+    if (!eu) return;
+    if (st === 200 && d.ate) {
+      var novos = (d.avisos || []).filter(function(a){ if (avisos.vistos[a.chave]) return false; avisos.vistos[a.chave] = 1; return true; });
+      var nunca = !avisos.ate && !eu.avisos_vistos_em;
+      avisos.ate = d.ate;
+      if (novos.length) receberAvisos(novos, primeira && novos.length > 1);
+      else if (nunca) marcarVistos(); // primeira vez: a fila começa a contar daqui
+      if (primeira) conferirEquipe();
+    }
+    agendarAvisos();
+  });
+}
+document.addEventListener('visibilitychange', function(){
+  if (!document.hidden && eu && avisos.ultima && Date.now() - avisos.ultima > 30000) { clearTimeout(avisos.timer); consultarAvisos(false); }
+});
+function marcarVistos(){
+  if (!avisos.ate || avisos.ate === avisos.visto) return;
+  avisos.visto = eu.avisos_vistos_em = avisos.ate;
+  api('PUT', 'perfil', {avisos_vistos: avisos.ate}, function(){});
+}
+// superadmin: uma vez por dia, quem ficou abaixo do mínimo nos últimos 30 dias (só avisa de novo depois de sair e voltar para baixo)
+function conferirEquipe(){
+  var min = prefsAvisos().equipe.score_abaixo, hoje = new Date().toDateString();
+  if (!min || eu.papel !== 'superadmin' || le('avisos:dia', '') === hoje) return;
+  api('GET', 'engajamento?acao=resumo&dias=30', null, function(st, d){
+    if (st !== 200 || !eu) return;
+    guarda('avisos:dia', hoje);
+    var antes = le('avisos:abaixo', []), agora = [];
+    var novos = (d.dados || []).filter(function(u){
+      var s = u.pontos ? u.pontos.score : null;
+      if (u.usuario === eu.id || s == null || s >= min) return false;
+      agora.push(u.usuario);
+      return antes.indexOf(u.usuario) < 0;
+    }).map(function(u){ return {chave: 'u' + u.usuario + hoje, tipo: 'equipe_score', em: new Date().toISOString(), quem: pessoaNome(u), detalhe: {score: u.pontos.score, minimo: min}}; });
+    guarda('avisos:abaixo', agora);
+    if (novos.length) receberAvisos(novos, novos.length > 1, true);
+  });
+}
+
+/* --- Sinal, cartão e aviso do sistema --- */
+// o navegador só toca som depois de um toque na página: o contexto de áudio nasce no primeiro clique
+function prepararSom(){
+  if (avisos.som) return;
+  try { var C = window.AudioContext || window.webkitAudioContext; if (C) avisos.som = new C(); } catch (e) {}
+}
+document.addEventListener('pointerdown', prepararSom);
+document.addEventListener('keydown', prepararSom);
+// dois tons curtos e baixos (mi e lá), com entrada e saída suaves
+function tocar(){
+  var c = avisos.som;
+  if (!c || !prefsAvisos().som) return;
+  try {
+    if (c.state === 'suspended') c.resume();
+    [[659, 0], [880, .14]].forEach(function(n){
+      var o = c.createOscillator(), g = c.createGain(), t = c.currentTime + n[1];
+      o.type = 'sine'; o.frequency.value = n[0];
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.09, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+      o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + 0.55);
+    });
+  } catch (e) {}
+}
+function avisarSistema(lista){
+  if (!prefsAvisos().sistema || !window.Notification || Notification.permission !== 'granted') return;
+  var t = lista.length > 1 ? lista.length + ' avisos no painel' : textoAviso(lista[0]).titulo, corpo = lista.length > 1 ? 'Abra o painel para ver.' : textoAviso(lista[0]).texto;
+  try { var n = new Notification(t, {body: corpo, tag: 'painel-avisos'}); n.onclick = function(){ window.focus(); n.close(); }; }
+  catch (e) { if (navigator.serviceWorker) navigator.serviceWorker.ready.then(function(r){ r.showNotification(t, {body: corpo, tag: 'painel-avisos'}); })['catch'](function(){}); }
+}
+// local: aviso que não vem da fila do servidor (teste, score da equipe), não mexe no "visto"
+function receberAvisos(lista, agrupar, local){
+  tocar();
+  if (document.hidden) avisarSistema(lista);
+  if (agrupar) avisos.fila.push({grupo: lista, local: local});
+  else lista.forEach(function(a){ a.local = local; avisos.fila.push(a); });
+  if (byId('avisoPop').hidden) mostrarAviso();
+}
+function mostrarAviso(){
+  var a = avisos.fila[0], pop = byId('avisoPop'), lista = byId('avisoLista'), t;
+  if (!a) { pop.hidden = true; return marcarVistos(); }
+  lista.innerHTML = '';
+  if (a.grupo) {
+    byId('avisoQuando').textContent = a.local ? 'Equipe' : 'Enquanto você estava fora';
+    byId('avisoTit').textContent = a.grupo.length + ' avisos';
+    byId('avisoTxt').textContent = a.local ? 'Pessoas com o score abaixo do mínimo:' : 'O que aconteceu desde a última vez que você abriu o painel:';
+    a.grupo.slice(0, 30).forEach(function(x){
+      var tx = textoAviso(x);
+      lista.appendChild(h('li', {}, [h('b', {text: tx.titulo}), document.createTextNode(tx.texto + ' · ' + dataHora(x.em))]));
+    });
+    if (a.grupo.length > 30) lista.appendChild(h('li', {text: 'E mais ' + (a.grupo.length - 30) + '. Veja tudo em Resultados.'}));
+    t = {icone: 'i-ev-tempo', classe: ''};
+  } else {
+    t = textoAviso(a);
+    byId('avisoQuando').textContent = dataHora(a.em);
+    byId('avisoTit').textContent = t.titulo;
+    byId('avisoTxt').textContent = t.texto;
+  }
+  lista.hidden = !a.grupo;
+  var ic = byId('avisoIcone');
+  ic.innerHTML = '';
+  ic.appendChild(icone(t.icone, t.classe));
+  byId('avisoConta').textContent = avisos.fila.length > 1 ? 'Mais ' + (avisos.fila.length - 1) + ' na fila' : '';
+  pop.hidden = false;
+  var foco = document.activeElement;
+  if (!foco || foco === document.body || foco.id === 'painelMain' || foco.id === 'avisoOk' || foco.id === 'avTestar') byId('avisoOk').focus();
+}
+byId('avisoOk').addEventListener('click', function(){ avisos.fila.shift(); mostrarAviso(); });
 
 /* ---------- App instalável (só o painel) ----------
    O service worker (sw.js, gerado pelo build) guarda a página para abrir sem internet; a API nunca fica guardada.

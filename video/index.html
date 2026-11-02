@@ -316,7 +316,16 @@ function aoEsconder(){
   if(desde){ vistoMs += Date.now() - desde; desde = 0; }
   Rastro.evento('video', {acao:'tempo', segundos:Math.round(tempoAteAgora() / 1000)});
 }
+/* marcos de 50% e 100%: o tempo estimado depois do clique comparado com a duração cadastrada (sem duração, não há marco).
+   O de 100% vale a partir de 95% do tempo, porque o play começa um pouco depois do clique. Vão ao vivo, para o aviso do GN. */
+var marcos = [50, 100];
+function conferirMarcos(){
+  if(!clicou || !desde || !VIDEO || !(VIDEO.duracao > 0)) return;
+  var pct = tempoAteAgora() / 1000 / VIDEO.duracao * 100;
+  while(marcos.length && pct >= (marcos[0] === 100 ? 95 : marcos[0])) Rastro.evento('video', {acao:'marco', pct:marcos.shift()});
+}
 if(ENVIO){
+  setInterval(conferirMarcos, 2000);
   window.addEventListener('blur', aoFocarQuadro);
   document.addEventListener('visibilitychange', function(){
     if(document.visibilityState === 'hidden') aoEsconder();

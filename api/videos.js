@@ -4,7 +4,7 @@
 //                       Fica aqui, e não numa função própria, porque o plano da Vercel aceita no máximo 12 funções por deploy.
 //  GET                → todos os vídeos (qualquer usuário com perfil)
 //  POST   {codigo, titulo, descricao, palavras, drive, duracao, para_cliente, vertical, ordem} → cadastra (só superadmin)
-//  PATCH  {id, ...mesmos campos}  → altera (só superadmin)
+//  PATCH  {id, ...mesmos campos}  → altera (só superadmin); com {novidade: true}, avisa a equipe no Início (vídeo novo entra sozinho, pelo banco)
 //  DELETE ?id=        → remove (só superadmin)
 // drive: o link do arquivo no Drive (…/file/d/<ID>/…) ou o próprio ID. duracao: segundos, opcional.
 const s = require('./_sessao.js');
@@ -81,7 +81,10 @@ module.exports = async (req, res) => {
     const c = campos(b, false);
     if (c.erro) return s.responder(res, 400, {erro: c.erro}, se.cookies);
     const r = await s.rest('videos?id=eq.' + id, {metodo: 'PATCH', token: se.token, corpo: c.campos});
-    return s.responder(res, r.ok ? 200 : 502, r.ok ? {ok: true} : {erro: falhou(r)}, se.cookies);
+    if (!r.ok) return s.responder(res, 502, {erro: falhou(r)}, se.cookies);
+    // "avisar como novidade": a equipe vê no Início que o vídeo mudou
+    const n = b.novidade === true ? await s.rest('rpc/novidade_atualizada', {metodo: 'POST', token: se.token, corpo: {alvo: id}}) : {ok: true};
+    return s.responder(res, 200, n.ok ? {ok: true} : {ok: true, aviso: 'O vídeo foi salvo, mas a novidade não foi publicada.'}, se.cookies);
   }
   const r = await s.rest('videos?id=eq.' + id, {metodo: 'DELETE', token: se.token});
   s.responder(res, r.ok ? 200 : 502, r.ok ? {ok: true} : {erro: 'Não foi possível remover o vídeo.'}, se.cookies);

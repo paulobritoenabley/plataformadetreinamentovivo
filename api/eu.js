@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
   const se = await s.sessao(req);
   if (!se) return s.responder(res, 401, {erro: 'Sessão encerrada. Entre de novo.'}, s.cookiesSair(s.hostDe(req)));
   const [p, c, v] = await Promise.all([
-    s.rest('perfis?select=id,email,nome,sobrenome,foto,whatsapp,papel&id=eq.' + encodeURIComponent(se.usuario.id), {token: se.token}),
+    s.rest('perfis?select=id,email,nome,sobrenome,foto,whatsapp,papel,preferencias,avisos_vistos_em&id=eq.' + encodeURIComponent(se.usuario.id), {token: se.token}),
     s.rest('rpc/papeis_que_concedo', {metodo: 'POST', corpo: {}, token: se.token}),
     s.rest('rpc/minhas_permissoes', {metodo: 'POST', corpo: {}, token: se.token})
   ]);
