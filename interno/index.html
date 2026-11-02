@@ -118,11 +118,43 @@ a{color:var(--accent)}
 .conta-quem small{color:var(--fg-soft);font-size:.85rem;word-break:break-all}
 .conta-menu button{display:block;width:100%;text-align:left;background:none;border:0;font:inherit;color:var(--fg);padding:12px 16px;cursor:pointer}
 .conta-menu button:hover{background:var(--surface-2)}
-.painel{max-width:1120px;margin:0 auto;padding:32px max(16px,4vw) 64px}
+/* estrutura: menu lateral (desktop) ou barra inferior (celular) e uma vista por vez (#/inicio, #/enviar…) */
+.app{display:grid;grid-template-columns:232px minmax(0,1fr);align-items:start}
+.menu{position:sticky;top:0;display:grid;gap:4px;align-content:start;min-height:calc(100vh - 68px);background:var(--surface);border-right:1px solid var(--line);padding:20px 12px}
+.menu a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:4px;color:var(--fg);text-decoration:none;font-weight:700;font-size:.98rem}
+.menu a:hover{background:var(--surface-2)}
+.menu a[aria-current="page"]{background:var(--surface-2);color:var(--accent);box-shadow:inset 3px 0 0 var(--rosa)}
+.menu svg{width:22px;height:22px;flex:0 0 auto}
+.painel [data-vista]:not(.na-vista){display:none!important}
+.painel:focus{outline:0}
+.atalhos{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.atalho{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;align-items:start;height:100%;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:16px;color:var(--fg);text-decoration:none}
+.atalho:hover{border-color:var(--accent)}
+.atalho svg{grid-row:span 2;width:28px;height:28px;color:var(--accent)}
+.atalho strong{color:var(--accent);font-size:1.05rem}
+.atalho span{color:var(--fg-soft);font-size:.92rem}
+.painel{max-width:1120px;margin:0 auto;padding:32px max(16px,4vw) 64px;width:100%}
+/* Início: cada papel vê os cartões que fazem sentido para ele (pendências, envio, números do time, equipe, atalhos) */
+.ola-sub{margin:6px 0 0;color:var(--fg-soft)}
+.bloco.inicio-cta{background:linear-gradient(120deg,var(--purpura) 0%,var(--roxo) 100%);color:#fff;border:0}
+.painel .inicio-cta h2{color:#fff}
+.painel .inicio-cta p{margin:0 0 18px;color:#F1E9F7;max-width:60ch}
+.inicio-cta .btn{background:#fff;color:#660099;text-decoration:none}
+.inicio-cta .btn-sec{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.7)}
+.bloco.pendencias{border-left:4px solid var(--rosa)}
+.pendencias ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.pendencias li{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 16px}
+.pendencias .btn-link{margin:0}
+.incentivo{margin-top:4px}
+.incentivo h3{margin:0 0 8px;font-size:.95rem}
+.incentivo ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.incentivo li{display:flex;align-items:center;gap:12px;font-size:.95rem}
+.incentivo li small{display:block;color:var(--fg-soft)}
+.incentivo .tudo-ok{color:var(--fg-soft);font-size:.92rem}
 .boas-vindas{display:flex;align-items:center;gap:18px;margin-bottom:28px}
 .boas-vindas h1{font-size:1.75rem;margin-bottom:6px}
 .boas-vindas .tag{color:var(--accent)}
-.grade{display:grid;grid-template-columns:minmax(0,2fr) minmax(280px,1fr);gap:24px;align-items:start}
+.grade{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;align-items:start}
 .bloco{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:24px;box-shadow:var(--shadow);min-width:0}
 .bloco-largo{grid-column:1 / -1}
 .painel h2{font-size:1.25rem;margin-bottom:6px}
@@ -273,10 +305,17 @@ a{color:var(--accent)}
   .item-acoes .btn{flex:1 1 auto}
 }
 @media (max-width:767px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .menu{position:fixed;top:auto;left:0;right:0;bottom:0;z-index:20;min-height:0;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:0;border-right:0;border-top:1px solid var(--line);padding:4px max(6px,env(safe-area-inset-right,0px)) calc(4px + env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px))}
+  .menu a{flex-direction:column;justify-content:center;gap:2px;padding:6px 2px;font-size:.72rem;min-width:0}
+  .menu a span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .menu a[aria-current="page"]{background:none;box-shadow:none}
+  .painel{padding-bottom:96px}
+  .toast{bottom:84px}
   .topo .titulo{display:none}
   .topo .logo{margin-right:auto}
   .conta-nome{display:none}
-  .grade{grid-template-columns:1fr;gap:16px}
+  .grade{gap:16px}
   .bloco{padding:20px 16px}
   .boas-vindas .avatar-g{width:56px;height:56px;font-size:1.3rem}
   .pagina-campos,.capa-campo{grid-template-columns:1fr}
@@ -301,11 +340,18 @@ a{color:var(--accent)}
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="logo-vivo" viewBox="0 0 282.347 87.86"><g fill="#FFFFFF"><path d="M27.932 80.359L32.805 80.359C33.628 80.359 36.767 79.93 38.5 76.777L58.67 41.035C60.738 37.248 58.299 34.035 56.146 33.238L50.781 30.834C47.892 29.545 44.425 30.909 43.123 33.926L30.457 59.366L30.265 59.366L17.616 33.926C16.314 30.909 12.844 29.545 9.96 30.834L4.596 33.238C2.438 34.035 0 37.248 2.067 41.035L22.242 76.777C23.971 79.93 27.112 80.359 27.932 80.359"/><path d="M116.552 80.359L121.425 80.359C122.249 80.359 125.389 79.93 127.118 76.777L147.291 41.035C149.356 37.248 146.919 34.035 144.762 33.238L139.398 30.834C136.511 29.545 133.046 30.909 131.743 33.926L119.077 59.366L118.888 59.366L106.233 33.926C104.928 30.909 101.463 29.545 98.578 30.834L93.215 33.238C91.057 34.035 88.617 37.248 90.688 41.035L110.858 76.777C112.59 79.93 115.728 80.359 116.552 80.359"/><path d="M175.742 30.517C161.843 30.517 150.571 41.791 150.571 55.687C150.571 69.592 161.843 80.865 175.742 80.865C189.651 80.865 200.917 69.592 200.917 55.687C200.917 41.791 189.651 30.517 175.742 30.517M175.742 65.626C170.255 65.626 165.806 61.178 165.806 55.687C165.806 50.201 170.255 45.754 175.742 45.754C181.226 45.754 185.68 50.201 185.68 55.687C185.68 61.178 181.226 65.626 175.742 65.626"/><path d="M84.53 16.189C84.53 21.64 80.112 26.052 74.663 26.052C69.214 26.052 64.797 21.64 64.797 16.189C64.797 10.74 69.214 6.327 74.663 6.327C80.112 6.327 84.53 10.74 84.53 16.189"/><path d="M66.08 37.123C66.08 33.76 68.8 31.04 72.163 31.04L77.252 31.04C80.614 31.04 83.34 33.76 83.34 37.123L83.34 74.274C83.34 77.636 80.614 80.357 77.252 80.357L72.163 80.357C68.8 80.357 66.08 77.636 66.08 74.274L66.08 37.123"/><path d="M266.327 16.148C266.327 19.258 265.225 24.109 261.801 27.534C260.597 28.737 259.552 29.46 258.717 29.999C257.107 31.041 255.943 31.765 256.592 33.504C257.23 35.213 259.219 34.684 261.098 34.259C261.705 34.114 273.514 31.288 273.661 31.281C276.835 30.681 279.9 32.688 280.643 35.791C280.646 35.804 281.591 39.749 281.599 39.784C282.347 42.888 280.529 46.069 277.431 46.977C277.299 47.037 264.394 50.139 264.373 50.146C261.922 50.77 260.486 51.985 260.486 54.349C260.486 55.406 261.098 56.552 261.852 57.505C261.852 57.505 275.873 74.883 275.946 75.017C277.854 77.62 277.366 81.251 274.887 83.262C274.878 83.27 271.728 85.824 271.697 85.847C269.222 87.86 265.57 87.593 263.414 85.191C263.303 85.096 254.596 74.393 253.672 73.258C252.746 72.124 251.585 70.397 249.972 70.397C248.361 70.397 247.2 72.124 246.273 73.258C245.351 74.393 236.642 85.096 236.533 85.191C234.374 87.593 230.723 87.86 228.246 85.847C228.219 85.824 225.067 83.27 225.058 83.262C222.579 81.251 222.093 77.62 223.999 75.017C224.07 74.883 238.093 57.505 238.093 57.505C238.844 56.552 239.458 55.406 239.458 54.349C239.458 51.985 238.026 50.77 235.572 50.146C235.549 50.139 222.646 47.037 222.512 46.977C219.417 46.069 217.598 42.888 218.344 39.784C218.353 39.749 219.301 35.804 219.302 35.791C220.046 32.688 223.108 30.681 226.282 31.281C226.431 31.288 238.238 34.114 238.844 34.259C240.729 34.684 242.715 35.213 243.353 33.504C244 31.765 242.837 31.041 241.228 29.999C240.391 29.46 239.348 28.737 238.145 27.534C234.72 24.109 233.617 19.258 233.617 16.148C233.617 7.231 241.054 0 249.972 0C258.89 0 266.327 7.231 266.327 16.148"/></g></symbol>
+  <!-- menu do painel: contorno de 1,8 px com ponta redonda (Guia Vivo) -->
+  <symbol id="i-inicio" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.5L12 3.5l8.5 7"/><path d="M5.5 9v11h13V9"/><path d="M10 20v-6h4v6"/></g></symbol>
+  <symbol id="i-enviar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3L10 14"/><path d="M21 3l-6.5 18-4.5-7-7-4.5z"/></g></symbol>
+  <symbol id="i-materiais" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10l2 2.5h6.5A1.5 1.5 0 0 1 20 8v10.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="M8 13h8M8 16.5h5"/></g></symbol>
+  <symbol id="i-equipe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.8c2 .7 3.2 2.4 3.5 5.2"/></g></symbol>
+  <symbol id="i-resultados" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></g></symbol>
+  <symbol id="i-admin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></g></symbol>
 </svg>
 
 <div class="entrada" id="entrada">
   <div class="marca">
-    <svg class="logo" role="img" aria-label="Vivo"><use href="#logo-vivo"/></svg>
+    <svg class="logo" viewBox="0 0 282.347 87.86" role="img" aria-label="Vivo"><use href="#logo-vivo"/></svg>
     <p>Plataforma de Treinamento Vivo Empresas</p>
   </div>
   <main class="lado">
@@ -345,7 +391,7 @@ a{color:var(--accent)}
 
 <div id="vPainel" hidden>
   <header class="topo">
-    <svg class="logo" role="img" aria-label="Vivo"><use href="#logo-vivo"/></svg>
+    <svg class="logo" viewBox="0 0 282.347 87.86" role="img" aria-label="Vivo"><use href="#logo-vivo"/></svg>
     <span class="titulo">Plataforma de Treinamento Vivo Empresas</span>
     <div class="conta" id="conta">
       <button class="conta-btn" type="button" id="contaBtn" aria-haspopup="true" aria-expanded="false" aria-controls="contaMenu">
@@ -358,36 +404,46 @@ a{color:var(--accent)}
       </div>
     </div>
   </header>
-  <main class="painel">
-    <div class="boas-vindas">
+  <div class="app">
+  <nav class="menu" id="menu" aria-label="Seções do painel">
+    <a href="#/inicio" data-ir="inicio"><svg aria-hidden="true"><use href="#i-inicio"/></svg><span>Início</span></a>
+    <a href="#/enviar" data-ir="enviar"><svg aria-hidden="true"><use href="#i-enviar"/></svg><span>Enviar</span></a>
+    <a href="#/materiais" data-ir="materiais"><svg aria-hidden="true"><use href="#i-materiais"/></svg><span>Materiais</span></a>
+    <a href="#/equipe" data-ir="equipe" hidden><svg aria-hidden="true"><use href="#i-equipe"/></svg><span>Equipe</span></a>
+    <a href="#/resultados" data-ir="resultados" hidden><svg aria-hidden="true"><use href="#i-resultados"/></svg><span>Resultados</span></a>
+    <a href="#/admin" data-ir="admin" hidden><svg aria-hidden="true"><use href="#i-admin"/></svg><span>Admin</span></a>
+  </nav>
+  <main class="painel" id="painelMain" tabindex="-1">
+    <div class="boas-vindas" data-vista="inicio">
       <span class="avatar avatar-g" id="olaAvatar" aria-hidden="true"></span>
-      <div><h1 id="ola">Olá</h1><span class="tag" id="quemPapel"></span></div>
+      <div><h1 id="ola">Olá</h1><span class="tag" id="quemPapel"></span><p class="ola-sub" id="olaSub"></p></div>
     </div>
-    <div class="grade">
-    <section class="bloco bloco-largo" id="secEnvio" aria-labelledby="tEnvio">
+    <div class="grade" id="gradeInicio">
+    <section class="bloco pendencias" id="inicioPendencias" data-vista="inicio" aria-labelledby="tPendencias" hidden>
+      <h2 id="tPendencias">Para resolver</h2>
+      <ul id="listaPendencias"></ul>
+    </section>
+    <section class="bloco inicio-cta" id="inicioEnviar" data-vista="inicio" aria-labelledby="tInicioEnviar">
+      <h2 id="tInicioEnviar">Enviar ao cliente</h2>
+      <p>Páginas e vídeos com o seu nome e WhatsApp no link. Cada envio é rastreado: dá para saber quando o cliente abriu.</p>
+      <div class="acoes"><a class="btn" href="#/enviar">Escolher o que enviar</a><a class="btn btn-sec" id="inicioPlaybook" target="_blank" rel="noopener">Abrir o playbook ↗</a></div>
+    </section>
+    <section class="bloco" id="inicioResumo" data-vista="inicio" aria-labelledby="tResumo" hidden>
+      <div class="bloco-topo"><div><h2 id="tResumo">Seu time nos últimos 7 dias</h2><p class="sub" id="resumoSub"></p></div><a class="btn btn-sec btn-p" href="#/resultados">Ver resultados</a></div>
+      <div class="kpis" id="kpisInicio"></div>
+      <div id="incentivoInicio"></div>
+    </section>
+    <section class="bloco" id="inicioTime" data-vista="inicio" aria-labelledby="tTime" hidden>
+      <div class="bloco-topo"><div><h2 id="tTime">Equipe</h2><p class="sub" id="timeSub"></p></div><a class="btn btn-p" href="#/equipe" id="inicioConvidar">Convidar pessoa</a></div>
+    </section>
+    <section class="bloco" data-vista="inicio" aria-labelledby="tAtalhos">
+      <h2 id="tAtalhos">Ir para</h2>
+      <ul class="atalhos" id="atalhos"></ul>
+    </section>
+    <section class="bloco bloco-largo" id="secEnvio" data-vista="enviar" aria-labelledby="tEnvio">
       <div class="bloco-topo">
         <div><h2 id="tEnvio">Enviar ao cliente</h2><p class="sub">Escolha o que mandar e envie pelo WhatsApp. Cada link leva um código: dá para saber se o cliente abriu e o que fez.</p></div>
-        <button class="btn btn-p" type="button" id="videoNovo" hidden>Adicionar vídeo</button>
       </div>
-      <form class="pagina-form" id="fVideo" hidden novalidate>
-        <h3 id="videoFormTit">Novo vídeo</h3>
-        <div class="pagina-campos">
-          <label class="campo pc-largo"><span>Link do vídeo no Google Drive</span><input type="url" id="vdDrive" inputmode="url" maxlength="300" autocomplete="off" placeholder="https://drive.google.com/file/d/…" required></label>
-          <label class="campo"><span>Título</span><input type="text" id="vdTitulo" maxlength="80" autocomplete="off" required></label>
-          <label class="campo"><span>Código do link</span><input type="text" id="vdCodigo" maxlength="40" autocomplete="off" pattern="[a-z0-9-]+" placeholder="ex.: varejo" required></label>
-          <label class="campo pc-largo"><span>Descrição</span><input type="text" id="vdDescricao" maxlength="240" autocomplete="off"></label>
-          <label class="campo pc-largo"><span>Palavras para a busca</span><input type="text" id="vdPalavras" maxlength="200" autocomplete="off" placeholder="segmento, assunto, cargo…"></label>
-          <label class="campo"><span>Duração (min:seg)</span><input type="text" id="vdDuracao" inputmode="numeric" maxlength="8" autocomplete="off" placeholder="2:30"></label>
-          <label class="campo"><span>Ordem na lista</span><input type="number" id="vdOrdem" min="-999" max="999" step="1" value="0"></label>
-        </div>
-        <div class="marcas">
-          <label class="marca-op"><input type="checkbox" id="vdCliente" checked> Pode ser enviado ao cliente <small>Sem isso, fica só para assistir no painel.</small></label>
-          <label class="marca-op"><input type="checkbox" id="vdVertical"> Vídeo em pé (gravado no celular, 9:16)</label>
-        </div>
-        <p class="dica-campo">O arquivo no Drive precisa estar compartilhado com "qualquer pessoa com o link". O nome do arquivo aparece no player: não use o nome do fornecedor.</p>
-        <p class="msg" id="msgVideo" role="status"></p>
-        <div class="acoes"><button class="btn" type="submit">Salvar</button><button class="btn btn-sec" type="button" id="vdCancelar">Cancelar</button></div>
-      </form>
       <div class="envio-para">
         <label class="campo"><span>Para qual empresa?</span><input type="text" id="envEmpresa" maxlength="60" autocomplete="off" placeholder="Aparece no topo da página que o cliente abrir"></label>
         <div class="envio-de" id="envDe" aria-live="polite"></div>
@@ -403,12 +459,29 @@ a{color:var(--accent)}
       <p class="msg" id="msgEnvio" role="status"></p>
       <ul class="itens-envio" id="listaEnvio"></ul>
     </section>
-    <section class="bloco" aria-labelledby="tPlaybooks">
-      <h2 id="tPlaybooks">Playbooks</h2>
-      <p class="sub">Material de venda por segmento. Cada um abre numa nova aba; a página do cliente fica na raiz do mesmo endereço.</p>
-      <ul class="cards" id="listaPlaybooks"></ul>
+    <section class="bloco bloco-largo" id="secMateriais" data-vista="materiais" aria-labelledby="tMateriais">
+      <h2 id="tMateriais">Materiais</h2>
+      <p class="sub">O que você usa no dia a dia: playbooks, páginas e vídeos. Cada um abre numa nova aba ou aqui mesmo.</p>
+      <div class="eng-abas subabas" role="tablist" aria-label="Materiais" data-subabas="materiais">
+        <button type="button" role="tab" id="subPlaybooks" data-sub="mPlaybooks" aria-controls="mPlaybooks" aria-selected="true">Playbooks</button>
+        <button type="button" role="tab" id="subPaginas" data-sub="mPaginas" aria-controls="mPaginas" aria-selected="false" hidden>Páginas</button>
+        <button type="button" role="tab" id="subVideos" data-sub="mVideos" aria-controls="mVideos" aria-selected="false" hidden>Vídeos</button>
+      </div>
+      <div id="mPlaybooks" role="tabpanel" aria-labelledby="subPlaybooks">
+        <p class="sub">Material de venda por segmento. A página do cliente fica na raiz do mesmo endereço.</p>
+        <ul class="cards" id="listaPlaybooks"></ul>
+      </div>
+      <div id="mPaginas" role="tabpanel" aria-labelledby="subPaginas" hidden>
+        <p class="msg" id="msgPaginas" role="status"></p>
+        <ul class="cards cards-pag" id="listaPaginas"></ul>
+      </div>
+      <div id="mVideos" role="tabpanel" aria-labelledby="subVideos" hidden>
+        <label class="campo campo-busca"><span class="sr-only">Buscar vídeo</span><input type="search" id="vidBusca" autocomplete="off" placeholder="Buscar vídeo"></label>
+        <p class="msg" id="msgVideos" role="status"></p>
+        <ul class="itens-envio" id="listaVideos"></ul>
+      </div>
     </section>
-    <section class="bloco" id="secPerfil" aria-labelledby="tPerfil">
+    <section class="bloco" id="secPerfil" data-vista="perfil" aria-labelledby="tPerfil">
       <h2 id="tPerfil">Meu perfil</h2>
       <div id="perfilVer">
         <div class="perfil-linha">
@@ -434,48 +507,18 @@ a{color:var(--accent)}
         <div class="acoes"><button class="btn" type="submit">Salvar</button><button class="btn btn-sec" type="button" id="perfilCancelar">Cancelar</button></div>
       </form>
     </section>
-    <section class="bloco bloco-largo" aria-labelledby="tPaginas" id="secPaginas" hidden>
+    <section class="bloco bloco-largo" aria-labelledby="tEngaj" id="secEngaj" data-vista="resultados" hidden>
       <div class="bloco-topo">
-        <div><h2 id="tPaginas">Páginas</h2><p class="sub">Páginas para o seu dia a dia. Cada uma abre numa nova aba.</p></div>
-        <button class="btn btn-p" type="button" id="paginaNova" hidden>Adicionar página</button>
-      </div>
-      <form class="pagina-form" id="fPagina" hidden novalidate>
-        <h3 id="paginaFormTit">Nova página</h3>
-        <div class="pagina-campos">
-          <label class="campo"><span>Título</span><input type="text" id="pgTitulo" maxlength="80" autocomplete="off" required></label>
-          <label class="campo"><span>Endereço (https://…)</span><input type="url" id="pgUrl" inputmode="url" maxlength="500" autocomplete="off" placeholder="https://" required></label>
-          <label class="campo pc-largo"><span>Descrição</span><input type="text" id="pgDescricao" maxlength="240" autocomplete="off"></label>
-          <label class="campo"><span>Quem vê</span><select id="pgPapel"></select></label>
-          <label class="campo"><span>Ordem no painel</span><input type="number" id="pgOrdem" min="-999" max="999" step="1" value="0"></label>
-        </div>
-        <div class="capa-campo">
-          <div class="previa" id="pgPrevia" aria-hidden="true"></div>
-          <div>
-            <p class="dica-capa" id="pgCapaDica">Pré-visualização: a própria página, em miniatura. Se ela ficar em branco (alguns sites não deixam aparecer dentro de outro), use uma imagem de capa.</p>
-            <button class="btn btn-sec btn-p" type="button" id="pgEscolherCapa">Usar imagem de capa</button>
-            <input type="file" id="pgArquivo" accept="image/jpeg,image/png,image/webp" class="sr-only" tabindex="-1" aria-hidden="true">
-            <button class="btn-link" type="button" id="pgSemCapa" hidden>Tirar a capa e mostrar a página</button>
-          </div>
-        </div>
-        <p class="msg" id="msgPagina" role="status"></p>
-        <div class="acoes"><button class="btn" type="submit">Salvar</button><button class="btn btn-sec" type="button" id="pgCancelar">Cancelar</button></div>
-      </form>
-      <p class="msg" id="msgPaginas" role="status"></p>
-      <ul class="cards cards-pag" id="listaPaginas"></ul>
-    </section>
-    <section class="bloco bloco-largo" aria-labelledby="tEngaj" id="secEngaj" hidden>
-      <div class="bloco-topo">
-        <div><h2 id="tEngaj">Engajamento</h2><p class="sub">Quem está usando a plataforma e o que os clientes fazem nos links enviados. Horários de Brasília.</p></div>
+        <div><h2 id="tEngaj">Resultados</h2><p class="sub">Quem está usando a plataforma e o que os clientes fazem nos links enviados. Horários de Brasília.</p></div>
         <div class="periodo" role="group" aria-label="Período">
           <button type="button" data-dias="7" aria-pressed="false">7 dias</button>
           <button type="button" data-dias="30" aria-pressed="true">30 dias</button>
           <button type="button" data-dias="90" aria-pressed="false">90 dias</button>
         </div>
       </div>
-      <div class="eng-abas" role="tablist" aria-label="Painel de engajamento">
-        <button type="button" role="tab" id="abaEquipe" data-aba="equipe" aria-controls="pEquipe" aria-selected="true">Equipe</button>
+      <div class="eng-abas" role="tablist" aria-label="Resultados">
+        <button type="button" role="tab" id="abaEquipe" data-aba="equipe" aria-controls="pEquipe" aria-selected="true">Uso da equipe</button>
         <button type="button" role="tab" id="abaLinks" data-aba="links" aria-controls="pLinks" aria-selected="false">Links enviados</button>
-        <button type="button" role="tab" id="abaPermissoes" data-aba="permissoes" aria-controls="pPermissoes" aria-selected="false">Permissões</button>
       </div>
       <p class="msg" id="msgEngaj" role="status"></p>
 
@@ -530,7 +573,105 @@ a{color:var(--accent)}
         <div class="linha-tempo" id="tempoLink" hidden></div>
       </div>
 
-      <div id="pPermissoes" role="tabpanel" aria-labelledby="abaPermissoes" hidden>
+    </section>
+    <section class="bloco bloco-largo" aria-labelledby="tUsuarios" id="secUsuarios" data-vista="equipe" hidden>
+      <h2 id="tUsuarios">Equipe</h2>
+      <p class="sub">Você convida e altera o papel de quem está abaixo de você, até o seu próprio papel. A troca de papel vale no próximo acesso da pessoa (em até 1 hora).</p>
+      <div class="eng-abas subabas" role="tablist" aria-label="Equipe" data-subabas="equipe">
+        <button type="button" role="tab" id="subPessoas" data-sub="eqPessoas" aria-controls="eqPessoas" aria-selected="true">Pessoas</button>
+        <button type="button" role="tab" id="subConvidar" data-sub="eqConvidar" aria-controls="eqConvidar" aria-selected="false">Convidar</button>
+      </div>
+      <p class="msg" id="msgUsuarios" role="status"></p>
+      <div class="link-acesso" id="linkBox" hidden>
+        <strong id="linkTit">Link de acesso</strong>
+        <div class="link-linha"><input type="text" id="linkUrl" readonly aria-labelledby="linkTit"><button class="btn" type="button" id="linkCopiar">Copiar</button></div>
+        <p>Envie só para essa pessoa. O link vale uma vez e expira; se expirar, gere outro em Pessoas.</p>
+      </div>
+      <div id="eqPessoas" role="tabpanel" aria-labelledby="subPessoas">
+        <div class="eng-filtros eq-filtros">
+          <label class="campo"><span>Buscar pessoa</span><input type="search" id="eqBusca" autocomplete="off" placeholder="Nome ou e-mail"></label>
+          <label class="campo"><span>Papel</span><select id="eqPapel"><option value="">Todos</option></select></label>
+        </div>
+        <table class="tabela">
+          <thead><tr><th scope="col">Pessoa</th><th scope="col">Papel</th></tr></thead>
+          <tbody id="tbUsuarios"></tbody>
+        </table>
+      </div>
+      <div id="eqConvidar" role="tabpanel" aria-labelledby="subConvidar" hidden>
+        <p class="sub">O convite é um link de uso único: copie e mande para a pessoa (WhatsApp, Teams). Ela cria o nome e a senha no primeiro acesso.</p>
+        <form class="convite" id="fConvite" novalidate>
+          <label class="campo"><span>E-mail</span><input type="email" id="convEmail" autocomplete="off" required></label>
+          <label class="campo"><span>Nome</span><input type="text" id="convNome" autocomplete="off"></label>
+          <label class="campo"><span>Papel</span><select id="convPapel"></select></label>
+          <button class="btn" type="submit">Gerar link</button>
+        </form>
+      </div>
+    </section>
+    <section class="bloco bloco-largo" id="secAdmin" data-vista="admin" aria-labelledby="tAdmin" hidden>
+      <h2 id="tAdmin">Administração</h2>
+      <p class="sub">Cadastros e permissões do painel. Só o superadmin vê esta parte; quem barra de verdade é o banco.</p>
+      <div class="eng-abas subabas" role="tablist" aria-label="Administração" data-subabas="admin">
+        <button type="button" role="tab" id="subAdmVideos" data-sub="admVideos" aria-controls="admVideos" aria-selected="true">Vídeos</button>
+        <button type="button" role="tab" id="subAdmPaginas" data-sub="admPaginas" aria-controls="admPaginas" aria-selected="false">Páginas do painel</button>
+        <button type="button" role="tab" id="subAdmPermissoes" data-sub="admPermissoes" aria-controls="admPermissoes" aria-selected="false">Permissões</button>
+      </div>
+      <div id="admVideos" role="tabpanel" aria-labelledby="subAdmVideos">
+        <div class="bloco-topo">
+          <p class="sub">Vídeos do Google Drive que aparecem em Enviar ao cliente e em Materiais.</p>
+          <button class="btn btn-p" type="button" id="videoNovo">Adicionar vídeo</button>
+        </div>
+      <form class="pagina-form" id="fVideo" hidden novalidate>
+        <h3 id="videoFormTit">Novo vídeo</h3>
+        <div class="pagina-campos">
+          <label class="campo pc-largo"><span>Link do vídeo no Google Drive</span><input type="url" id="vdDrive" inputmode="url" maxlength="300" autocomplete="off" placeholder="https://drive.google.com/file/d/…" required></label>
+          <label class="campo"><span>Título</span><input type="text" id="vdTitulo" maxlength="80" autocomplete="off" required></label>
+          <label class="campo"><span>Código do link</span><input type="text" id="vdCodigo" maxlength="40" autocomplete="off" pattern="[a-z0-9-]+" placeholder="ex.: varejo" required></label>
+          <label class="campo pc-largo"><span>Descrição</span><input type="text" id="vdDescricao" maxlength="240" autocomplete="off"></label>
+          <label class="campo pc-largo"><span>Palavras para a busca</span><input type="text" id="vdPalavras" maxlength="200" autocomplete="off" placeholder="segmento, assunto, cargo…"></label>
+          <label class="campo"><span>Duração (min:seg)</span><input type="text" id="vdDuracao" inputmode="numeric" maxlength="8" autocomplete="off" placeholder="2:30"></label>
+          <label class="campo"><span>Ordem na lista</span><input type="number" id="vdOrdem" min="-999" max="999" step="1" value="0"></label>
+        </div>
+        <div class="marcas">
+          <label class="marca-op"><input type="checkbox" id="vdCliente" checked> Pode ser enviado ao cliente <small>Sem isso, fica só para assistir no painel.</small></label>
+          <label class="marca-op"><input type="checkbox" id="vdVertical"> Vídeo em pé (gravado no celular, 9:16)</label>
+        </div>
+        <p class="dica-campo">O arquivo no Drive precisa estar compartilhado com "qualquer pessoa com o link". O nome do arquivo aparece no player: não use o nome do fornecedor.</p>
+        <p class="msg" id="msgVideo" role="status"></p>
+        <div class="acoes"><button class="btn" type="submit">Salvar</button><button class="btn btn-sec" type="button" id="vdCancelar">Cancelar</button></div>
+      </form>
+        <p class="msg" id="msgAdmVideos" role="status"></p>
+        <ul class="itens-envio" id="listaAdmVideos"></ul>
+      </div>
+      <div id="admPaginas" role="tabpanel" aria-labelledby="subAdmPaginas" hidden>
+        <div class="bloco-topo">
+          <p class="sub">Páginas que aparecem em Materiais, para quem tem o papel escolhido.</p>
+          <button class="btn btn-p" type="button" id="paginaNova">Adicionar página</button>
+        </div>
+      <form class="pagina-form" id="fPagina" hidden novalidate>
+        <h3 id="paginaFormTit">Nova página</h3>
+        <div class="pagina-campos">
+          <label class="campo"><span>Título</span><input type="text" id="pgTitulo" maxlength="80" autocomplete="off" required></label>
+          <label class="campo"><span>Endereço (https://…)</span><input type="url" id="pgUrl" inputmode="url" maxlength="500" autocomplete="off" placeholder="https://" required></label>
+          <label class="campo pc-largo"><span>Descrição</span><input type="text" id="pgDescricao" maxlength="240" autocomplete="off"></label>
+          <label class="campo"><span>Quem vê</span><select id="pgPapel"></select></label>
+          <label class="campo"><span>Ordem no painel</span><input type="number" id="pgOrdem" min="-999" max="999" step="1" value="0"></label>
+        </div>
+        <div class="capa-campo">
+          <div class="previa" id="pgPrevia" aria-hidden="true"></div>
+          <div>
+            <p class="dica-capa" id="pgCapaDica">Pré-visualização: a própria página, em miniatura. Se ela ficar em branco (alguns sites não deixam aparecer dentro de outro), use uma imagem de capa.</p>
+            <button class="btn btn-sec btn-p" type="button" id="pgEscolherCapa">Usar imagem de capa</button>
+            <input type="file" id="pgArquivo" accept="image/jpeg,image/png,image/webp" class="sr-only" tabindex="-1" aria-hidden="true">
+            <button class="btn-link" type="button" id="pgSemCapa" hidden>Tirar a capa e mostrar a página</button>
+          </div>
+        </div>
+        <p class="msg" id="msgPagina" role="status"></p>
+        <div class="acoes"><button class="btn" type="submit">Salvar</button><button class="btn btn-sec" type="button" id="pgCancelar">Cancelar</button></div>
+      </form>
+        <p class="msg" id="msgAdmPaginas" role="status"></p>
+        <ul class="cards cards-pag" id="listaAdmPaginas"></ul>
+      </div>
+      <div id="admPermissoes" role="tabpanel" aria-labelledby="subAdmPermissoes" hidden>
         <p class="sub">Libere o painel para outras pessoas, inteiro ou em parte. <b>Atividade dos usuários</b>: logins, páginas abertas, navegação e links enviados. <b>Visitas dos clientes</b>: se o cliente abriu o link enviado e o que fez na página. "Só os próprios" é o que a pessoa mesma fez ou enviou.</p>
         <form class="perm-lote" id="fPermLote" novalidate>
           <label class="campo"><span>Para todos os</span><select id="plPapel"></select></label>
@@ -545,28 +686,9 @@ a{color:var(--accent)}
         </table>
       </div>
     </section>
-    <section class="bloco bloco-largo" aria-labelledby="tUsuarios" id="secUsuarios" hidden>
-      <h2 id="tUsuarios">Usuários</h2>
-      <p class="sub">Você convida e altera o papel de quem está abaixo de você, até o seu próprio papel. O convite é um link de uso único: copie e mande para a pessoa. A troca de papel vale no próximo acesso dela (em até 1 hora).</p>
-      <form class="convite" id="fConvite" novalidate>
-        <label class="campo"><span>E-mail</span><input type="email" id="convEmail" autocomplete="off" required></label>
-        <label class="campo"><span>Nome</span><input type="text" id="convNome" autocomplete="off"></label>
-        <label class="campo"><span>Papel</span><select id="convPapel"></select></label>
-        <button class="btn" type="submit">Gerar link</button>
-      </form>
-      <p class="msg" id="msgUsuarios" role="status"></p>
-      <div class="link-acesso" id="linkBox" hidden>
-        <strong id="linkTit">Link de acesso</strong>
-        <div class="link-linha"><input type="text" id="linkUrl" readonly aria-labelledby="linkTit"><button class="btn" type="button" id="linkCopiar">Copiar</button></div>
-        <p>Envie só para essa pessoa. O link vale uma vez e expira; se expirar, gere outro na lista abaixo.</p>
-      </div>
-      <table class="tabela">
-        <thead><tr><th scope="col">Pessoa</th><th scope="col">Papel</th></tr></thead>
-        <tbody id="tbUsuarios"></tbody>
-      </table>
-    </section>
     </div>
   </main>
+  </div>
   <div class="assistir" id="assistir" role="dialog" aria-modal="true" aria-labelledby="assistirTit" hidden>
     <div class="assistir-caixa">
       <div class="assistir-topo"><h3 id="assistirTit"></h3><button class="assistir-x" type="button" id="assistirX" aria-label="Fechar">×</button></div>
@@ -656,7 +778,8 @@ function lerHash(){
 /* ---------- Entrada ---------- */
 function iniciar(){
   var hs = lerHash();
-  if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  /* o código do convite sai do endereço; a rota do painel (#/enviar…) fica */
+  if (location.hash && !/^#\//.test(location.hash)) history.replaceState(null, '', location.pathname + location.search);
   if (hs.acesso) {
     convite = {codigo: hs.acesso, tipo: hs.tipo};
     return ver('vAcesso');
@@ -719,6 +842,7 @@ Array.prototype.forEach.call(document.querySelectorAll('[data-sair]'), function(
 
 /* ---------- Painel ---------- */
 function painel(){
+  inicio = {usuarios: null, resumo: null, envios: null};
   mostrarEu();
   byId('quemPapel').textContent = PAPEL[eu.papel] || eu.papel;
   var lista = byId('listaPlaybooks');
@@ -730,7 +854,10 @@ function painel(){
   carregarEnvio();
   registrar('abriu', 'painel');
   iniciarEngajamento();
-  byId('paginaNova').hidden = eu.papel !== 'superadmin';
+  byId('secAdmin').hidden = eu.papel !== 'superadmin';
+  verSubaba('materiais', subabaAtual('materiais'));
+  verSubaba('equipe', subabaAtual('equipe'));
+  if (eu.papel === 'superadmin') verSubaba('admin', subabaAtual('admin'));
   carregarPaginas();
   var concede = eu.concede || [];
   byId('secUsuarios').hidden = !concede.length;
@@ -742,7 +869,167 @@ function painel(){
     carregarUsuarios();
   }
   ver('vPainel');
+  iniciarInicio();
+  irPara(rotaDoEndereco(), true);
 }
+
+/* ---------- Início por papel ----------
+   GN: envio em destaque e atalhos. BDM: + a própria equipe. Quem tem o painel de engajamento liberado: + os números dos últimos 7 dias
+   (pessoas ativas, links, abertos e quem precisa de incentivo), antes do envio. Superadmin: + pendências de configuração.
+   Para todos: aviso de WhatsApp faltando no perfil. Os números vêm das mesmas consultas do engajamento (o banco filtra por pode_ver). */
+var inicio = {usuarios: null, resumo: null, envios: null};
+var FRASE_PAPEL = {gn: 'Pronto para mandar algo ao cliente hoje?', bdm: 'Seu envio e a sua equipe, num lugar só.',
+  gerente: 'Como o seu time está usando a plataforma.', admin: 'Como o time está usando a plataforma.', superadmin: 'Visão geral da plataforma e o que falta configurar.'};
+function iniciarInicio(){
+  var ve = eu.ve || {};
+  byId('inicioPlaybook').href = PLAYBOOKS[0].url;
+  byId('olaSub').textContent = FRASE_PAPEL[eu.papel] || '';
+  desenharInicio();
+  if (ve.atividade) api('GET', 'engajamento?acao=resumo&dias=7', null, function(st, d){ inicio.resumo = st === 200 ? d.dados || [] : []; desenharInicio(); });
+  else if (ve.visitas) api('GET', 'engajamento?acao=envios&dias=7', null, function(st, d){ inicio.envios = st === 200 ? d.dados || [] : []; desenharInicio(); });
+}
+byId('inicioPlaybook').addEventListener('click', function(){ registrar('abriu', PLAYBOOKS[0].nome, {url: PLAYBOOKS[0].url, de: 'inicio'}); });
+byId('inicioConvidar').addEventListener('click', function(){ verSubaba('equipe', 'eqConvidar'); focoDepois = byId('convEmail'); });
+
+function desenharInicio(){
+  if (!eu) return;
+  var ve = eu.ve || {}, gestor = !!(ve.atividade || (ve.visitas && ve.visitas !== 'meus'));
+  // pendências: o que falta para o painel funcionar bem
+  var pend = [];
+  if (!eu.whatsapp) pend.push({t: 'Sem WhatsApp no perfil: as páginas e vídeos que você envia não têm para quem chamar.', b: 'Colocar meu WhatsApp', f: editarPerfil});
+  if (eu.papel === 'superadmin') {
+    var semDur = envio.videos.filter(function(v){ return !v.duracao; }).length;
+    if (semDur) pend.push({t: semDur + (semDur === 1 ? ' vídeo sem duração' : ' vídeos sem duração') + ': a mensagem fica genérica e o engajamento não mostra quanto foi assistido.', b: 'Ver vídeos', f: function(){ verSubaba('admin', 'admVideos'); location.hash = '#/admin'; }});
+  }
+  var ul = byId('listaPendencias');
+  ul.innerHTML = '';
+  pend.forEach(function(p){
+    var b = h('button', {'class': 'btn-link', type: 'button', text: p.b});
+    b.addEventListener('click', p.f);
+    ul.appendChild(h('li', {}, [h('span', {text: p.t}), b]));
+  });
+  byId('inicioPendencias').hidden = !pend.length;
+  // números do time (ou dos próprios links), antes do envio para quem gerencia
+  desenharResumoInicio(ve);
+  var grade = byId('gradeInicio');
+  if (gestor) grade.insertBefore(byId('inicioResumo'), byId('inicioEnviar'));
+  else grade.insertBefore(byId('inicioResumo'), byId('inicioTime'));
+  // equipe: quem pode convidar vê quantas pessoas estão abaixo
+  var concede = eu.concede || [];
+  byId('inicioTime').hidden = !concede.length;
+  if (concede.length) {
+    var abaixo = (inicio.usuarios || []).filter(function(u){ return u.id !== eu.id && (eu.papel === 'superadmin' || NIVEL[u.papel] < NIVEL[eu.papel]); }).length;
+    byId('timeSub').textContent = inicio.usuarios === null ? 'Carregando…' : abaixo === 0 ? 'Ninguém abaixo de você ainda. Convide a primeira pessoa.'
+      : abaixo + (abaixo === 1 ? ' pessoa' : ' pessoas') + ' abaixo de você. Convide e ajuste os papéis em Equipe.';
+  }
+}
+function desenharResumoInicio(ve){
+  var box = byId('inicioResumo'), k = byId('kpisInicio'), inc = byId('incentivoInicio');
+  box.hidden = !(ve.atividade || ve.visitas);
+  if (box.hidden) return;
+  k.innerHTML = ''; inc.innerHTML = '';
+  if (ve.atividade) {
+    byId('tResumo').textContent = 'Seu time nos últimos 7 dias';
+    if (!inicio.resumo) return byId('resumoSub').textContent = 'Carregando…';
+    var time = inicio.resumo.filter(function(u){ return u.usuario !== eu.id; });
+    var soma = function(c){ return time.reduce(function(t, u){ return t + (u[c] || 0); }, 0); };
+    var envios = soma('envios'), abertos = soma('envios_abertos');
+    var parados = time.filter(function(u){ return !u.ultimo_acesso || (Date.now() - Date.parse(u.ultimo_acesso)) / 864e5 > 14; })
+      .sort(function(a, b){ return (Date.parse(a.ultimo_acesso) || 0) - (Date.parse(b.ultimo_acesso) || 0); });
+    byId('resumoSub').textContent = time.length + (time.length === 1 ? ' pessoa' : ' pessoas') + ' que você acompanha.';
+    [kpi(time.filter(function(u){ return u.dias_ativos > 0; }).length + ' de ' + time.length, 'ativos na semana'), kpi(envios, 'links enviados'),
+      kpi(abertos + (envios ? ' (' + Math.round(abertos / envios * 100) + '%)' : ''), 'abertos pelo cliente'), kpi(soma('contatos'), 'chamaram no WhatsApp'),
+      kpi(parados.length, 'precisam de incentivo', parados.length > 0)].forEach(function(x){ k.appendChild(x); });
+    var lista = h('ul');
+    parados.slice(0, 3).forEach(function(u){
+      var foto = h('span', {'class': 'avatar avatar-p', 'aria-hidden': 'true'});
+      pintarAvatar(foto, u);
+      lista.appendChild(h('li', {}, [foto, h('div', {}, [h('strong', {text: pessoaNome(u)}), h('small', {text: (PAPEL[u.papel] || u.papel) + ' · último acesso: ' + haQuanto(u.ultimo_acesso).toLowerCase()})])]));
+    });
+    inc.appendChild(h('div', {'class': 'incentivo'}, parados.length ? [h('h3', {text: 'Precisam de incentivo (sem acesso há mais de 14 dias)'}), lista]
+      : [h('p', {'class': 'tudo-ok', text: 'Ninguém parado há mais de 14 dias.'})]));
+  } else {
+    byId('tResumo').textContent = ve.visitas === 'meus' ? 'Seus links nos últimos 7 dias' : 'Links do time nos últimos 7 dias';
+    if (!inicio.envios) return byId('resumoSub').textContent = 'Carregando…';
+    var l = inicio.envios, ab = l.filter(function(v){ return v.visitas > 0; }).length;
+    byId('resumoSub').textContent = 'O que os clientes fizeram nos links enviados.';
+    [kpi(l.length, 'links enviados'), kpi(ab + (l.length ? ' (' + Math.round(ab / l.length * 100) + '%)' : ''), 'abertos pelo cliente'),
+      kpi(l.filter(function(v){ return v.contato; }).length, 'chamaram no WhatsApp')].forEach(function(x){ k.appendChild(x); });
+  }
+}
+
+/* ---------- Vistas do painel ----------
+   Uma vista por vez, pelo endereço (#/inicio, #/enviar, #/materiais, #/equipe, #/resultados, #/perfil): o Voltar do navegador funciona
+   e dá para mandar o link de uma parte. Cada bloco diz a vista em data-vista; o menu só mostra a vista que tem algum bloco liberado
+   (o hidden que as permissões já põem nos blocos). Quem barra o acesso de verdade continua sendo o banco. */
+var VISTAS_PAINEL = {
+  inicio: {nome: 'Início'},
+  enviar: {nome: 'Enviar ao cliente', desc: 'Páginas e vídeos com o seu WhatsApp no link.', icone: 'i-enviar'},
+  materiais: {nome: 'Materiais', desc: 'Playbooks e páginas do dia a dia.', icone: 'i-materiais'},
+  equipe: {nome: 'Equipe', desc: 'Convide pessoas e ajuste os papéis.', icone: 'i-equipe'},
+  resultados: {nome: 'Resultados', desc: 'Quem está usando e o que os clientes fazem nos links.', icone: 'i-resultados'},
+  admin: {nome: 'Administração', desc: 'Vídeos, páginas do painel e permissões.', icone: 'i-admin'},
+  perfil: {nome: 'Meu perfil'}
+};
+var vistaAtual = '', focoDepois = null; /* focoDepois: campo que recebe o foco ao chegar na vista (ex.: e-mail do convite) */
+function blocosDa(id){ return Array.prototype.slice.call(document.querySelectorAll('#painelMain [data-vista="' + id + '"]')); }
+function vistaLiberada(id){ return id === 'inicio' || id === 'perfil' || blocosDa(id).some(function(b){ return !b.hidden; }); }
+function rotaDoEndereco(){ var m = /^#\/([a-z]+)/.exec(location.hash); return m && VISTAS_PAINEL[m[1]] ? m[1] : 'inicio'; }
+function atualizarMenu(){
+  Array.prototype.forEach.call(document.querySelectorAll('#menu [data-ir]'), function(a){
+    var id = a.getAttribute('data-ir');
+    a.hidden = !vistaLiberada(id);
+    if (id === vistaAtual) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+  });
+  var lista = byId('atalhos');
+  lista.innerHTML = '';
+  ['enviar', 'materiais', 'equipe', 'resultados', 'admin'].filter(vistaLiberada).forEach(function(id){
+    var v = VISTAS_PAINEL[id];
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'), uso = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    svg.setAttribute('aria-hidden', 'true'); uso.setAttribute('href', '#' + v.icone); svg.appendChild(uso);
+    lista.appendChild(h('li', {}, [h('a', {'class': 'atalho', href: '#/' + id}, [svg, h('strong', {text: v.nome}), h('span', {text: v.desc})])]));
+  });
+}
+// sem rota liberada, volta ao Início; "inicial" é a primeira abertura (não rouba o foco nem acrescenta histórico)
+function irPara(id, inicial){
+  if (!VISTAS_PAINEL[id] || !vistaLiberada(id)) id = 'inicio';
+  vistaAtual = id;
+  Array.prototype.forEach.call(document.querySelectorAll('#painelMain [data-vista]'), function(b){ b.classList.toggle('na-vista', b.getAttribute('data-vista') === id); });
+  if (location.hash !== '#/' + id) history.replaceState(null, '', location.pathname + location.search + '#/' + id);
+  atualizarMenu();
+  document.title = VISTAS_PAINEL[id].nome + ' · Plataforma de Treinamento Vivo Empresas';
+  if (!inicial) { window.scrollTo(0, 0); (focoDepois || byId('painelMain')).focus(); }
+  focoDepois = null;
+}
+window.addEventListener('hashchange', function(){ if (eu && !byId('vPainel').hidden) irPara(rotaDoEndereco()); });
+
+/* subabas (Materiais e Administração): botões role="tab" com data-sub apontando para o painel; setas trocam de subaba.
+   AO_ABRIR_SUBABA carrega o que só faz sentido quando a subaba aparece (ex.: as permissões). */
+var AO_ABRIR_SUBABA = {};
+function subabasDe(grupo){ return Array.prototype.slice.call(document.querySelectorAll('[data-subabas="' + grupo + '"] [role="tab"]')); }
+function verSubaba(grupo, painelId){
+  var abas = subabasDe(grupo).filter(function(b){ return !b.hidden; });
+  if (!abas.some(function(b){ return b.getAttribute('data-sub') === painelId; })) painelId = abas.length ? abas[0].getAttribute('data-sub') : '';
+  subabasDe(grupo).forEach(function(b){
+    var sim = b.getAttribute('data-sub') === painelId;
+    b.setAttribute('aria-selected', String(sim)); b.tabIndex = sim ? 0 : -1;
+    byId(b.getAttribute('data-sub')).hidden = !sim;
+  });
+  if (AO_ABRIR_SUBABA[painelId]) AO_ABRIR_SUBABA[painelId]();
+}
+function subabaAtual(grupo){ var b = subabasDe(grupo).filter(function(x){ return x.getAttribute('aria-selected') === 'true'; })[0]; return b ? b.getAttribute('data-sub') : ''; }
+Array.prototype.forEach.call(document.querySelectorAll('[data-subabas]'), function(lista){
+  var grupo = lista.getAttribute('data-subabas');
+  subabasDe(grupo).forEach(function(b){
+    b.addEventListener('click', function(){ verSubaba(grupo, b.getAttribute('data-sub')); });
+    b.addEventListener('keydown', function(e){
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      var abas = subabasDe(grupo).filter(function(x){ return !x.hidden; }), i = abas.indexOf(b) + (e.key === 'ArrowRight' ? 1 : -1);
+      var alvo = abas[(i + abas.length) % abas.length];
+      verSubaba(grupo, alvo.getAttribute('data-sub')); alvo.focus();
+    });
+  });
+});
 
 function podeAlterar(u){
   return u.id !== eu.id && (eu.papel === 'superadmin' || NIVEL[u.papel] < NIVEL[eu.papel]) && NIVEL[eu.papel] >= NIVEL.bdm;
@@ -753,10 +1040,30 @@ function carregarUsuarios(){
     var tb = byId('tbUsuarios');
     tb.innerHTML = '';
     if (st !== 200) return msg('msgUsuarios', d.erro || 'Não foi possível carregar os usuários.', 'erro');
-    (d.usuarios || []).sort(function(a, b){ return NIVEL[b.papel] - NIVEL[a.papel] || String(a.nome || a.email).localeCompare(String(b.nome || b.email), 'pt-BR'); })
-      .forEach(function(u){ tb.appendChild(linhaUsuario(u)); });
+    inicio.usuarios = d.usuarios || [];
+    desenharInicio();
+    // papéis do filtro: só os que aparecem na lista
+    var sel = byId('eqPapel'), atual = sel.value;
+    sel.innerHTML = '';
+    sel.appendChild(h('option', {value: '', text: 'Todos'}));
+    ['superadmin', 'admin', 'gerente', 'bdm', 'gn'].forEach(function(p){
+      if (inicio.usuarios.some(function(u){ return u.papel === p; })) sel.appendChild(h('option', {value: p, text: PAPEL[p]}));
+    });
+    sel.value = atual;
+    desenharUsuarios();
   });
 }
+function desenharUsuarios(){
+  var tb = byId('tbUsuarios'), busca = semAcento(byId('eqBusca').value).trim(), papel = byId('eqPapel').value;
+  var lista = (inicio.usuarios || []).filter(function(u){
+    return (!papel || u.papel === papel) && (!busca || semAcento(nomeCompleto(u) + ' ' + u.email).indexOf(busca) >= 0);
+  }).sort(function(a, b){ return NIVEL[b.papel] - NIVEL[a.papel] || String(a.nome || a.email).localeCompare(String(b.nome || b.email), 'pt-BR'); });
+  tb.innerHTML = '';
+  if (!lista.length) return tb.appendChild(h('tr', {}, [h('td', {colspan: '2', text: inicio.usuarios && inicio.usuarios.length ? 'Ninguém com esses filtros.' : 'Ninguém na equipe ainda. Convide a primeira pessoa.'})]));
+  lista.forEach(function(u){ tb.appendChild(linhaUsuario(u)); });
+}
+byId('eqBusca').addEventListener('input', desenharUsuarios);
+byId('eqPapel').addEventListener('change', desenharUsuarios);
 
 function linhaUsuario(u){
   var foto = h('span', {'class': 'avatar avatar-p', 'aria-hidden': 'true'});
@@ -914,21 +1221,40 @@ function enviar(item, forma){
 
 function itensEnvio(){
   var pags = PAGINAS_ENVIO.map(function(p){ return {tipo: 'pagina', id: p.id, titulo: p.titulo, descricao: p.descricao, palavras: p.palavras, url: p.url, zap: p.zap, msg: p.msg}; });
-  var vids = envio.videos.map(function(v){ var x = {}, k; for (k in v) if (v.hasOwnProperty(k)) x[k] = v[k]; x.tipo = 'video'; x.zap = true; return x; });
-  return pags.concat(vids);
+  // em Enviar só entra vídeo para o cliente; o só para o GN fica em Materiais → Vídeos
+  return pags.concat(videosComo(envio.videos.filter(function(v){ return v.para_cliente; })));
+}
+function videosComo(lista){ return lista.map(function(v){ var x = {}, k; for (k in v) if (v.hasOwnProperty(k)) x[k] = v[k]; x.tipo = 'video'; x.zap = true; return x; }); }
+function casaBusca(it, busca){
+  var alvo = semAcento([it.titulo, it.descricao, it.palavras].join(' '));
+  return !busca || busca.split(/\s+/).every(function(p){ return alvo.indexOf(p) >= 0; });
 }
 function desenharEnvio(){
-  var lista = byId('listaEnvio'), busca = semAcento(byId('envBusca').value).trim(), superadmin = eu && eu.papel === 'superadmin';
-  var itens = itensEnvio().filter(function(it){
-    if (envio.tipo && it.tipo !== envio.tipo) return false;
-    var alvo = semAcento([it.titulo, it.descricao, it.palavras].join(' '));
-    return !busca || busca.split(/\s+/).every(function(p){ return alvo.indexOf(p) >= 0; });
-  });
+  var lista = byId('listaEnvio'), busca = semAcento(byId('envBusca').value).trim();
+  var itens = itensEnvio().filter(function(it){ return (!envio.tipo || it.tipo === envio.tipo) && casaBusca(it, busca); });
   lista.innerHTML = '';
   msg('msgEnvio', itens.length ? '' : 'Nada encontrado' + (busca ? ' para "' + byId('envBusca').value.trim() + '"' : '') + '.', 'ok');
-  itens.forEach(function(it){ lista.appendChild(itemEnvio(it, superadmin)); });
+  itens.forEach(function(it){ lista.appendChild(itemEnvio(it, 'enviar')); });
 }
-function itemEnvio(it, superadmin){
+// Materiais → Vídeos: todos os vídeos para assistir; os que vão ao cliente ganham o atalho para enviar
+function desenharVideosMateriais(){
+  var lista = byId('listaVideos'), busca = semAcento(byId('vidBusca').value).trim();
+  var itens = videosComo(envio.videos).filter(function(it){ return casaBusca(it, busca); });
+  byId('subVideos').hidden = !envio.videos.length;
+  lista.innerHTML = '';
+  msg('msgVideos', itens.length || !envio.videos.length ? '' : 'Nenhum vídeo para "' + byId('vidBusca').value.trim() + '".', 'ok');
+  itens.forEach(function(it){ lista.appendChild(itemEnvio(it, 'materiais')); });
+}
+// Administração → Vídeos: todos, com editar e remover
+function desenharAdmVideos(){
+  var lista = byId('listaAdmVideos');
+  lista.innerHTML = '';
+  msg('msgAdmVideos', envio.videos.length ? '' : 'Nenhum vídeo ainda. Use "Adicionar vídeo".', 'ok');
+  videosComo(envio.videos).forEach(function(it){ lista.appendChild(itemEnvio(it, 'admin')); });
+}
+byId('vidBusca').addEventListener('input', desenharVideosMateriais);
+// modo: 'enviar' (botões de envio), 'materiais' (assistir e ir enviar) ou 'admin' (editar, remover)
+function itemEnvio(it, modo){
   var video = it.tipo === 'video', cliente = !video || it.para_cliente;
   var capa;
   if (video) {
@@ -944,36 +1270,37 @@ function itemEnvio(it, superadmin){
     h('span', {'class': 'item-tipo', text: video ? 'Vídeo' + (it.duracao ? ' · ' + minutos(it.duracao) : '') : 'Página'}),
     h('strong', {text: it.titulo}),
     it.descricao ? h('span', {text: it.descricao}) : null,
-    cliente ? null : h('span', {'class': 'tag', text: 'Só para você assistir'})
+    cliente ? null : h('span', {'class': 'tag', text: modo === 'admin' ? 'Só para o painel (não vai ao cliente)' : 'Só para você assistir'})
   ]);
-  if (video && superadmin) {
-    var editar = h('button', {'class': 'btn-link', type: 'button', text: 'Editar'}), remover = h('button', {'class': 'btn-link', type: 'button', text: 'Remover'});
-    editar.addEventListener('click', function(){ abrirVideo(it); });
-    remover.addEventListener('click', function(){ removerVideo(it, remover); });
-    txt.appendChild(h('div', {'class': 'item-admin'}, [editar, remover]));
-  }
   var acoes = h('div', {'class': 'item-acoes'});
-  if (cliente) {
+  function botao(texto, classe, f){ var bt = h('button', {'class': classe, type: 'button', text: texto}); bt.addEventListener('click', f); acoes.appendChild(bt); return bt; }
+  if (modo === 'enviar') {
     [['whatsapp', 'Enviar no WhatsApp', 'btn'], ['mensagem', 'Copiar mensagem', 'btn btn-sec'], ['link', 'Copiar link', 'btn btn-sec']].forEach(function(b){
-      var bt = h('button', {'class': b[2], type: 'button', text: b[1]});
-      bt.addEventListener('click', function(){ enviar(it, b[0]); });
-      acoes.appendChild(bt);
+      botao(b[1], b[2], function(){ enviar(it, b[0]); });
+    });
+  } else if (modo === 'materiais') {
+    botao('Assistir', cliente ? 'btn btn-sec' : 'btn', function(){ assistir(it); });
+    if (cliente) botao('Enviar ao cliente', 'btn', function(){
+      byId('envBusca').value = it.titulo; envio.tipo = '';
+      Array.prototype.forEach.call(document.querySelectorAll('#secEnvio .periodo button'), function(x){ x.setAttribute('aria-pressed', String(!x.getAttribute('data-tipo'))); });
+      desenharEnvio(); location.hash = '#/enviar';
     });
   } else {
-    var ver = h('button', {'class': 'btn btn-sec', type: 'button', text: 'Assistir'});
-    ver.addEventListener('click', function(){ assistir(it); });
-    acoes.appendChild(ver);
+    botao('Editar', 'btn', function(){ abrirVideo(it); });
+    var remover = botao('Remover', 'btn btn-sec', function(){ removerVideo(it, remover); });
   }
   return h('li', {'class': 'item-envio'}, [capa, txt, acoes]);
 }
 
 function carregarEnvio(){
-  byId('videoNovo').hidden = eu.papel !== 'superadmin';
   desenharEnvio();
   api('GET', 'videos', null, function(st, d){
     if (st !== 200) return msg('msgEnvio', d.erro || 'Não foi possível carregar os vídeos.', 'erro');
     envio.videos = d.videos || [];
     desenharEnvio();
+    desenharVideosMateriais();
+    desenharAdmVideos();
+    desenharInicio();
   });
 }
 Array.prototype.forEach.call(document.querySelectorAll('#secEnvio .periodo button'), function(b){
@@ -1039,14 +1366,14 @@ function abrirVideo(v){
 function fecharVideo(){
   envio.videoEditado = null;
   byId('fVideo').hidden = true;
-  if (eu) byId('videoNovo').hidden = eu.papel !== 'superadmin';
+  byId('videoNovo').hidden = false;
 }
 function removerVideo(v, botao){
   if (!window.confirm('Remover o vídeo "' + v.titulo + '"? Os links já enviados deixam de abrir.')) return;
   botao.disabled = true;
   api('DELETE', 'videos?id=' + encodeURIComponent(v.id), null, function(st, d){
     botao.disabled = false;
-    if (st !== 200) return msg('msgEnvio', d.erro || 'Não foi possível remover o vídeo.', 'erro');
+    if (st !== 200) return msg('msgAdmVideos', d.erro || 'Não foi possível remover o vídeo.', 'erro');
     if (envio.videoEditado && envio.videoEditado.id === v.id) fecharVideo();
     carregarEnvio();
   });
@@ -1091,6 +1418,7 @@ function mostrarEu(){
   byId('perfilEmail').textContent = eu.email;
   byId('perfilZapVer').textContent = eu.whatsapp ? 'WhatsApp ' + zapLegivel(eu.whatsapp) : 'Sem WhatsApp';
   mostrarRemetente();
+  desenharInicio();
   ['topoAvatar', 'olaAvatar', 'perfilAvatar'].forEach(function(id){ pintarAvatar(byId(id), eu); });
 }
 
@@ -1101,6 +1429,7 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !byI
 byId('menuPerfil').addEventListener('click', function(){ abrirConta(false); editarPerfil(); });
 
 function editarPerfil(){
+  if (vistaAtual !== 'perfil') { history.pushState(null, '', location.pathname + location.search + '#/perfil'); irPara('perfil', true); }
   fotoNova = null;
   byId('perfilNome').value = eu.nome || '';
   byId('perfilSobrenome').value = eu.sobrenome || '';
@@ -1219,12 +1548,22 @@ function cardPagina(p, acoes){
 function carregarPaginas(){
   var superadmin = eu.papel === 'superadmin';
   api('GET', 'paginas', null, function(st, d){
-    var lista = byId('listaPaginas'), paginas = d.paginas || [];
-    lista.innerHTML = '';
-    if (st !== 200) { byId('secPaginas').hidden = false; return msg('msgPaginas', d.erro || 'Não foi possível carregar as páginas.', 'erro'); }
-    byId('secPaginas').hidden = !paginas.length && !superadmin;
-    msg('msgPaginas', !paginas.length && superadmin ? 'Nenhuma página ainda. Use "Adicionar página".' : '', 'ok');
-    paginas.forEach(function(p){ lista.appendChild(cardPagina(p, superadmin ? acoesPagina(p) : null)); });
+    // Materiais → Páginas (só quando há alguma) e, para o superadmin, Administração → Páginas do painel, com editar e remover
+    var lista = byId('listaPaginas'), adm = byId('listaAdmPaginas'), paginas = d.paginas || [];
+    lista.innerHTML = ''; adm.innerHTML = '';
+    if (st !== 200) {
+      byId('subPaginas').hidden = false;
+      msg('msgAdmPaginas', d.erro || 'Não foi possível carregar as páginas.', 'erro');
+      return msg('msgPaginas', d.erro || 'Não foi possível carregar as páginas.', 'erro');
+    }
+    byId('subPaginas').hidden = !paginas.length;
+    if (!paginas.length && subabaAtual('materiais') === 'mPaginas') verSubaba('materiais', 'mPlaybooks');
+    msg('msgPaginas', '');
+    msg('msgAdmPaginas', paginas.length ? '' : 'Nenhuma página ainda. Use "Adicionar página".', 'ok');
+    paginas.forEach(function(p){
+      lista.appendChild(cardPagina(p, null));
+      if (superadmin) adm.appendChild(cardPagina(p, acoesPagina(p)));
+    });
   });
 }
 
@@ -1237,7 +1576,7 @@ function acoesPagina(p){
     remover.disabled = true;
     api('DELETE', 'paginas?id=' + encodeURIComponent(p.id), null, function(st, d){
       remover.disabled = false;
-      if (st !== 200) return msg('msgPaginas', d.erro || 'Não foi possível remover a página.', 'erro');
+      if (st !== 200) return msg('msgAdmPaginas', d.erro || 'Não foi possível remover a página.', 'erro');
       if (paginaEditada && paginaEditada.id === p.id) fecharPagina();
       carregarPaginas();
     });
@@ -1275,7 +1614,7 @@ function fecharPagina(){
   byId('fPagina').hidden = true;
   byId('pgArquivo').value = '';
   byId('pgPrevia').innerHTML = '';
-  if (eu) byId('paginaNova').hidden = eu.papel !== 'superadmin';
+  byId('paginaNova').hidden = false;
 }
 
 byId('paginaNova').addEventListener('click', function(){ abrirPagina(null); });
@@ -1321,7 +1660,7 @@ var ROTULO_ABA = {reuniao: 'Reunião', objecoes: 'Objeções', provas: 'Provas e
 var ROTULO_PAGINA = {'link-seguro': 'Link seguro', descubra: 'Jornada', 'linha-de-frente': 'Linha de frente', 'playbook-varejo': 'o playbook Varejo', painel: 'o painel', interno: 'o ambiente interno'};
 var ESCOPO = {'': 'Sem acesso', meus: 'Só os próprios', abaixo: 'Os próprios e de quem está abaixo', todos: 'Todos'};
 var STATUS = {incentivo: {t: 'Precisa de incentivo', s: '▼', o: 0}, morno: {t: 'Morno', s: '●', o: 1}, engajado: {t: 'Engajado', s: '▲', o: 2}};
-var ABA_ID = {equipe: 'abaEquipe', links: 'abaLinks', permissoes: 'abaPermissoes'}, PAINEL_ID = {equipe: 'pEquipe', links: 'pLinks', permissoes: 'pPermissoes'};
+var ABA_ID = {equipe: 'abaEquipe', links: 'abaLinks'}, PAINEL_ID = {equipe: 'pEquipe', links: 'pLinks'};
 var eng = {dias: 30, aba: 'equipe', resumo: [], diario: [], envios: [], ordem: {col: 'status', asc: true}, pedido: 0};
 
 function fuso(op){ op.timeZone = 'America/Sao_Paulo'; return op; }
@@ -1355,12 +1694,11 @@ function iniciarEngajamento(){
   var ve = eu.ve || {};
   byId('abaEquipe').hidden = !ve.atividade;
   byId('abaLinks').hidden = !ve.visitas;
-  byId('abaPermissoes').hidden = eu.papel !== 'superadmin';
   var abas = abasVisiveis();
   byId('secEngaj').hidden = !abas.length;
   if (abas.length) verAba(abas.indexOf(eng.aba) >= 0 ? eng.aba : abas[0]);
 }
-function abasVisiveis(){ return ['equipe', 'links', 'permissoes'].filter(function(a){ return !byId(ABA_ID[a]).hidden; }); }
+function abasVisiveis(){ return ['equipe', 'links'].filter(function(a){ return !byId(ABA_ID[a]).hidden; }); }
 function verAba(aba){
   eng.aba = aba;
   Object.keys(ABA_ID).forEach(function(a){
@@ -1369,7 +1707,6 @@ function verAba(aba){
     b.tabIndex = a === aba ? 0 : -1;
     byId(PAINEL_ID[a]).hidden = a !== aba;
   });
-  byId('secEngaj').querySelector('.periodo').hidden = aba === 'permissoes';
   carregarAba();
 }
 function carregarAba(){
@@ -1381,12 +1718,12 @@ function carregarAba(){
     var junta = function(){ if (--faltam || n !== eng.pedido) return; msg('msgEngaj', ''); desenharEquipe(); };
     pedirEng('resumo', '', function(d, erro){ if (!d) return falhou(erro); eng.resumo = d; junta(); });
     pedirEng('diario', '', function(d, erro){ if (!d) return falhou(erro); eng.diario = d; junta(); });
-  } else if (eng.aba === 'links') {
+  } else {
     pedirEng('envios', '', function(d, erro){ if (!d) return falhou(erro); if (n !== eng.pedido) return; eng.envios = d; msg('msgEngaj', ''); desenharLinks(); });
-  } else carregarPermissoes(n);
+  }
 }
 
-Array.prototype.forEach.call(document.querySelectorAll('.eng-abas [role="tab"]'), function(b){
+Array.prototype.forEach.call(document.querySelectorAll('#secEngaj .eng-abas [role="tab"]'), function(b){
   b.addEventListener('click', function(){ verAba(b.getAttribute('data-aba')); });
   b.addEventListener('keydown', function(e){
     if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
@@ -1653,11 +1990,16 @@ function abrirLink(v){
 
 /* --- Permissões (só superadmin; quem barra é definir_permissao no banco) --- */
 function opcoesEscopo(sel){ Object.keys(ESCOPO).forEach(function(k){ sel.appendChild(h('option', {value: k, text: ESCOPO[k]})); }); }
-function carregarPermissoes(n){
-  var faltam = 2, usuarios = [], perm = [];
+// Administração → Permissões: carrega ao abrir a subaba; o contador descarta respostas de um carregamento anterior
+var permPedido = 0;
+AO_ABRIR_SUBABA.admPermissoes = function(){ carregarPermissoes(); };
+// manterAviso: depois de aplicar em lote, a mensagem de quantas pessoas mudaram continua na tela
+function carregarPermissoes(manterAviso){
+  var n = ++permPedido, faltam = 2, usuarios = [], perm = [];
+  if (!manterAviso) msg('msgPerm', 'Carregando…', 'ok');
   function junta(){
-    if (--faltam || n !== eng.pedido) return;
-    msg('msgEngaj', '');
+    if (--faltam || n !== permPedido) return;
+    if (!manterAviso) msg('msgPerm', '');
     var de = {};
     perm.forEach(function(p){ de[p.usuario + ':' + p.recurso] = p.escopo; });
     var tb = byId('tbPerm');
@@ -1687,8 +2029,8 @@ function carregarPermissoes(n){
         tb.appendChild(linha);
       });
   }
-  api('GET', 'usuarios', null, function(st, d){ if (st !== 200) return msg('msgEngaj', d.erro || 'Não foi possível carregar os usuários.', 'erro'); usuarios = d.usuarios || []; junta(); });
-  api('GET', 'engajamento?acao=permissoes', null, function(st, d){ if (st !== 200) return msg('msgEngaj', d.erro || 'Não foi possível carregar as permissões.', 'erro'); perm = d.permissoes || []; junta(); });
+  api('GET', 'usuarios', null, function(st, d){ if (st !== 200) return msg('msgPerm', d.erro || 'Não foi possível carregar os usuários.', 'erro'); usuarios = d.usuarios || []; junta(); });
+  api('GET', 'engajamento?acao=permissoes', null, function(st, d){ if (st !== 200) return msg('msgPerm', d.erro || 'Não foi possível carregar as permissões.', 'erro'); perm = d.permissoes || []; junta(); });
 }
 (function(){
   var p = byId('plPapel'), e = byId('plEscopo');
@@ -1705,7 +2047,7 @@ byId('fPermLote').addEventListener('submit', function(ev){
     if (st !== 200) return msg('msgPerm', d.erro || 'Não foi possível aplicar.', 'erro');
     msg('msgPerm', (d.alterados || 0) + ' ' + (d.alterados === 1 ? 'pessoa' : 'pessoas') + ' (' + PAPEL[papel] + ') com ' +
       (rec === 'atividade' ? 'atividade dos usuários' : 'visitas dos clientes') + ': ' + ESCOPO[esc] + '.', 'ok');
-    carregarPermissoes(++eng.pedido);
+    carregarPermissoes(true);
   });
 });
 
