@@ -298,6 +298,56 @@ button.novidade:hover{border-color:var(--accent)}
 .status-morno{color:var(--fg-soft)}
 .status-incentivo{color:var(--erro)}
 .dica-eng{font-size:.85rem;color:var(--fg-soft);margin:12px 0 0}
+.dica-eng summary{cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0}
+.dica-eng p{margin:4px 0 0}
+.eng-ordem,.tabela-eng .eng-celular{display:none}
+
+/* ---------- Resultados no celular: no padrão das redes sociais (painel de estatísticas, lista de seguidores) ----------
+   período em pílulas, abas presas no topo, números numa faixa que desliza, filtros em pílulas e cada linha como item de lista */
+@media (max-width:767px){
+  #secEngaj .bloco-topo{display:block}
+  #secEngaj .bloco-topo .sub{display:none}
+  #secEngaj .periodo{display:flex;gap:8px;margin-top:12px;border:0;border-radius:0;overflow:visible}
+  #secEngaj .periodo button{flex:1 1 0;min-height:40px;border:1px solid var(--line-strong);border-radius:20px;font-weight:700}
+  #secEngaj .periodo button + button{border-left:1px solid var(--line-strong)}
+  .eng-abas{position:sticky;top:0;z-index:5;margin:16px -16px 12px;padding:0 16px;background:var(--surface)}
+  .eng-abas button{flex:1 1 0;min-height:48px;font-size:.95rem}
+
+  .kpis{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 16px;margin:0 -16px 20px;padding:0 16px 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .kpis::-webkit-scrollbar{display:none}
+  .kpi{flex:0 0 40%;min-width:132px;padding:12px;scroll-snap-align:start}
+  .kpi b{font-size:1.3rem}
+  .grafico svg{height:120px}
+
+  .eng-filtros{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+  .eng-filtros .campo{margin:0}
+  .eng-busca{flex:1 1 100%}
+  .eng-busca span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .eng-busca input{border-radius:20px;padding-left:16px}
+  .eng-ordem{display:block}
+  .eng-pilula{display:flex;align-items:center;flex:0 1 auto;min-width:0;max-width:100%;border:1px solid var(--line-strong);border-radius:20px;padding-left:12px;background:var(--surface)}
+  .eng-pilula span{margin:0;font-size:.8rem;font-weight:400;color:var(--fg-soft);white-space:nowrap}
+  .eng-filtros .eng-pilula select{width:auto;min-width:0;min-height:38px;border:0;background:none;padding:6px 10px 6px 6px;font-size:.88rem;font-weight:700}
+
+  #secEngaj .tabela-eng,.tabela-eng tbody{border:0;background:none}
+  #secEngaj .tabela-eng tr{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 12px;padding:12px 0;border-bottom:1px solid var(--line)}
+  #secEngaj .tabela-eng td{display:none;padding:0}
+  #secEngaj .tabela-eng td[colspan]{display:block;grid-column:1 / -1;padding:12px 0;color:var(--fg-soft)}
+  #secEngaj .tabela-eng tr:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+  /* o botão da linha cobre o item inteiro: tocar em qualquer parte abre a linha do tempo */
+  #secEngaj .tabela-eng .btn-link{position:static;margin:0;padding:0;width:0;height:0;overflow:hidden;color:transparent}
+  #secEngaj .tabela-eng .btn-link:focus{outline:none}
+  #secEngaj .tabela-eng .btn-link::after{content:"";position:absolute;inset:0;z-index:1}
+  #secEngaj .tabela-eng .eng-celular{display:block;grid-column:1 / -1;font-size:.85rem;line-height:1.35;color:var(--fg-soft)}
+  #secEngaj .tabela-eng .eng-celular .status{font-size:inherit;white-space:normal}
+  #tEquipe td:first-child{display:block;grid-column:1;grid-row:1}
+  #tEquipe td:nth-child(3){display:block;grid-column:2;grid-row:1}
+  #tEquipe .eng-celular{padding-left:44px}
+  #tLinks td:nth-child(6){display:block;grid-column:2;grid-row:1;align-self:start;padding-top:2px}
+  #secEngaj #tLinks .eng-celular{grid-column:1;grid-row:1}
+  #tLinks .eng-celular strong{display:block;font-size:.98rem;color:var(--fg)}
+  #tLinks .eng-celular small{display:block;margin:2px 0 4px;font-size:inherit}
+}
 /* ---------- Gaveta: linha do tempo com score ---------- */
 .gaveta-fundo{position:fixed;inset:0;z-index:30;background:rgba(23,7,34,.55)}
 .gaveta{position:fixed;top:0;right:0;bottom:0;z-index:31;width:min(460px,100vw);background:var(--surface);color:var(--fg);border-left:1px solid var(--line);box-shadow:-18px 0 40px -24px rgba(0,0,0,.6);display:flex;flex-direction:column;animation:gaveta-entra .22s ease-out}
@@ -477,12 +527,7 @@ button.novidade:hover{border-color:var(--accent)}
   .bloco{padding:20px 16px}
   .boas-vindas .avatar-g{width:56px;height:56px;font-size:1.3rem}
   .pagina-campos,.capa-campo{grid-template-columns:1fr}
-  .eng-filtros,.perm-lote{grid-template-columns:1fr}
-  .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-  .kpi{padding:12px}
-  .kpi b{font-size:1.3rem}
-  .tabela-eng td[data-r]::before{content:attr(data-r);display:block;font-size:.78rem;color:var(--fg-soft)}
-  .tabela-eng td:first-child{padding-top:10px}
+  .perm-lote{grid-template-columns:1fr}
   .convite{grid-template-columns:1fr}
   .tabela thead{display:none}
   .tabela,.tabela tbody,.tabela tr,.tabela td{display:block;width:100%}
@@ -519,18 +564,19 @@ button.novidade:hover{border-color:var(--accent)}
 
   html.com-feed,html.com-feed body{height:100%;overflow:hidden;overscroll-behavior:none}
   /* no app instalado do iPhone sobra uma faixa abaixo da barra de abas: fica preta como ela */
-  html.com-feed{background:#000}
+  html.com-feed,html.com-feed body{background:#000}
   .com-feed .topo,.com-feed .sem-net,.com-feed .boas-vindas,.com-feed #gradeInicio{display:none}
   .com-feed .painel{padding:0}
   .com-feed .inicio-modo{position:fixed;top:0;left:0;right:0;z-index:12;margin:0;padding:calc(8px + env(safe-area-inset-top,0px)) 16px 28px;background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,0));pointer-events:none}
   .com-feed .inicio-modo button{pointer-events:auto;border-radius:0;color:rgba(255,255,255,.72);text-shadow:0 1px 3px rgba(0,0,0,.6)}
   .com-feed .inicio-modo button[aria-selected="true"]{color:#fff;background:none;box-shadow:inset 0 -2px 0 #fff}
-  .com-feed .feed{display:block;position:fixed;top:0;left:0;right:0;bottom:var(--barra,64px);z-index:10;background:#000;color:#fff}
+  .com-feed .feed{display:block;position:fixed;top:0;left:0;right:0;bottom:var(--altura-abas,64px);z-index:10;background:#000;color:#fff}
   /* a barra de abas escurece sobre o vídeo, como nos apps */
-  .com-feed .menu{background:#000;border-top-color:rgba(255,255,255,.12)}
+  /* a sombra estende o preto da barra para baixo: no app instalado do iPhone ela não encosta no fim da tela */
+  .com-feed .menu{background:#000;border-top-color:rgba(255,255,255,.12);box-shadow:0 80px 0 #000}
   .com-feed .menu a,.com-feed .menu .menu-criar{color:rgba(255,255,255,.72)}
   .com-feed .menu a[aria-current="page"]{color:#fff;box-shadow:inset 0 3px 0 var(--rosa)}
-  .com-feed .toast{bottom:calc(var(--barra,64px) + 16px)}
+  .com-feed .toast{bottom:calc(var(--altura-abas,64px) + 16px)}
   .com-feed .puxador{top:env(safe-area-inset-top,0px)}
 
   .feed-lista{height:100%;overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
@@ -551,7 +597,7 @@ button.novidade:hover{border-color:var(--accent)}
   .feed-item.pronto .feed-quadro iframe{opacity:1}
   .feed-item.pronto .feed-capa{opacity:0}
   .feed-tampa{position:absolute;top:0;right:0;width:76px;height:64px;z-index:2}
-  .feed-carregando{position:absolute;top:50%;left:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;opacity:0;transition:opacity .2s}
+  .feed-carregando{position:absolute;top:50%;left:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;opacity:0;transition:opacity .2s;pointer-events:none}
   .feed-item.montando .feed-carregando,.feed-esqueleto .feed-carregando{opacity:1;animation:puxador-gira .8s linear infinite}
 
   /* película: pega o deslizar e o toque duplo; o recorte (recorte() no feed.js) livra o play e os controles do Drive */
@@ -562,16 +608,21 @@ button.novidade:hover{border-color:var(--accent)}
   .feed-play svg{width:36px;height:36px;margin-left:4px}
   .feed-item.parado .feed-play{display:grid}
 
-  .feed-legenda{position:absolute;left:0;right:76px;bottom:0;z-index:4;padding:0 16px 20px;transition:opacity .25s}
+  .feed-legenda{position:absolute;left:0;right:76px;bottom:var(--base,0px);z-index:4;padding:0 16px 20px;transition:opacity .25s}
   .feed-tag{display:inline-block;margin-bottom:8px;padding:3px 8px;border-radius:4px;background:rgba(255,255,255,.2);font-size:.78rem;font-weight:700}
   .feed-tag.so-voce{background:var(--rosa)}
   .feed-legenda h2{margin:0 0 4px;font-size:1.12rem;line-height:1.25;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
   .feed-desc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;width:100%;margin:0;padding:0;background:none;border:0;font:inherit;font-size:.92rem;text-align:left;color:rgba(255,255,255,.88);cursor:pointer}
   .feed-desc[aria-expanded="true"]{display:block}
 
-  .feed-trilho{position:absolute;right:6px;bottom:20px;z-index:4;display:grid;gap:18px;justify-items:center}
+  .feed-trilho{position:absolute;right:6px;bottom:calc(var(--base,0px) + 20px);z-index:4;display:grid;gap:18px;justify-items:center}
   .feed-acao{display:grid;justify-items:center;gap:4px;min-width:60px;min-height:56px;padding:4px;background:none;border:0;font:inherit;font-size:.78rem;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);cursor:pointer;-webkit-tap-highlight-color:transparent}
   .feed-acao svg{width:32px;height:32px;fill:none;stroke:currentColor;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
+  /* dica do Enviar: balão à esquerda do botão, apontando para ele */
+  .feed-enviar{position:relative}
+  .feed-dica{position:absolute;right:100%;top:50%;margin:-18px 10px 0 0;padding:0 14px;line-height:36px;border-radius:18px;background:#fff;color:#660099;font-size:.88rem;font-weight:700;white-space:nowrap;text-shadow:none;box-shadow:0 6px 18px -6px rgba(0,0,0,.6);opacity:0;transform:translateX(8px);transition:opacity .25s,transform .25s;pointer-events:none}
+  .feed-dica::after{content:"";position:absolute;left:100%;top:50%;margin-top:-6px;border:6px solid transparent;border-left-color:#fff}
+  .feed-item.com-dica .feed-dica{opacity:1;transform:none;animation:feed-dica 1.2s ease-in-out .3s 2}
   .feed-curtir[aria-pressed="true"] svg{fill:var(--rosa);stroke:var(--rosa)}
   .feed-curtir.pulsa svg{animation:feed-pulsa .35s cubic-bezier(.3,1.6,.5,1)}
   .feed-coracao{position:absolute;z-index:5;width:104px;height:104px;margin:-52px 0 0 -52px;opacity:0;color:var(--rosa);pointer-events:none}
@@ -589,8 +640,9 @@ button.novidade:hover{border-color:var(--accent)}
   .feed-check::after{content:"";position:absolute;left:22px;top:14px;width:14px;height:26px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
 }
 @keyframes feed-pulsa{40%{transform:scale(1.3)}}
+@keyframes feed-dica{50%{transform:translateX(-4px)}}
 @keyframes feed-coracao{0%{opacity:0;transform:scale(.4)}15%{opacity:1;transform:scale(1.15)}30%{transform:scale(.95)}45%{transform:scale(1)}80%{opacity:1;transform:translateY(-16px)}100%{opacity:0;transform:translateY(-56px) scale(.9)}}
-@media (prefers-reduced-motion: reduce){.folha,.folha-fundo,.feed-curtir.pulsa svg,.feed-coracao.voa{animation:none}}
+@media (prefers-reduced-motion: reduce){.folha,.folha-fundo,.feed-curtir.pulsa svg,.feed-coracao.voa,.feed-item.com-dica .feed-dica{animation:none}}
 </style>
 <style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
 </head>
@@ -878,11 +930,15 @@ button.novidade:hover{border-color:var(--accent)}
           <div class="dica-grafico" id="dicaGrafico" role="status" hidden></div>
         </figure>
         <div class="eng-filtros">
-          <label class="campo"><span>Papel</span><select id="fPapel"></select></label>
-          <label class="campo"><span>Status</span><select id="fStatus">
+          <label class="campo eng-busca"><span>Buscar pessoa</span><input type="search" id="fBusca" autocomplete="off" placeholder="Buscar pessoa"></label>
+          <label class="campo eng-pilula"><span>Papel</span><select id="fPapel"></select></label>
+          <label class="campo eng-pilula"><span>Status</span><select id="fStatus">
             <option value="">Todos</option><option value="incentivo">Precisa de incentivo</option><option value="morno">Morno</option><option value="engajado">Engajado</option>
           </select></label>
-          <label class="campo"><span>Buscar pessoa</span><input type="search" id="fBusca" autocomplete="off"></label>
+          <label class="campo eng-pilula eng-ordem"><span>Ordenar por</span><select id="fOrdem">
+            <option value="score">Score</option><option value="status">Status</option><option value="ultimo_acesso">Último acesso</option>
+            <option value="envios">Links enviados</option><option value="dias_ativos">Dias ativos</option><option value="nome">Nome</option>
+          </select></label>
         </div>
         <table class="tabela tabela-eng" id="tEquipe">
           <thead><tr>
@@ -897,19 +953,22 @@ button.novidade:hover{border-color:var(--accent)}
           </tr></thead>
           <tbody id="tbEquipe"></tbody>
         </table>
-        <p class="dica-eng"><b>Engajado</b>: ativo em pelo menos um quarto dos dias do período (mínimo 2) ou com 3 links enviados. <b>Precisa de incentivo</b>: sem acesso há mais de 14 dias, ou nunca entrou. <b>Morno</b>: os demais. <b>Score</b> (0 a 100): frequência, links enviados, resposta dos clientes e último acesso; clique na pessoa para ver de onde vieram os pontos.</p>
+        <details class="dica-eng">
+          <summary>Como calculamos o status e o score</summary>
+          <p><b>Engajado</b>: ativo em pelo menos um quarto dos dias do período (mínimo 2) ou com 3 links enviados. <b>Precisa de incentivo</b>: sem acesso há mais de 14 dias, ou nunca entrou. <b>Morno</b>: os demais. <b>Score</b> (0 a 100): frequência, links enviados, resposta dos clientes e último acesso; toque na pessoa para ver de onde vieram os pontos.</p>
+        </details>
       </div>
 
       <div id="pLinks" role="tabpanel" aria-labelledby="abaLinks" hidden>
         <div class="kpis" id="kpisLinks"></div>
         <div class="eng-filtros">
-          <label class="campo"><span>Página</span><select id="fPaginaLink">
+          <label class="campo eng-busca"><span>Buscar empresa ou pessoa</span><input type="search" id="fBuscaLink" autocomplete="off" placeholder="Buscar empresa ou pessoa"></label>
+          <label class="campo eng-pilula"><span>Página</span><select id="fPaginaLink">
             <option value="">Todas</option><option value="link-seguro">Link seguro</option><option value="descubra">Jornada</option><option value="linha-de-frente">Linha de frente</option><option value="video">Vídeos</option>
           </select></label>
-          <label class="campo"><span>Situação</span><select id="fSituacao">
+          <label class="campo eng-pilula"><span>Situação</span><select id="fSituacao">
             <option value="">Todas</option><option value="nao">Ainda não aberto</option><option value="aberto">Aberto</option><option value="contato">Chamou no WhatsApp</option>
           </select></label>
-          <label class="campo"><span>Buscar empresa ou pessoa</span><input type="search" id="fBuscaLink" autocomplete="off"></label>
         </div>
         <table class="tabela tabela-eng" id="tLinks">
           <thead><tr>
@@ -2146,14 +2205,17 @@ byId('fVideo').addEventListener('submit', function(e){
    por vez, com curtir e enviar. "Painel", no topo, volta ao Início em blocos; a escolha fica no aparelho. No desktop nada muda.
    O player é o do Google Drive, que não toca sozinho nem pausa por comando de fora: o vídeo à vista já monta o player (um toque no
    play do Drive começa) e o que sai da tela é desmontado, o que para o som. Só o vídeo à vista tem player.
-   O vídeo fica acima da legenda e dos botões, no tamanho da proporção real (lida da capa do Drive), porque o Drive desenha os controles
-   na parte de baixo do player e nada nosso pode ficar por cima deles.
-   Uma película cobre a tela, menos o play do Drive (centro do vídeo) e a faixa dos controles (vídeo deitado: o vídeo inteiro): deslizar
+   O tamanho segue a proporção real (lida da capa do Drive). O Drive desenha os controles no pé do player e nada nosso pode ficar por
+   cima deles: o vídeo em pé ocupa a tela, encostado na barra de abas, com a legenda e os botões por cima, acima da barra do Drive;
+   o deitado fica acima da legenda e dos botões.
+   Uma película cobre a tela, menos o play do Drive (centro do vídeo) e a barra dos controles (vídeo deitado: o vídeo inteiro): deslizar
    no resto cai na película, então a rolagem não depende do quadro de fora. No iPhone o toque dentro do quadro não tira o foco da página,
    então não dá para saber do play: por isso os controles ficam sempre livres. Onde o foco avisa (Android, desktop), a película sai toda
    depois do play e tocar fora do player a devolve. Sem recorte (navegador antigo), o primeiro toque tira a película. */
 var feed = {modo: le('inicioModo', 'videos'), carregou: false, erro: '', chave: null, itens: [], atual: -1, pedidos: {}, rolagem: null, toque: null,
-  folhaVideo: null, folhaVolta: null, depoisFolha: null, arrasto: null};
+  folhaVideo: null, folhaVolta: null, depoisFolha: null, arrasto: null, dicaMostrou: false, dicaTempo: null};
+// a dica do Enviar aparece uma vez por abertura, nas primeiras aberturas, até a pessoa usar o Enviar (como as dicas de novidade dos apps)
+var DICA_VEZES = 3;
 var celular = window.matchMedia ? window.matchMedia('(max-width:767px)') : {matches: false};
 var menosMovimento = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : {matches: false};
 var comRecorte = !!(window.CSS && CSS.supports && (CSS.supports('clip-path', 'polygon(0 0,1px 0,0 1px)') || CSS.supports('-webkit-clip-path', 'polygon(0 0,1px 0,0 1px)')));
@@ -2184,7 +2246,7 @@ function atualizarFeed(){
   ativar(indiceAtual());
 }
 // o feed vai até a barra de abas, que muda de altura com a área segura do aparelho
-function medirBarra(){ document.documentElement.style.setProperty('--barra', (byId('menu').offsetHeight || 64) + 'px'); }
+function medirBarra(){ document.documentElement.style.setProperty('--altura-abas', (byId('menu').offsetHeight || 64) + 'px'); }
 
 function desenharFeed(){
   var lista = byId('feedLista'), vs = envio.videos || [];
@@ -2229,8 +2291,9 @@ function itemFeed(v, i, total){
   x.curtir = h('button', {'class': 'feed-acao feed-curtir', type: 'button'}, [usoSvg('i-coracao'), h('span')]);
   var trilho = x.trilho = h('div', {'class': 'feed-trilho'}, [x.curtir]);
   if (v.para_cliente) {
-    var env = h('button', {'class': 'feed-acao', type: 'button', 'aria-label': 'Enviar ao cliente: ' + v.titulo}, [usoSvg('i-enviar'), h('span', {text: 'Enviar'})]);
-    env.addEventListener('click', function(){ abrirFolha(x.v); });
+    x.dica = h('span', {'class': 'feed-dica', 'aria-hidden': 'true', text: 'Envie para seu cliente'});
+    var env = h('button', {'class': 'feed-acao feed-enviar', type: 'button', 'aria-label': 'Enviar ao cliente: ' + v.titulo}, [usoSvg('i-enviar'), h('span', {text: 'Enviar'}), x.dica]);
+    env.addEventListener('click', function(){ esconderDica(x, true); abrirFolha(x.v); });
     trilho.appendChild(env);
   }
   x.coracao = h('span', {'class': 'feed-coracao', 'aria-hidden': 'true'}, [usoSvg('i-coracao')]);
@@ -2266,31 +2329,44 @@ function fimFeed(total){
 }
 
 /* --- o tamanho do vídeo: proporção da capa do Drive; a marcação "em pé" do cadastro só vale até a capa carregar --- */
+// altura da barra de controles que o Drive desenha no pé do player
+var FAIXA_DRIVE = 64;
 function proporcao(larg, alt, emPe){ return larg > 0 && alt > 0 ? larg / alt : emPe ? 9 / 16 : 16 / 9; }
 // a maior caixa com a proporção do vídeo que cabe no palco, sem cortar
 function encaixe(prop, larg, alt){ return larg / alt > prop ? {w: Math.round(alt * prop), h: alt} : {w: larg, h: Math.round(larg / prop)}; }
-// recorte da película: livra o play (centro do quadro) e a faixa dos controles do Drive (os 40% de baixo); vídeo baixo fica todo livre.
+// recorte da película: livra o play (centro do quadro) e, de "faixa" para baixo, os controles do Drive.
 // O furo corre no sentido contrário ao contorno e liga-se a ele por um corte de largura zero, como pede o polygon().
-function recorte(larg, alt, q){
-  var faixa = q.h < alt / 2 ? q.y : q.y + Math.round(q.h * 0.6), fim = q.y + q.h, dir = q.x + q.w, cx = q.x + q.w / 2, cy = q.y + q.h / 2;
+function recorte(larg, alt, q, faixa){
+  var fim = q.y + q.h, dir = q.x + q.w, cx = q.x + q.w / 2, cy = q.y + q.h / 2;
   var t = Math.max(q.y, cy - 56), e = Math.max(q.x, cx - 56), d = Math.min(dir, cx + 56);
   var furo = t < faixa ? [[e, t], [e, faixa], [q.x, faixa], [q.x, fim], [dir, fim], [dir, faixa], [d, faixa], [d, t]]
     : [[q.x, faixa], [q.x, fim], [dir, fim], [dir, faixa]];
   var pts = [[0, 0], [larg, 0], [larg, alt], [0, alt], [0, furo[0][1]]].concat(furo, [furo[0], [0, furo[0][1]]]);
   return 'polygon(' + pts.map(function(p){ return Math.round(p[0]) + 'px ' + Math.round(p[1]) + 'px'; }).join(',') + ')';
 }
-// o palco é o item menos a faixa da legenda e dos botões; o vídeo fica no meio dele
+// em pé: o vídeo ocupa a tela, encostado na barra de abas, e a legenda e os botões ficam por cima dele, acima da barra do Drive.
+// Deitado: o palco é o item menos a faixa da legenda e dos botões, e o vídeo fica no meio dele.
 function encaixarItem(x){
   var el = x.el, larg = el.clientWidth, alt = el.clientHeight;
   if (!larg || !alt) return;
-  var reserva = alt - Math.min(x.legenda.offsetTop, x.trilho.offsetTop) + 8, palco = Math.max(0, alt - reserva);
-  var q = encaixe(proporcao(x.capa.naturalWidth, x.capa.naturalHeight, x.v.vertical), larg, palco), s = x.quadro.style;
-  q.x = Math.round((larg - q.w) / 2); q.y = Math.round((palco - q.h) / 2);
+  var prop = proporcao(x.capa.naturalWidth, x.capa.naturalHeight, x.v.vertical), emPe = prop < 1, base = emPe ? FAIXA_DRIVE : 0, q, s = x.quadro.style;
+  el.classList.toggle('em-pe', emPe);
+  el.style.setProperty('--base', base + 'px');
+  var reserva = alt - Math.min(x.legenda.offsetTop, x.trilho.offsetTop) + 8;
+  if (emPe) {
+    q = encaixe(prop, larg, alt);
+    q.y = alt - q.h;
+  } else {
+    var palco = Math.max(0, alt - reserva);
+    q = encaixe(prop, larg, palco);
+    q.y = Math.round((palco - q.h) / 2);
+  }
+  q.x = Math.round((larg - q.w) / 2);
   s.left = q.x + 'px'; s.top = q.y + 'px'; s.width = q.w + 'px'; s.height = q.h + 'px';
   el.style.setProperty('--reserva', reserva + 'px');
   el.style.setProperty('--cx', (q.x + q.w / 2) + 'px');
   el.style.setProperty('--cy', (q.y + q.h / 2) + 'px');
-  if (comRecorte) x.pelicula.style.webkitClipPath = x.pelicula.style.clipPath = recorte(larg, alt, q);
+  if (comRecorte) x.pelicula.style.webkitClipPath = x.pelicula.style.clipPath = recorte(larg, alt, q, emPe ? q.y + q.h - FAIXA_DRIVE : q.y);
 }
 function encaixarFeed(){ if (feedLigado()) feed.itens.forEach(encaixarItem); }
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(encaixarFeed);
@@ -2302,11 +2378,25 @@ function ativar(i){
   feed.atual = i;
   feed.itens.forEach(function(x, k){
     x.el.classList.toggle('ativo', k === i);
-    if (k !== i) { desmontarItem(x); x.el.classList.remove('parado'); }
+    if (k !== i) { desmontarItem(x); x.el.classList.remove('parado'); esconderDica(x); }
   });
   var x = feed.itens[i];
   if (!x) return;
   if (semAutoplay() || navigator.onLine === false) x.el.classList.add('parado'); else montar(x);
+  mostrarDica(x);
+}
+function mostrarDica(x){
+  var vezes = le('dicaEnviar', 0);
+  if (!x.dica || feed.dicaMostrou || vezes >= DICA_VEZES) return;
+  feed.dicaMostrou = true;
+  guarda('dicaEnviar', vezes + 1);
+  x.el.classList.add('com-dica');
+  clearTimeout(feed.dicaTempo);
+  feed.dicaTempo = setTimeout(function(){ esconderDica(x); }, 4500);
+}
+function esconderDica(x, usou){
+  x.el.classList.remove('com-dica');
+  if (usou) guarda('dicaEnviar', DICA_VEZES);
 }
 function montar(x){
   if (x.frame) return;
@@ -3040,6 +3130,7 @@ function tabelaEquipe(){
   Array.prototype.forEach.call(document.querySelectorAll('#tEquipe .ordena'), function(b){
     if (b.getAttribute('data-col') === col) b.setAttribute('aria-sort', eng.ordem.asc ? 'ascending' : 'descending'); else b.removeAttribute('aria-sort');
   });
+  if (byId('fOrdem').querySelector('option[value="' + col + '"]')) byId('fOrdem').value = col;
   var tb = byId('tbEquipe');
   tb.innerHTML = '';
   if (!linhas.length) return tb.appendChild(h('tr', {}, [h('td', {colspan: '8', text: 'Ninguém com esses filtros.'})]));
@@ -3048,7 +3139,11 @@ function tabelaEquipe(){
     pintarAvatar(foto, u);
     var ver = h('button', {'class': 'btn-link', type: 'button', text: 'Ver linha do tempo'});
     ver.addEventListener('click', function(){ abrirUsuario(u); });
-    var st = STATUS[u.status];
+    var st = STATUS[u.status], resumo = ['visto ' + (u.ultimo_acesso ? haQuanto(u.ultimo_acesso).toLowerCase() : 'nunca')];
+    if (u.dias_ativos) resumo.push(u.dias_ativos + (u.dias_ativos === 1 ? ' dia ativo' : ' dias ativos'));
+    if (u.envios) resumo.push(u.envios + (u.envios === 1 ? ' link' : ' links') + ', ' + u.envios_abertos + (u.envios_abertos === 1 ? ' aberto' : ' abertos'));
+    if (u.contatos) resumo.push(u.contatos + ' no WhatsApp');
+    if (u.segundos_playbook) resumo.push(duracao(u.segundos_playbook) + ' no playbook');
     tb.appendChild(h('tr', {}, [
       h('td', {}, [h('div', {'class': 'pessoa'}, [foto, h('div', {}, [h('strong', {text: u.nomeVer}), h('small', {text: PAPEL[u.papel] || u.papel}), ver])])]),
       td('Status', h('span', {'class': 'status status-' + u.status, text: st.s + ' ' + st.t})),
@@ -3057,12 +3152,20 @@ function tabelaEquipe(){
       td('Dias ativos', String(u.dias_ativos), 'num'),
       td('Tempo no playbook', u.segundos_playbook ? duracao(u.segundos_playbook) : '—', 'num'),
       td('Links enviados', String(u.envios), 'num'),
-      td('Abertos pelo cliente', u.envios ? u.envios_abertos + ' de ' + u.envios + (u.contatos ? ' · ' + u.contatos + ' no WhatsApp' : '') : '—', 'num')
+      td('Abertos pelo cliente', u.envios ? u.envios_abertos + ' de ' + u.envios + (u.contatos ? ' · ' + u.contatos + ' no WhatsApp' : '') : '—', 'num'),
+      // no celular a linha vira item de lista, como nos apps: status e um resumo dos números numa linha só
+      h('td', {'class': 'eng-celular'}, [h('span', {'class': 'status status-' + u.status, text: st.s + ' ' + st.t}), h('span', {text: ' · ' + resumo.join(' · ')})])
     ]));
   });
 }
 ['fPapel', 'fStatus'].forEach(function(id){ byId(id).addEventListener('change', tabelaEquipe); });
 byId('fBusca').addEventListener('input', tabelaEquipe);
+// no celular o cabeçalho da tabela some: a ordem vem deste seletor
+byId('fOrdem').addEventListener('change', function(){
+  var col = this.value;
+  eng.ordem = {col: col, asc: col === 'nome' || col === 'status'};
+  tabelaEquipe();
+});
 Array.prototype.forEach.call(document.querySelectorAll('#tEquipe .ordena'), function(b){
   b.addEventListener('click', function(){
     var col = b.getAttribute('data-col');
@@ -3294,11 +3397,21 @@ function tabelaLinks(){
       (!busca || ((v.empresa || '') + ' ' + v.quem + ' ' + (v.item_titulo || '')).toLowerCase().indexOf(busca) >= 0);
   });
   if (!linhas.length) return tb.appendChild(h('tr', {}, [h('td', {colspan: '8', text: eng.envios.length ? 'Nenhum link com esses filtros.' : 'Nenhum link enviado neste período.'})]));
+  function botaoVer(v){
+    var b = h('button', {'class': 'btn-link', type: 'button', text: 'O que o cliente fez'});
+    b.addEventListener('click', function(){ abrirLink(v); });
+    b.disabled = b.hidden = !v.visitas;
+    return b;
+  }
   linhas.forEach(function(v){
-    var s = situacao(v), ver = h('button', {'class': 'btn-link', type: 'button', text: 'O que o cliente fez'});
-    ver.addEventListener('click', function(){ abrirLink(v); });
-    ver.disabled = !v.visitas;
-    if (!v.visitas) ver.hidden = true;
+    var s = situacao(v), ver = botaoVer(v), onde = ateOnde(v);
+    // no celular a linha vira item de lista, como nos apps: empresa, o que foi e quem mandou, e o que o cliente fez
+    var celular = h('td', {'class': 'eng-celular'}, [
+      h('strong', {text: v.empresa || 'Sem empresa'}),
+      h('small', {text: oQue(v) + ' · ' + v.quem + ' · ' + dataHora(v.criado_em)}),
+      h('span', {'class': 'eng-celular-sit'}, [h('span', {'class': 'status ' + s.c, text: s.t}),
+        h('span', {text: (onde !== '—' ? ' · ' + onde : '') + (v.segundos ? ' · ' + duracao(v.segundos) : '')})]),
+      botaoVer(v)]);
     tb.appendChild(h('tr', {}, [
       td('Enviado em', h('div', {}, [h('span', {text: dataHora(v.criado_em)}), ver])),
       td('Quem enviou', v.quem),
@@ -3307,7 +3420,8 @@ function tabelaLinks(){
       td('Situação', h('span', {'class': 'status ' + s.c, text: s.t})),
       td('Score', v.pontos ? pilulaScore(v.pontos.score) : '—'),
       td('Até onde foi', ateOnde(v)),
-      td('Tempo', v.segundos ? duracao(v.segundos) : '—', 'num')
+      td('Tempo', v.segundos ? duracao(v.segundos) : '—', 'num'),
+      celular
     ]));
   });
 }
