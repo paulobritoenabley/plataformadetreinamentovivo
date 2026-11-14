@@ -2,7 +2,8 @@
 //  GET ?v=<código>    → público, sem login: o vídeo que a página /video/ mostra ao cliente {titulo, descricao, drive_id, duracao, vertical}.
 //                       video_publico só entrega vídeo marcado para o cliente (o só para o GN dá 404).
 //                       Fica aqui, e não numa função própria, porque o plano da Vercel aceita no máximo 12 funções por deploy.
-//  GET                → todos os vídeos (qualquer usuário com perfil)
+//  GET                → todos os vídeos (qualquer usuário com perfil), cada um com {curtidas, curti}
+//  POST   {acao: 'curtir', id, sim} → curte ou descurte (qualquer usuário com perfil); devolve {curtidas, curti}
 //  POST   {codigo, titulo, descricao, palavras, drive, duracao, para_cliente, vertical, ordem} → cadastra (só superadmin)
 //  PATCH  {id, ...mesmos campos}  → altera (só superadmin); com {novidade: true}, avisa a equipe no Início (vídeo novo entra sozinho, pelo banco)
 //  DELETE ?id=        → remove (só superadmin)
@@ -59,15 +60,33 @@ module.exports = async (req, res) => {
   if (!se) return s.responder(res, 401, {erro: 'Sessão encerrada. Entre de novo.'}, s.cookiesSair(s.hostDe(req)));
 
   if (req.method === 'GET') {
-    const r = await s.rest('videos?select=id,codigo,titulo,descricao,palavras,drive_id,duracao,para_cliente,vertical,ordem&order=ordem.asc,titulo.asc', {token: se.token});
-    return s.responder(res, r.ok ? 200 : 502, r.ok ? {videos: r.dados} : {erro: 'Não foi possível carregar os vídeos.'}, se.cookies);
+    const [r, c] = await Promise.all([
+      s.rest('videos?select=id,codigo,titulo,descricao,palavras,drive_id,duracao,para_cliente,vertical,ordem&order=ordem.asc,titulo.asc', {token: se.token}),
+      s.rest('rpc/curtidas_videos', {metodo: 'POST', corpo: {}, token: se.token})
+    ]);
+    if (!r.ok) return s.responder(res, 502, {erro: 'Não foi possível carregar os vídeos.'}, se.cookies);
+    // sem as curtidas (banco fora do ar só nelas), a lista sai com zero: o feed não depende delas
+    const porVideo = {};
+    (c.ok && Array.isArray(c.dados) ? c.dados : []).forEach(x => { porVideo[x.video] = x; });
+    const videos = r.dados.map(v => Object.assign(v, {curtidas: porVideo[v.id] ? porVideo[v.id].total : 0, curti: !!(porVideo[v.id] && porVideo[v.id].minha)}));
+    return s.responder(res, 200, {videos}, se.cookies);
   }
   if (['POST', 'PATCH', 'DELETE'].indexOf(req.method) < 0) return s.responder(res, 405, {erro: 'Pedido inválido.'}, se.cookies);
+  const b = req.body || {};
+
+  // curtir: qualquer usuário com perfil, só a própria curtida (curtir_video confere no banco)
+  if (req.method === 'POST' && b.acao === 'curtir') {
+    const alvo = String(b.id || '');
+    if (!ID.test(alvo) || typeof b.sim !== 'boolean') return s.responder(res, 400, {erro: 'Pedido incompleto.'}, se.cookies);
+    const r = await s.rest('rpc/curtir_video', {metodo: 'POST', corpo: {alvo, sim: b.sim}, token: se.token});
+    if (r.ok) return s.responder(res, 200, {curtidas: r.dados, curti: b.sim}, se.cookies);
+    const sumiu = r.dados && r.dados.code === '23503';
+    return s.responder(res, sumiu ? 404 : 502, {erro: sumiu ? 'Esse vídeo não existe mais.' : 'Não foi possível registrar a curtida.'}, se.cookies);
+  }
 
   // aviso claro antes de tentar; quem barra de fato é a RLS
   const p = await s.rest('rpc/meu_papel', {metodo: 'POST', corpo: {}, token: se.token});
   if (!p.ok || p.dados !== 'superadmin') return s.responder(res, 403, {erro: 'Só o superadmin altera os vídeos.'}, se.cookies);
-  const b = req.body || {};
   const id = String(req.method === 'DELETE' ? (req.query && req.query.id) || '' : b.id || '');
 
   if (req.method === 'POST') {

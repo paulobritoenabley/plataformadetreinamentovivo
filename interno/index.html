@@ -490,6 +490,110 @@ button.novidade:hover{border-color:var(--accent)}
   .tabela td{border:0;padding:6px 14px}
 }
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
+/* ---------- Feed de vídeos (Início no celular) ---------- */
+.inicio-modo,.feed{display:none}
+.folha-fundo{position:fixed;inset:0;z-index:34;background:rgba(10,3,16,.55);animation:folha-fundo .2s ease-out}
+.folha{position:fixed;left:0;right:0;bottom:0;z-index:35;max-width:560px;margin:0 auto;display:grid;gap:10px;background:var(--surface);color:var(--fg);border-radius:16px 16px 0 0;padding:10px 20px calc(16px + env(safe-area-inset-bottom,0px));box-shadow:0 -18px 40px -20px rgba(0,0,0,.6);animation:folha-sobe .28s cubic-bezier(.2,.8,.2,1);transition:transform .2s ease-out}
+.folha[hidden],.folha-fundo[hidden]{display:none}
+.folha-alca{justify-self:center;width:40px;height:4px;border-radius:2px;background:var(--line-strong);margin-bottom:6px}
+.folha h2{margin:0;font-size:1.15rem}
+.folha-video{margin:0 0 4px;color:var(--fg-soft);font-size:.92rem}
+.folha-campo{font-weight:700;font-size:.9rem}
+.folha-campo small{font-weight:400;color:var(--fg-soft)}
+.folha input{width:100%;font:inherit;font-size:1rem;color:var(--fg);background:var(--surface);border:1px solid var(--line-strong);border-radius:4px;padding:12px 14px;min-height:48px}
+.folha-aviso{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;font-size:.9rem;color:var(--erro)}
+.folha-aviso .btn-link{margin:0;padding:4px 0}
+.folha-acoes{display:grid;gap:8px;margin-top:6px}
+.folha-acoes .btn{width:100%}
+.folha-acoes .btn:disabled{opacity:.45;cursor:not-allowed}
+.folha-x{min-height:44px;background:none;border:0;font:inherit;font-weight:700;color:var(--fg-soft);cursor:pointer}
+@keyframes folha-sobe{from{transform:translateY(100%)}}
+@keyframes folha-fundo{from{opacity:0}}
+
+@media (max-width:767px){
+  /* Vídeos | Painel: no topo do Início, como "Para você | Seguindo" */
+  .inicio-modo{display:flex;justify-content:center;gap:4px;margin:-8px 0 16px}
+  .inicio-modo button{position:relative;min-height:40px;padding:8px 16px;background:none;border:0;border-radius:20px;font:inherit;font-size:1rem;font-weight:700;color:var(--fg-soft);cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .inicio-modo button[aria-selected="true"]{color:var(--fg);background:var(--surface-2)}
+  .modo-ponto{position:absolute;top:8px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--rosa)}
+
+  html.com-feed,html.com-feed body{height:100%;overflow:hidden;overscroll-behavior:none}
+  .com-feed .topo,.com-feed .sem-net,.com-feed .boas-vindas,.com-feed #gradeInicio{display:none}
+  .com-feed .painel{padding:0}
+  .com-feed .inicio-modo{position:fixed;top:0;left:0;right:0;z-index:12;margin:0;padding:calc(8px + env(safe-area-inset-top,0px)) 16px 28px;background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,0));pointer-events:none}
+  .com-feed .inicio-modo button{pointer-events:auto;border-radius:0;color:rgba(255,255,255,.72);text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  .com-feed .inicio-modo button[aria-selected="true"]{color:#fff;background:none;box-shadow:inset 0 -2px 0 #fff}
+  .com-feed .feed{display:block;position:fixed;top:0;left:0;right:0;bottom:var(--barra,64px);z-index:10;background:#000;color:#fff}
+  /* a barra de abas escurece sobre o vídeo, como nos apps */
+  .com-feed .menu{background:#000;border-top-color:rgba(255,255,255,.12)}
+  .com-feed .menu a,.com-feed .menu .menu-criar{color:rgba(255,255,255,.72)}
+  .com-feed .menu a[aria-current="page"]{color:#fff;box-shadow:inset 0 3px 0 var(--rosa)}
+  .com-feed .toast{bottom:calc(var(--barra,64px) + 16px)}
+  .com-feed .puxador{top:env(safe-area-inset-top,0px)}
+
+  .feed-lista{height:100%;overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .feed-lista::-webkit-scrollbar{display:none}
+  .feed-lista:focus{outline:none}
+  .feed-item{position:relative;height:100%;overflow:hidden;scroll-snap-align:start;scroll-snap-stop:always;background:#000}
+  .feed-item:focus{outline:none}
+  .feed-item:focus-visible{outline:3px solid #fff;outline-offset:-3px}
+  .feed-item::after{content:"";position:absolute;left:0;right:0;bottom:0;height:45%;z-index:1;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.68));pointer-events:none;transition:opacity .25s}
+
+  .feed-midia{position:absolute;inset:0}
+  .feed-fundo{position:absolute;top:-32px;left:-32px;width:calc(100% + 64px);height:calc(100% + 64px);object-fit:cover;filter:blur(24px) brightness(.5);transform:translateZ(0)}
+  /* em pé ocupa a tela; deitado fica no meio, em 16:9 */
+  .feed-quadro{position:absolute;left:0;right:0;top:50%;height:56.25vw;margin-top:-28.125vw}
+  .feed-midia.em-pe .feed-quadro{top:0;bottom:0;height:auto;margin:0}
+  .feed-capa,.feed-quadro iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+  .feed-capa{object-fit:contain;transition:opacity .35s}
+  .feed-quadro iframe{opacity:0;transition:opacity .35s}
+  .feed-item.pronto .feed-quadro iframe{opacity:1}
+  .feed-item.pronto .feed-capa{opacity:0}
+  .feed-tampa{position:absolute;top:0;right:0;width:76px;height:64px;z-index:2}
+  .feed-carregando{position:absolute;top:50%;left:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;opacity:0;transition:opacity .2s}
+  .feed-item.montando .feed-carregando,.feed-esqueleto .feed-carregando{opacity:1;animation:puxador-gira .8s linear infinite}
+
+  /* película: pega o deslizar e o toque duplo; o quadrado do centro fica livre para o play do Drive */
+  .feed-pelicula{position:absolute;inset:0;z-index:2;-webkit-tap-highlight-color:transparent;
+    -webkit-clip-path:polygon(0 0,100% 0,100% 100%,0 100%,0 50%,calc(50% - 56px) 50%,calc(50% - 56px) calc(50% + 56px),calc(50% + 56px) calc(50% + 56px),calc(50% + 56px) calc(50% - 56px),calc(50% - 56px) calc(50% - 56px),calc(50% - 56px) 50%,0 50%);
+    clip-path:polygon(0 0,100% 0,100% 100%,0 100%,0 50%,calc(50% - 56px) 50%,calc(50% - 56px) calc(50% + 56px),calc(50% + 56px) calc(50% + 56px),calc(50% + 56px) calc(50% - 56px),calc(50% - 56px) calc(50% - 56px),calc(50% - 56px) 50%,0 50%)}
+  .sem-recorte .feed-pelicula{-webkit-clip-path:none;clip-path:none}
+  .feed-item.assistindo .feed-pelicula,.feed-item.livre .feed-pelicula{display:none}
+  .feed-item.assistindo::after,.feed-item.assistindo .feed-legenda{opacity:0;pointer-events:none}
+
+  .feed-play{display:none;position:absolute;top:50%;left:50%;z-index:3;width:76px;height:76px;margin:-38px 0 0 -38px;place-items:center;border:0;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;cursor:pointer}
+  .feed-play svg{width:36px;height:36px;margin-left:4px}
+  .feed-item.parado .feed-play{display:grid}
+
+  .feed-legenda{position:absolute;left:0;right:76px;bottom:0;z-index:4;padding:0 16px 20px;transition:opacity .25s}
+  .feed-tag{display:inline-block;margin-bottom:8px;padding:3px 8px;border-radius:4px;background:rgba(255,255,255,.2);font-size:.78rem;font-weight:700}
+  .feed-tag.so-voce{background:var(--rosa)}
+  .feed-legenda h2{margin:0 0 4px;font-size:1.12rem;line-height:1.25;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+  .feed-desc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;width:100%;margin:0;padding:0;background:none;border:0;font:inherit;font-size:.92rem;text-align:left;color:rgba(255,255,255,.88);cursor:pointer}
+  .feed-desc[aria-expanded="true"]{display:block}
+
+  .feed-trilho{position:absolute;right:6px;bottom:20px;z-index:4;display:grid;gap:18px;justify-items:center}
+  .feed-acao{display:grid;justify-items:center;gap:4px;min-width:60px;min-height:56px;padding:4px;background:none;border:0;font:inherit;font-size:.78rem;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .feed-acao svg{width:32px;height:32px;fill:none;stroke:currentColor;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
+  .feed-curtir[aria-pressed="true"] svg{fill:var(--rosa);stroke:var(--rosa)}
+  .feed-curtir.pulsa svg{animation:feed-pulsa .35s cubic-bezier(.3,1.6,.5,1)}
+  .feed-coracao{position:absolute;z-index:5;width:104px;height:104px;margin:-52px 0 0 -52px;opacity:0;color:var(--rosa);pointer-events:none}
+  .feed-coracao svg{width:100%;height:100%;fill:currentColor;stroke:none;filter:drop-shadow(0 6px 16px rgba(0,0,0,.35))}
+  .feed-coracao.voa{animation:feed-coracao .85s ease-out}
+
+  .feed-cartao{display:grid;place-content:center;justify-items:center;gap:14px;padding:32px 24px;text-align:center;background:radial-gradient(circle at 50% 30%,#3a0f55,#000 72%)}
+  .feed-cartao::after{display:none}
+  .feed-cartao h2{margin:0;font-size:1.3rem;color:#fff}
+  .feed-cartao p{margin:0;max-width:30ch;color:rgba(255,255,255,.8)}
+  .feed-cartao .acoes{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+  .feed-cartao .btn{background:#fff;color:#660099;text-decoration:none}
+  .feed-cartao .btn-sec{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.7)}
+  .feed-check{width:64px;height:64px;border-radius:50%;border:2px solid #fff;position:relative}
+  .feed-check::after{content:"";position:absolute;left:22px;top:14px;width:14px;height:26px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
+}
+@keyframes feed-pulsa{40%{transform:scale(1.3)}}
+@keyframes feed-coracao{0%{opacity:0;transform:scale(.4)}15%{opacity:1;transform:scale(1.15)}30%{transform:scale(.95)}45%{transform:scale(1)}80%{opacity:1;transform:translateY(-16px)}100%{opacity:0;transform:translateY(-56px) scale(.9)}}
+@media (prefers-reduced-motion: reduce){.folha,.folha-fundo,.feed-curtir.pulsa svg,.feed-coracao.voa{animation:none}}
 </style>
 <style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
 </head>
@@ -508,7 +612,8 @@ button.novidade:hover{border-color:var(--accent)}
   <symbol id="i-seta" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></g></symbol>
   <symbol id="i-instalar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M4.5 19.5h15"/></g></symbol>
   <symbol id="i-sair" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4.5H6.5A1.5 1.5 0 0 0 5 6v12a1.5 1.5 0 0 0 1.5 1.5H14"/><path d="M10 12h10"/><path d="M16.5 8.5L20 12l-3.5 3.5"/></g></symbol>
-  <!-- eventos da linha do tempo -->
+  <!-- feed de vídeos: o preenchimento vem do CSS (vazio ou cheio ao curtir) -->
+  <symbol id="i-coracao" viewBox="0 0 24 24"><path stroke-width="1.8" stroke-linejoin="round" d="M12 20.5s-7.5-4.6-9.2-9.4C1.6 7.6 3.9 4 7.5 4c2 0 3.4 1.1 4.5 2.6C13.1 5.1 14.5 4 16.5 4c3.6 0 5.9 3.6 4.7 7.1-1.7 4.8-9.2 9.4-9.2 9.4z"/></symbol>  <!-- eventos da linha do tempo -->
   <symbol id="i-ev-abriu" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g></symbol>
   <symbol id="i-ev-rolagem" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M12 8v7M9 12.5l3 3 3-3"/></g></symbol>
   <symbol id="i-ev-clique" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l10 9-4.5.7 2.6 5.3-2.2 1-2.6-5.3L9 17.5z"/></g></symbol>
@@ -586,6 +691,28 @@ button.novidade:hover{border-color:var(--accent)}
     <a href="#/perfil" data-ir="perfil" class="so-celular"><span class="avatar avatar-menu" id="menuAvatar" aria-hidden="true"></span><span>Perfil</span></a>
   </nav>
   <main class="painel" id="painelMain" tabindex="-1">
+    <div class="inicio-modo" id="inicioModo" data-vista="inicio" role="tablist" aria-label="Como ver o Início">
+      <button type="button" role="tab" id="modoVideos" data-modo="videos" aria-selected="true">Vídeos</button>
+      <button type="button" role="tab" id="modoPainel" data-modo="painel" aria-selected="false">Painel<i class="modo-ponto" id="modoPonto" hidden></i></button>
+    </div>
+    <section class="feed" id="feed" data-vista="inicio" aria-label="Vídeos">
+      <div class="feed-lista" id="feedLista" role="feed" aria-label="Vídeos para assistir e enviar" tabindex="-1"></div>
+    </section>
+    <div class="folha-fundo" id="folhaFundo" hidden></div>
+    <div class="folha" id="folha" role="dialog" aria-modal="true" aria-labelledby="folhaTit" hidden>
+      <span class="folha-alca" id="folhaAlca" aria-hidden="true"></span>
+      <h2 id="folhaTit">Enviar para alguém</h2>
+      <p class="folha-video" id="folhaVideo"></p>
+      <label class="folha-campo" for="folhaEmpresa">Empresa do cliente <small>(opcional)</small></label>
+      <input id="folhaEmpresa" type="text" maxlength="80" autocomplete="organization" placeholder="Ex.: Rede de lojas do cliente">
+      <p class="folha-aviso" id="folhaAviso" hidden><span>Sem WhatsApp no perfil: o cliente não tem para quem chamar no fim do vídeo.</span><button class="btn-link" type="button" id="folhaPerfil">Colocar meu WhatsApp</button></p>
+      <div class="folha-acoes">
+        <button class="btn" type="button" data-forma="whatsapp">Enviar no WhatsApp</button>
+        <button class="btn btn-sec" type="button" data-forma="mensagem">Copiar mensagem</button>
+        <button class="btn btn-sec" type="button" data-forma="link">Copiar link</button>
+      </div>
+      <button class="folha-x" type="button" id="folhaX">Cancelar</button>
+    </div>
     <div class="boas-vindas" data-vista="inicio">
       <span class="avatar avatar-g" id="olaAvatar" aria-hidden="true"></span>
       <div><h1 id="ola">Olá</h1><span class="tag" id="quemPapel"></span><p class="ola-sub" id="olaSub"></p></div>
@@ -1081,6 +1208,7 @@ function ver(vista){
   byId('entrada').hidden = painel;
   byId('vPainel').hidden = !painel;
   VISTAS.forEach(function(v){ byId(v).hidden = v !== vista; });
+  atualizarFeed();
   document.title = (painel ? 'Painel' : 'Entrar') + ' · Plataforma de Treinamento Vivo Empresas';
   var foco = byId(vista).querySelector('input');
   if (foco && !painel) foco.focus();
@@ -1267,6 +1395,7 @@ function desenharInicio(){
     ul.appendChild(h('li', {}, [h('span', {text: p.t}), b]));
   });
   byId('inicioPendencias').hidden = !pend.length;
+  marcarModoPainel();
   // números do time (ou dos próprios links), antes do envio para quem gerencia
   desenharResumoInicio(ve);
   if (!organizar.ligado) aplicarLayoutInicio();
@@ -1477,6 +1606,7 @@ function irPara(id, inicial){
   Array.prototype.forEach.call(document.querySelectorAll('#painelMain [data-vista]'), function(b){ b.classList.toggle('na-vista', b.getAttribute('data-vista') === id); });
   if (location.hash !== '#/' + id) history.replaceState(history.state, '', enderecoDa(id));
   atualizarMenu();
+  atualizarFeed();
   document.title = VISTAS_PAINEL[id].nome + ' · Plataforma de Treinamento Vivo Empresas';
   if (!inicial) { window.scrollTo(0, 0); (focoDepois || byId('painelMain')).focus(); }
   focoDepois = null;
@@ -1500,7 +1630,8 @@ function abrirNoEndereco(){
 function irParaAba(id){
   if (!VISTAS_PAINEL[id] || !vistaLiberada(id)) id = 'inicio';
   if (nav.pendente) return;
-  if (id === vistaAtual) { window.scrollTo(0, 0); return; }
+  // tocar de novo na aba em que já está sobe ao topo; no feed, volta ao primeiro vídeo
+  if (id === vistaAtual) { window.scrollTo(0, 0); if (id === 'inicio') feedAoTopo(); return; }
   if (id === 'inicio') { if (nav.n > 0) history.go(-nav.n); else irPara('inicio'); return; }
   if (nav.n === 0) { history.pushState({painelN: 1}, '', enderecoDa(id)); nav.n = 1; return irPara(id); }
   if (nav.n === 1) { history.replaceState({painelN: 1}, '', enderecoDa(id)); return irPara(id); }
@@ -1517,6 +1648,7 @@ function aoNavegar(){
   if (!eu || byId('vPainel').hidden) return;
   var s = history.state;
   if (!(s && s.gaveta)) fecharGaveta(true);
+  if (!(s && s.folha)) fecharFolha(true);
   if (nav.pendente) {
     var p = nav.pendente;
     nav.pendente = null; nav.n = 1;
@@ -1761,9 +1893,9 @@ function mostrarRemetente(){
   el.appendChild(completar);
 }
 
-function linkDe(item, e){
+function linkDe(item, e, empresa){
   if (item.tipo === 'pagina' && item.id === 'link-seguro') return LINK_CLIENTE + '?e=' + e;
-  var nome = nomeCompleto(eu) === eu.email ? '' : nomeCompleto(eu), empresa = byId('envEmpresa').value.trim();
+  var nome = nomeCompleto(eu) === eu.email ? '' : nomeCompleto(eu);
   var partes = (item.tipo === 'video' ? ['v=' + item.codigo] : []).concat(nome ? ['gn=' + encodeURIComponent(nome)] : [], ['w=' + eu.whatsapp],
     empresa ? ['c=' + encodeURIComponent(empresa)] : [], ['e=' + e]);
   return (item.tipo === 'video' ? LINK_PAGINAS + 'video/' : item.url) + '#' + partes.join('&');
@@ -1772,10 +1904,11 @@ function mensagemVideo(v, l){
   return 'Olá! Separei um vídeo ' + (v.duracao ? 'de ' + minutos(v.duracao) + ' ' : 'curto ') + 'para você: "' + v.titulo + '".\n' + l + '\n\n' +
     'Depois de assistir, é só me chamar por ali.';
 }
-// forma: 'whatsapp', 'mensagem' ou 'link'
-function enviar(item, forma){
+// forma: 'whatsapp', 'mensagem' ou 'link'; empresa: a da folha do feed ou, sem ela, o campo de Enviar
+function enviar(item, forma, empresa){
   if (item.zap && !eu.whatsapp) { toast('Coloque o seu WhatsApp no perfil: é ele que o cliente chama no fim.'); return editarPerfil(); }
-  var e = codigoEnvio(), link = linkDe(item, e), empresa = byId('envEmpresa').value.trim();
+  if (empresa == null) empresa = byId('envEmpresa').value.trim();
+  var e = codigoEnvio(), link = linkDe(item, e, empresa);
   var texto = item.tipo === 'video' ? mensagemVideo(item, link) : item.msg(link);
   var pagina = item.tipo === 'video' ? 'video' : item.id;
   registrar('compartilhou', pagina, {envio: e, forma: forma, empresa: empresa, item: item.tipo === 'video' ? item.codigo : undefined, de: 'painel'});
@@ -1886,13 +2019,15 @@ function carregarEnvio(){
   api('GET', 'videos', null, function(st, d){
     // sem internet, vale a última lista guardada no aparelho
     if (st === 0 && le('videos', null)) d = {videos: le('videos', [])};
-    else if (st !== 200) return msg('msgEnvio', d.erro || 'Não foi possível carregar os vídeos.', 'erro');
+    else if (st !== 200) { feed.erro = st === 0 ? 'Sem internet: os vídeos aparecem quando a conexão voltar.' : 'Não foi possível carregar os vídeos.'; desenharFeed(); return msg('msgEnvio', d.erro || 'Não foi possível carregar os vídeos.', 'erro'); }
     else guarda('videos', d.videos || []);
     envio.videos = d.videos || [];
+    feed.carregou = true; feed.erro = '';
     desenharEnvio();
     desenharVideosMateriais();
     desenharAdmVideos();
     desenharInicio();
+    desenharFeed();
   });
 }
 Array.prototype.forEach.call(document.querySelectorAll('#secEnvio .periodo button'), function(b){
@@ -2000,6 +2135,325 @@ byId('fVideo').addEventListener('submit', function(e){
   });
 });
 
+/* ---------- Feed de vídeos (Início no celular) ----------
+   No celular, o Início abre num feed de vídeos em tela cheia, como os Reels (Lei de Jakob): desliza para cima ou para baixo, um vídeo
+   por vez, com curtir e enviar. "Painel", no topo, volta ao Início em blocos; a escolha fica no aparelho. No desktop nada muda.
+   O player é o do Google Drive, que não toca sozinho nem pausa por comando de fora: o vídeo à vista já monta o player (um toque no
+   play do Drive começa) e o que sai da tela é desmontado, o que para o som. Só o vídeo à vista tem player.
+   Uma película cobre o vídeo, menos um quadrado no centro, onde fica o play do Drive: deslizar cai sempre na película, então a rolagem
+   não depende do quadro de fora, e o toque no centro já toca. Depois do play, a película sai para os controles do Drive funcionarem;
+   tocar fora do player (legenda, botões) a devolve. Sem recorte (navegador antigo), o primeiro toque tira a película. */
+var feed = {modo: le('inicioModo', 'videos'), carregou: false, erro: '', chave: null, itens: [], atual: -1, pedidos: {}, rolagem: null, toque: null,
+  folhaVideo: null, folhaVolta: null, depoisFolha: null, arrasto: null};
+var celular = window.matchMedia ? window.matchMedia('(max-width:767px)') : {matches: false};
+var menosMovimento = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : {matches: false};
+var comRecorte = !!(window.CSS && CSS.supports && (CSS.supports('clip-path', 'polygon(0 0,1px 0,0 1px)') || CSS.supports('-webkit-clip-path', 'polygon(0 0,1px 0,0 1px)')));
+
+function feedLigado(){ return !!eu && !byId('vPainel').hidden && celular.matches && vistaAtual === 'inicio' && feed.modo === 'videos'; }
+// sem tocar sozinho: quem pediu menos movimento ou economia de dados monta o player só com o toque no play
+function semAutoplay(){ return menosMovimento.matches || !!(navigator.connection && navigator.connection.saveData); }
+function capaDe(v){ return 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(v.drive_id) + '&sz=w720'; }
+function usoSvg(id){
+  var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'), uso = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+  svg.setAttribute('aria-hidden', 'true'); svg.setAttribute('focusable', 'false'); uso.setAttribute('href', '#' + id); svg.appendChild(uso);
+  return svg;
+}
+function contagem(n){ return n < 1000 ? String(n) : (Math.round(n / 100) / 10).toString().replace('.', ',') + ' mil'; }
+
+function atualizarFeed(){
+  var sim = feedLigado();
+  document.documentElement.classList.toggle('com-feed', sim);
+  ['modoVideos', 'modoPainel'].forEach(function(id){
+    var b = byId(id), atual = b.getAttribute('data-modo') === feed.modo;
+    b.setAttribute('aria-selected', String(atual)); b.tabIndex = atual ? 0 : -1;
+  });
+  if (!sim) return desmontar();
+  medirBarra();
+  desenharFeed();
+  feed.atual = -1;
+  ativar(indiceAtual());
+}
+// o feed vai até a barra de abas, que muda de altura com a área segura do aparelho
+function medirBarra(){ document.documentElement.style.setProperty('--barra', (byId('menu').offsetHeight || 64) + 'px'); }
+
+function desenharFeed(){
+  var lista = byId('feedLista'), vs = envio.videos || [];
+  var chave = feed.carregou ? vs.map(function(v){ return [v.id, v.drive_id, v.titulo, v.descricao || '', v.para_cliente, v.vertical, v.duracao || ''].join('~'); }).join('|')
+    : feed.erro ? 'erro' : 'carregando';
+  // a mesma lista de antes: só os números mudam, sem desmontar o vídeo que está tocando
+  if (chave === feed.chave) { feed.itens.forEach(function(x, i){ x.v = vs[i]; pintarCurtida(x); }); return; }
+  var antes = feed.itens[feed.atual] ? feed.itens[feed.atual].v.id : null, volta = 0;
+  desmontar();
+  lista.innerHTML = '';
+  feed.itens = [];
+  feed.chave = chave;
+  lista.classList.toggle('sem-recorte', !comRecorte);
+  if (!feed.carregou) return lista.appendChild(feed.erro ? cartaoFeed('Não deu para carregar os vídeos', feed.erro, true) : esqueletoFeed());
+  if (!vs.length) return lista.appendChild(cartaoFeed('Ainda não há vídeos', 'Quando entrar um vídeo novo, ele aparece aqui primeiro.'));
+  vs.forEach(function(v, i){
+    var x = itemFeed(v, i, vs.length + 1);
+    feed.itens.push(x);
+    lista.appendChild(x.el);
+    if (v.id === antes) volta = i;
+  });
+  lista.appendChild(fimFeed(vs.length + 1));
+  lista.scrollTop = volta * lista.clientHeight;
+  if (feedLigado()) ativar(volta);
+}
+
+function itemFeed(v, i, total){
+  var tit = 'feedTit' + i, x = {v: v, frame: null, viu: false};
+  x.quadro = h('div', {'class': 'feed-quadro'}, [
+    h('img', {'class': 'feed-capa', src: capaDe(v), alt: '', referrerpolicy: 'no-referrer', loading: i < 2 ? 'eager' : 'lazy'}),
+    h('span', {'class': 'feed-carregando', 'aria-hidden': 'true'})
+  ]);
+  // cobre o botão do Drive que abre o vídeo fora do painel (lá aparece a conta dona do arquivo)
+  x.tampa = h('div', {'class': 'feed-tampa', 'aria-hidden': 'true'});
+  x.quadro.appendChild(x.tampa);
+  var midia = h('div', {'class': 'feed-midia' + (v.vertical ? ' em-pe' : '')}, [
+    h('img', {'class': 'feed-fundo', src: capaDe(v), alt: '', referrerpolicy: 'no-referrer', loading: i < 2 ? 'eager' : 'lazy'}), x.quadro]);
+  var pelicula = h('div', {'class': 'feed-pelicula', 'aria-hidden': 'true'});
+  var play = h('button', {'class': 'feed-play', type: 'button', 'aria-label': 'Assistir: ' + v.titulo}, [usoSvg('i-ev-play')]);
+  var desc = v.descricao ? h('button', {'class': 'feed-desc', type: 'button', 'aria-expanded': 'false', text: v.descricao}) : null;
+  var tag = v.para_cliente ? h('span', {'class': 'feed-tag', text: 'Vídeo' + (v.duracao ? ' · ' + minutos(v.duracao) : '')})
+    : h('span', {'class': 'feed-tag so-voce', text: 'Só para você' + (v.duracao ? ' · ' + minutos(v.duracao) : '')});
+  x.curtir = h('button', {'class': 'feed-acao feed-curtir', type: 'button'}, [usoSvg('i-coracao'), h('span')]);
+  var trilho = h('div', {'class': 'feed-trilho'}, [x.curtir]);
+  if (v.para_cliente) {
+    var env = h('button', {'class': 'feed-acao', type: 'button', 'aria-label': 'Enviar ao cliente: ' + v.titulo}, [usoSvg('i-enviar'), h('span', {text: 'Enviar'})]);
+    env.addEventListener('click', function(){ abrirFolha(x.v); });
+    trilho.appendChild(env);
+  }
+  x.coracao = h('span', {'class': 'feed-coracao', 'aria-hidden': 'true'}, [usoSvg('i-coracao')]);
+  x.el = h('article', {'class': 'feed-item', 'aria-labelledby': tit, 'aria-posinset': String(i + 1), 'aria-setsize': String(total), tabindex: '-1'}, [
+    midia, pelicula, play, h('div', {'class': 'feed-legenda'}, [tag, h('h2', {id: tit, text: v.titulo}), desc]), trilho, x.coracao]);
+  pintarCurtida(x);
+  x.curtir.addEventListener('click', function(){ alternarCurtida(x); });
+  play.addEventListener('click', function(){ montar(x); });
+  if (desc) desc.addEventListener('click', function(){ this.setAttribute('aria-expanded', String(this.getAttribute('aria-expanded') !== 'true')); });
+  pelicula.addEventListener('click', function(e){ tocouPelicula(x, e); });
+  return x;
+}
+function esqueletoFeed(){
+  return h('article', {'class': 'feed-item feed-cartao feed-esqueleto', 'aria-busy': 'true', 'aria-label': 'Carregando os vídeos'}, [h('span', {'class': 'feed-carregando'})]);
+}
+function cartaoFeed(titulo, texto, tentar){
+  var acoes = h('div', {'class': 'acoes'});
+  if (tentar) { var t = h('button', {'class': 'btn', type: 'button', text: 'Tentar de novo'}); t.addEventListener('click', carregarEnvio); acoes.appendChild(t); }
+  var p = h('button', {'class': 'btn btn-sec', type: 'button', text: 'Ver o painel'});
+  p.addEventListener('click', function(){ mudarModo('painel'); });
+  acoes.appendChild(p);
+  return h('article', {'class': 'feed-item feed-cartao', tabindex: '-1'}, [h('h2', {text: titulo}), h('p', {text: texto}), acoes]);
+}
+// o fim da lista, como o "você está em dia" dos apps
+function fimFeed(total){
+  var denovo = h('button', {'class': 'btn', type: 'button', text: 'Ver de novo'});
+  denovo.addEventListener('click', function(){ irItem(0); });
+  return h('article', {'class': 'feed-item feed-cartao', tabindex: '-1', 'aria-posinset': String(total), 'aria-setsize': String(total), 'aria-labelledby': 'feedFimTit'}, [
+    h('span', {'class': 'feed-check', 'aria-hidden': 'true'}), h('h2', {id: 'feedFimTit', text: 'Você viu todos os vídeos'}),
+    h('p', {text: 'Os vídeos novos aparecem aqui primeiro. Páginas e playbooks estão em Materiais.'}),
+    h('div', {'class': 'acoes'}, [denovo, h('a', {'class': 'btn btn-sec', href: '#/materiais', text: 'Ir para Materiais'})])]);
+}
+
+/* --- qual vídeo está à vista --- */
+function indiceAtual(){ var l = byId('feedLista'); return l.clientHeight ? Math.round(l.scrollTop / l.clientHeight) : 0; }
+function ativar(i){
+  if (!feedLigado() || i === feed.atual) return;
+  feed.atual = i;
+  feed.itens.forEach(function(x, k){
+    x.el.classList.toggle('ativo', k === i);
+    if (k !== i) { desmontarItem(x); x.el.classList.remove('parado'); }
+  });
+  var x = feed.itens[i];
+  if (!x) return;
+  if (semAutoplay() || navigator.onLine === false) x.el.classList.add('parado'); else montar(x);
+}
+function montar(x){
+  if (x.frame) return;
+  if (navigator.onLine === false) { x.el.classList.add('parado'); return toast('Sem internet: o vídeo toca quando a conexão voltar.'); }
+  var f = h('iframe', {src: 'https://drive.google.com/file/d/' + encodeURIComponent(x.v.drive_id) + '/preview', title: 'Vídeo: ' + x.v.titulo,
+    allow: 'autoplay; fullscreen; picture-in-picture', allowfullscreen: ''});
+  x.frame = f; x.viu = false;
+  x.el.classList.remove('parado', 'livre');
+  x.el.classList.add('montando');
+  // o Drive ainda desenha a própria capa depois do load: espera um pouco para não piscar o preto.
+  // Rede lenta: em 8 s o player aparece mesmo sem o load, com o carregamento do próprio Drive
+  function pronto(){ if (x.frame === f && !x.el.classList.contains('pronto')) { x.el.classList.remove('montando'); x.el.classList.add('pronto'); } }
+  f.addEventListener('load', function(){ setTimeout(pronto, 450); });
+  setTimeout(pronto, 8000);
+  x.quadro.insertBefore(f, x.tampa);
+}
+function desmontarItem(x){
+  if (!x.frame) return;
+  if (x.frame.parentNode) x.frame.parentNode.removeChild(x.frame);
+  x.frame = null;
+  x.el.classList.remove('montando', 'pronto', 'assistindo', 'livre');
+}
+function desmontar(){ feed.itens.forEach(desmontarItem); feed.atual = -1; }
+function irItem(i){
+  var lista = byId('feedLista'), n = lista.children.length;
+  i = Math.max(0, Math.min(n - 1, i));
+  if (lista.scrollTo) lista.scrollTo({top: i * lista.clientHeight, behavior: menosMovimento.matches ? 'auto' : 'smooth'}); else lista.scrollTop = i * lista.clientHeight;
+  var alvo = lista.children[i];
+  if (alvo) { try { alvo.focus({preventScroll: true}); } catch (e) { alvo.focus(); } }
+}
+function feedAoTopo(){ if (feedLigado()) irItem(0); }
+
+byId('feedLista').addEventListener('scroll', function(){
+  clearTimeout(feed.rolagem);
+  feed.rolagem = setTimeout(function(){ ativar(indiceAtual()); }, 120);
+}, {passive: true});
+// virou o aparelho ou mudou a barra: cada vídeo continua ocupando a tela inteira
+window.addEventListener('resize', function(){
+  if (!feedLigado()) return atualizarFeed();
+  medirBarra();
+  var l = byId('feedLista');
+  l.scrollTop = Math.max(0, feed.atual) * l.clientHeight;
+});
+if (celular.addEventListener) celular.addEventListener('change', atualizarFeed); else if (celular.addListener) celular.addListener(atualizarFeed);
+// app em segundo plano: o player sai (o Drive não pausa por comando) e volta montado ao reabrir
+document.addEventListener('visibilitychange', function(){
+  if (document.hidden) return desmontar();
+  if (feedLigado()) ativar(indiceAtual());
+});
+
+/* --- tocou no vídeo: o play do Drive vira foco no quadro (é o que dá para saber de fora) --- */
+window.addEventListener('blur', function(){
+  setTimeout(function(){
+    var a = document.activeElement;
+    feed.itens.forEach(function(x){
+      if (!x.frame || a !== x.frame) return;
+      x.el.classList.add('assistindo');
+      if (!x.viu) { x.viu = true; registrar('abriu', 'video:' + x.v.codigo, {de: 'feed'}); }
+    });
+  }, 0);
+});
+window.addEventListener('focus', function(){ feed.itens.forEach(function(x){ x.el.classList.remove('assistindo'); }); });
+// toque duplo curte (como nos apps); sem recorte na película, o toque simples a tira para o play do Drive receber o próximo
+function tocouPelicula(x, e){
+  var agora = Date.now(), t = feed.toque;
+  if (t && t.x === x && agora - t.em < 320 && Math.abs(e.clientX - t.cx) < 40 && Math.abs(e.clientY - t.cy) < 40) {
+    clearTimeout(t.simples);
+    feed.toque = null;
+    voarCoracao(x, e);
+    return alternarCurtida(x, true);
+  }
+  feed.toque = {x: x, em: agora, cx: e.clientX, cy: e.clientY,
+    simples: setTimeout(function(){ feed.toque = null; if (!comRecorte && x.frame) { x.el.classList.add('livre'); toast('Toque no play para assistir.'); } }, 320)};
+}
+function voarCoracao(x, e){
+  var r = x.el.getBoundingClientRect(), c = x.coracao;
+  c.style.left = (e.clientX - r.left) + 'px'; c.style.top = (e.clientY - r.top) + 'px';
+  c.classList.remove('voa'); void c.offsetWidth; c.classList.add('voa');
+}
+
+/* --- curtir: muda na hora e confirma no servidor; vale a resposta do último toque --- */
+function pintarCurtida(x, anima){
+  var b = x.curtir, n = x.v.curtidas || 0, sim = !!x.v.curti;
+  b.setAttribute('aria-pressed', String(sim));
+  b.setAttribute('aria-label', (sim ? 'Descurtir' : 'Curtir') + ': ' + x.v.titulo + (n ? ' (' + n + (n === 1 ? ' curtida)' : ' curtidas)') : ''));
+  b.lastChild.textContent = n ? contagem(n) : 'Curtir';
+  if (anima) { b.classList.remove('pulsa'); void b.offsetWidth; b.classList.add('pulsa'); }
+}
+function alternarCurtida(x, soCurtir){
+  var v = x.v, sim = soCurtir ? true : !v.curti;
+  if (sim === !!v.curti) return pintarCurtida(x, true);
+  if (navigator.onLine === false) return toast('Sem internet: a curtida não foi salva.');
+  v.curti = sim; v.curtidas = Math.max(0, (v.curtidas || 0) + (sim ? 1 : -1));
+  pintarCurtida(x, true);
+  if (sim && navigator.vibrate) { try { navigator.vibrate(12); } catch (e) {} }
+  var n = feed.pedidos[v.id] = (feed.pedidos[v.id] || 0) + 1;
+  api('POST', 'videos', {acao: 'curtir', id: v.id, sim: sim}, function(st, d){
+    if (feed.pedidos[v.id] !== n) return;
+    if (st === 200) { x.v.curtidas = d.curtidas; x.v.curti = d.curti; }
+    else { x.v.curti = !sim; x.v.curtidas = Math.max(0, (x.v.curtidas || 0) + (sim ? -1 : 1)); toast(st === 0 ? 'Sem internet: a curtida não foi salva.' : d.erro || 'Não foi possível registrar a curtida.'); }
+    pintarCurtida(x);
+    guarda('videos', envio.videos);
+  });
+}
+
+/* --- Vídeos | Painel --- */
+function mudarModo(m){
+  if (feed.modo === m) { if (m === 'videos') feedAoTopo(); return; }
+  feed.modo = m;
+  guarda('inicioModo', m);
+  atualizarFeed();
+  window.scrollTo(0, 0);
+  byId(m === 'videos' ? 'modoVideos' : 'modoPainel').focus();
+}
+// o ponto em "Painel" avisa que lá tem pendência ou novidade
+function marcarModoPainel(){
+  var tem = !byId('inicioPendencias').hidden || !byId('menuNovas').hidden;
+  byId('modoPonto').hidden = !tem;
+  byId('modoPainel').setAttribute('aria-label', tem ? 'Painel: tem pendência ou novidade' : 'Painel');
+}
+['modoVideos', 'modoPainel'].forEach(function(id){
+  var b = byId(id);
+  b.addEventListener('click', function(){ mudarModo(b.getAttribute('data-modo')); });
+  b.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); mudarModo(feed.modo === 'videos' ? 'painel' : 'videos'); }
+  });
+});
+document.addEventListener('keydown', function(e){
+  if (!feedLigado() || !byId('folha').hidden || e.altKey || e.ctrlKey || e.metaKey || /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+  var passo = {ArrowDown: 1, PageDown: 1, j: 1, ArrowUp: -1, PageUp: -1, k: -1}[e.key];
+  if (!passo || e.target.getAttribute('role') === 'tab') return;
+  e.preventDefault();
+  irItem(indiceAtual() + passo);
+});
+
+/* --- Enviar para alguém: folha de baixo, com o mesmo envio de Enviar ao cliente --- */
+function abrirFolha(v){
+  feed.folhaVideo = v;
+  feed.folhaVolta = document.activeElement;
+  byId('folhaVideo').textContent = v.titulo + (v.duracao ? ' · ' + minutos(v.duracao) : '');
+  byId('folhaEmpresa').value = byId('envEmpresa').value;
+  byId('folhaAviso').hidden = !!eu.whatsapp;
+  Array.prototype.forEach.call(document.querySelectorAll('#folha [data-forma]'), function(b){ b.disabled = !eu.whatsapp; });
+  byId('folha').style.transform = '';
+  byId('folhaFundo').hidden = byId('folha').hidden = false;
+  history.pushState({painelN: nav.n, folha: true}, '', location.href);
+  (eu.whatsapp ? byId('folha').querySelector('[data-forma]') : byId('folhaPerfil')).focus();
+}
+// peloVoltar: o histórico já saiu da entrada da folha; depois: o que fazer quando ela terminar de fechar
+function fecharFolha(peloVoltar, depois){
+  if (byId('folha').hidden) return;
+  if (typeof depois === 'function') feed.depoisFolha = depois;
+  if (peloVoltar !== true && history.state && history.state.folha) return history.back();
+  byId('folhaFundo').hidden = byId('folha').hidden = true;
+  var f = feed.depoisFolha;
+  feed.depoisFolha = null;
+  if (f) return f();
+  if (feed.folhaVolta && feed.folhaVolta.focus) feed.folhaVolta.focus();
+}
+Array.prototype.forEach.call(document.querySelectorAll('#folha [data-forma]'), function(b){
+  b.addEventListener('click', function(){
+    var emp = byId('folhaEmpresa').value.trim();
+    byId('envEmpresa').value = emp;
+    enviar(videosComo([feed.folhaVideo])[0], b.getAttribute('data-forma'), emp);
+    fecharFolha();
+  });
+});
+byId('folhaPerfil').addEventListener('click', function(){ fecharFolha(false, editarPerfil); });
+byId('folhaX').addEventListener('click', fecharFolha);
+byId('folhaFundo').addEventListener('click', fecharFolha);
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') fecharFolha(); });
+// puxar a folha para baixo fecha, como nos apps
+byId('folha').addEventListener('touchstart', function(e){
+  feed.arrasto = e.target.tagName === 'INPUT' ? null : {y: e.touches[0].clientY, dy: 0};
+  this.style.transition = 'none';
+}, {passive: true});
+byId('folha').addEventListener('touchmove', function(e){
+  if (!feed.arrasto) return;
+  feed.arrasto.dy = Math.max(0, e.touches[0].clientY - feed.arrasto.y);
+  this.style.transform = feed.arrasto.dy ? 'translateY(' + feed.arrasto.dy + 'px)' : '';
+}, {passive: true});
+byId('folha').addEventListener('touchend', function(){
+  var a = feed.arrasto;
+  feed.arrasto = null;
+  this.style.transition = '';
+  if (a && a.dy > 90) fecharFolha(); else this.style.transform = '';
+});
 /* ---------- Conta e perfil ---------- */
 var FOTO_LADO = 192, FOTO_MAX = 80000;
 var fotoNova = null; /* null: mantém a atual; '': remove; data URL: troca */
@@ -2351,6 +2805,7 @@ function desenharNovidades(foco){
   conta.textContent = novas > 9 ? '9+' : String(novas);
   conta.hidden = !novas;
   conta.setAttribute('aria-label', novas + (novas === 1 ? ' novidade' : ' novidades'));
+  marcarModoPainel();
 }
 function abrirNovidade(n, i){
   if (!n.lida) {
@@ -3230,7 +3685,7 @@ byId('contaInstalarBtn').addEventListener('click', function(){
 var PUXAR = 70, BORDA = 20, ARRASTO = 80;
 var gesto = null, puxador = byId('puxador');
 var ATUALIZAR_VISTA = {
-  inicio: function(){ iniciarInicio(); },
+  inicio: function(){ iniciarInicio(); if (feedLigado()) carregarEnvio(); },
   enviar: function(){ carregarEnvio(); },
   materiais: function(){ carregarPaginas(); carregarEnvio(); },
   equipe: function(){ if (!byId('secUsuarios').hidden) carregarUsuarios(); },
@@ -3261,7 +3716,7 @@ function emCaixaRolada(el){
 
 document.addEventListener('touchstart', function(e){
   gesto = null;
-  if (!eu || byId('vPainel').hidden || !byId('gaveta').hidden || !byId('assistir').hidden || e.touches.length !== 1) return;
+  if (!eu || byId('vPainel').hidden || !byId('gaveta').hidden || !byId('assistir').hidden || !byId('folha').hidden || e.touches.length !== 1) return;
   var t = e.touches[0];
   gesto = {x: t.clientX, y: t.clientY, dx: 0, dy: 0,
     borda: navigator.standalone === true && t.clientX <= BORDA && nav.n > 0,
