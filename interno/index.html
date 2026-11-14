@@ -128,16 +128,29 @@ html.sem-internet .precisa-net{display:block}
 .avatar img{width:100%;height:100%;object-fit:cover;display:block}
 .avatar-g{width:72px;height:72px;font-size:1.6rem}
 .avatar-p{width:32px;height:32px;font-size:.8rem}
-.conta{position:relative}
-.conta-btn{display:flex;align-items:center;gap:10px;background:none;border:1px solid transparent;border-radius:4px;color:#fff;font:inherit;padding:4px 10px 4px 4px;min-height:44px;cursor:pointer}
-.conta-btn:hover,.conta-btn[aria-expanded="true"]{border-color:rgba(255,255,255,.55)}
+.conta-btn{display:flex;align-items:center;gap:10px;border:1px solid transparent;border-radius:4px;color:#fff;text-decoration:none;padding:4px 10px 4px 4px;min-height:44px}
+.conta-btn:hover{border-color:rgba(255,255,255,.55)}
 .conta-btn .avatar{box-shadow:0 0 0 2px rgba(255,255,255,.85)}
-.conta-menu{position:absolute;right:0;top:calc(100% + 8px);z-index:10;min-width:240px;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:4px;box-shadow:var(--shadow);padding:6px 0}
-.conta-quem{margin:0;padding:10px 16px 12px;border-bottom:1px solid var(--line)}
-.conta-quem strong,.conta-quem small{display:block}
-.conta-quem small{color:var(--fg-soft);font-size:.85rem;word-break:break-all}
-.conta-menu button{display:block;width:100%;text-align:left;background:none;border:0;font:inherit;color:var(--fg);padding:12px 16px;cursor:pointer}
-.conta-menu button:hover{background:var(--surface-2)}
+.topo-voltar{display:none}
+/* Perfil → Sua conta: linhas no padrão de ajustes dos apps (Equipe e Administração só no celular; no desktop estão no menu) */
+.conta-lista{list-style:none;margin:0;padding:0}
+.conta-lista a,.conta-lista button{display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:10px 4px;background:none;border:0;border-bottom:1px solid var(--line);font:inherit;font-weight:700;color:var(--fg);text-align:left;text-decoration:none;cursor:pointer}
+.conta-lista li:last-child > *{border-bottom:0}
+.conta-lista a:hover,.conta-lista button:hover{color:var(--accent)}
+.conta-lista svg{width:22px;height:22px;flex:0 0 auto;color:var(--accent)}
+.conta-lista span{flex:1 1 auto;min-width:0}
+.conta-lista small{display:block;font-weight:400;font-size:.88rem;color:var(--fg-soft)}
+.conta-lista .seta{width:18px;height:18px;color:var(--fg-soft)}
+.conta-lista .sair,.conta-lista .sair svg{color:var(--erro)}
+.conta-lista .so-celular{display:none}
+/* puxar para atualizar (gestos.js) */
+html{overscroll-behavior-y:contain}
+.puxador{position:fixed;top:0;left:50%;z-index:30;width:40px;height:40px;margin-left:-20px;border-radius:50%;background:var(--surface);box-shadow:var(--shadow);display:grid;place-items:center;opacity:0;transform:translateY(-48px);pointer-events:none;transition:opacity .15s,transform .15s}
+.puxador i{width:20px;height:20px;border-radius:50%;border:2.5px solid var(--line);border-top-color:var(--rosa)}
+.puxador.pronto i{border-color:var(--accent);border-top-color:var(--rosa)}
+.puxador.girando i{animation:puxador-gira .7s linear infinite}
+@keyframes puxador-gira{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.puxador.girando i{animation:none}}
 /* estrutura: menu lateral (desktop) ou barra inferior (celular) e uma vista por vez (#/inicio, #/enviar…) */
 .app{display:grid;grid-template-columns:232px minmax(0,1fr);align-items:start}
 .menu{position:sticky;top:0;display:grid;gap:4px;align-content:start;min-height:calc(100vh - 68px);background:var(--surface);border-right:1px solid var(--line);padding:20px 12px}
@@ -145,6 +158,8 @@ html.sem-internet .precisa-net{display:block}
 .menu a:hover{background:var(--surface-2)}
 .menu a[aria-current="page"]{background:var(--surface-2);color:var(--accent);box-shadow:inset 3px 0 0 var(--rosa)}
 .menu svg{width:22px;height:22px;flex:0 0 auto}
+.menu-criar-icone{display:inline-flex}
+.menu .so-celular{display:none}
 .painel [data-vista]:not(.na-vista){display:none!important}
 .painel:focus{outline:0}
 .atalhos{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
@@ -439,14 +454,25 @@ button.novidade:hover{border-color:var(--accent)}
 @media (max-width:767px){
   .app{grid-template-columns:minmax(0,1fr)}
   .menu{position:fixed;top:auto;left:0;right:0;bottom:0;z-index:20;min-height:0;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:0;border-right:0;border-top:1px solid var(--line);padding:4px max(6px,env(safe-area-inset-right,0px)) calc(4px + env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px))}
-  .menu a{flex-direction:column;justify-content:center;gap:2px;padding:6px 2px;font-size:.72rem;min-width:0}
-  .menu a span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .menu a[aria-current="page"]{background:none;box-shadow:none}
-  .painel{padding-bottom:96px}
-  .toast{bottom:84px}
+  /* barra no padrão dos apps (Lei de Jakob): até 5 abas, Início à esquerda, Enviar (a ação de criar) no meio, Perfil à direita */
+  .menu a{position:relative;flex-direction:column;justify-content:flex-end;gap:2px;padding:6px 2px;font-size:.72rem;min-width:0;color:var(--fg-soft)}
+  .menu a > span:last-of-type{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .menu a[aria-current="page"],.menu a.sob-perfil{background:none;color:var(--accent);box-shadow:inset 0 3px 0 var(--rosa)}
+  .menu .so-desktop{display:none}
+  .menu .so-celular{display:flex}
+  .menu-criar-icone{display:grid;place-items:center;width:48px;height:32px;border-radius:12px;background:var(--accent);color:var(--surface)}
+  .menu .menu-criar{color:var(--fg)}
+  .menu .menu-criar[aria-current="page"]{box-shadow:none}
+  .avatar-menu{width:24px;height:24px;font-size:.62rem}
+  .menu a[aria-current="page"] .avatar-menu,.menu a.sob-perfil .avatar-menu{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--accent)}
+  .conta-lista .so-celular{display:block}
+  .painel{padding-bottom:104px}
+  .toast{bottom:92px}
   .topo .titulo{display:none}
   .topo .logo{margin-right:auto}
-  .conta-nome{display:none}
+  .conta-btn{display:none}
+  .topo-voltar{display:grid;place-items:center;width:44px;height:44px;margin:-6px -8px -6px -12px;background:none;border:0;color:#fff;cursor:pointer}
+  .topo-voltar svg{width:26px;height:26px}
   .grade{gap:16px}
   .bloco{padding:20px 16px}
   .boas-vindas .avatar-g{width:56px;height:56px;font-size:1.3rem}
@@ -478,6 +504,10 @@ button.novidade:hover{border-color:var(--accent)}
   <symbol id="i-materiais" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10l2 2.5h6.5A1.5 1.5 0 0 1 20 8v10.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="M8 13h8M8 16.5h5"/></g></symbol>
   <symbol id="i-equipe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.8c2 .7 3.2 2.4 3.5 5.2"/></g></symbol>
   <symbol id="i-resultados" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></g></symbol>
+  <symbol id="i-voltar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></g></symbol>
+  <symbol id="i-seta" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></g></symbol>
+  <symbol id="i-instalar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M4.5 19.5h15"/></g></symbol>
+  <symbol id="i-sair" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4.5H6.5A1.5 1.5 0 0 0 5 6v12a1.5 1.5 0 0 0 1.5 1.5H14"/><path d="M10 12h10"/><path d="M16.5 8.5L20 12l-3.5 3.5"/></g></symbol>
   <!-- eventos da linha do tempo -->
   <symbol id="i-ev-abriu" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g></symbol>
   <symbol id="i-ev-rolagem" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M12 8v7M9 12.5l3 3 3-3"/></g></symbol>
@@ -538,30 +568,22 @@ button.novidade:hover{border-color:var(--accent)}
 
 <div id="vPainel" hidden>
   <header class="topo">
+    <button class="topo-voltar" type="button" id="topoVoltar" aria-label="Voltar" hidden><svg aria-hidden="true"><use href="#i-voltar"/></svg></button>
     <svg class="logo" viewBox="0 0 282.347 87.86" role="img" aria-label="Vivo"><use href="#logo-vivo"/></svg>
     <span class="titulo">Plataforma de Treinamento Vivo Empresas</span>
     <button class="tema-btn" type="button" data-tema aria-pressed="false" aria-label="Usar tema escuro"><svg class="lua" aria-hidden="true"><use href="#i-lua"/></svg><svg class="sol" aria-hidden="true"><use href="#i-sol"/></svg></button>
-    <div class="conta" id="conta">
-      <button class="conta-btn" type="button" id="contaBtn" aria-haspopup="true" aria-expanded="false" aria-controls="contaMenu">
-        <span class="avatar" id="topoAvatar" aria-hidden="true"></span><span class="conta-nome" id="quemNome"></span>
-      </button>
-      <div class="conta-menu" id="contaMenu" hidden>
-        <p class="conta-quem"><strong id="menuNome"></strong><small id="menuEmail"></small></p>
-        <button type="button" id="menuPerfil">Meu perfil</button>
-        <button type="button" id="menuInstalar" hidden>Instalar o app</button>
-        <button type="button" data-sair>Sair</button>
-      </div>
-    </div>
+    <a class="conta-btn" href="#/perfil" id="contaBtn" aria-label="Meu perfil"><span class="avatar" id="topoAvatar" aria-hidden="true"></span><span class="conta-nome" id="quemNome"></span></a>
   </header>
   <p class="sem-net" id="semNet" role="status" hidden>Sem internet. Dá para enviar ao cliente normalmente: os registros sobem quando a conexão voltar.</p>
   <div class="app">
   <nav class="menu" id="menu" aria-label="Seções do painel">
     <a href="#/inicio" data-ir="inicio"><svg aria-hidden="true"><use href="#i-inicio"/></svg><span>Início</span><b class="menu-conta" id="menuNovas" hidden></b></a>
-    <a href="#/enviar" data-ir="enviar"><svg aria-hidden="true"><use href="#i-enviar"/></svg><span>Enviar</span></a>
     <a href="#/materiais" data-ir="materiais"><svg aria-hidden="true"><use href="#i-materiais"/></svg><span>Materiais</span></a>
-    <a href="#/equipe" data-ir="equipe" hidden><svg aria-hidden="true"><use href="#i-equipe"/></svg><span>Equipe</span></a>
+    <a href="#/enviar" data-ir="enviar" class="menu-criar"><span class="menu-criar-icone"><svg aria-hidden="true"><use href="#i-enviar"/></svg></span><span>Enviar</span></a>
     <a href="#/resultados" data-ir="resultados" hidden><svg aria-hidden="true"><use href="#i-resultados"/></svg><span>Resultados</span></a>
-    <a href="#/admin" data-ir="admin" hidden><svg aria-hidden="true"><use href="#i-admin"/></svg><span>Admin</span></a>
+    <a href="#/equipe" data-ir="equipe" class="so-desktop" hidden><svg aria-hidden="true"><use href="#i-equipe"/></svg><span>Equipe</span></a>
+    <a href="#/admin" data-ir="admin" class="so-desktop" hidden><svg aria-hidden="true"><use href="#i-admin"/></svg><span>Admin</span></a>
+    <a href="#/perfil" data-ir="perfil" class="so-celular"><span class="avatar avatar-menu" id="menuAvatar" aria-hidden="true"></span><span>Perfil</span></a>
   </nav>
   <main class="painel" id="painelMain" tabindex="-1">
     <div class="boas-vindas" data-vista="inicio">
@@ -671,6 +693,15 @@ button.novidade:hover{border-color:var(--accent)}
         <p class="msg" id="msgPerfil" role="status"></p>
         <div class="acoes"><button class="btn" type="submit">Salvar</button><button class="btn btn-sec" type="button" id="perfilCancelar">Cancelar</button></div>
       </form>
+    </section>
+    <section class="bloco bloco-largo" id="secConta" data-vista="perfil" aria-labelledby="tConta">
+      <h2 id="tConta">Sua conta</h2>
+      <ul class="conta-lista">
+        <li class="so-celular" id="contaEquipe" hidden><a href="#/equipe" data-subpagina><svg aria-hidden="true"><use href="#i-equipe"/></svg><span>Equipe<small>Convide pessoas e ajuste os papéis.</small></span><svg class="seta" aria-hidden="true"><use href="#i-seta"/></svg></a></li>
+        <li class="so-celular" id="contaAdmin" hidden><a href="#/admin" data-subpagina><svg aria-hidden="true"><use href="#i-admin"/></svg><span>Administração<small>Vídeos, páginas do painel e permissões.</small></span><svg class="seta" aria-hidden="true"><use href="#i-seta"/></svg></a></li>
+        <li id="contaInstalar" hidden><button type="button" id="contaInstalarBtn"><svg aria-hidden="true"><use href="#i-instalar"/></svg><span>Instalar o app<small>Abre pela tela inicial e envia ao cliente sem internet.</small></span></button></li>
+        <li><button type="button" class="sair" data-sair><svg aria-hidden="true"><use href="#i-sair"/></svg><span>Sair</span></button></li>
+      </ul>
     </section>
     <section class="bloco bloco-largo" id="secAvisos" data-vista="perfil" aria-labelledby="tAvisos">
       <h2 id="tAvisos">Notificações</h2>
@@ -953,6 +984,7 @@ button.novidade:hover{border-color:var(--accent)}
       <div class="aviso-rodape"><span id="avisoConta"></span><button class="btn btn-p" type="button" id="avisoOk">OK</button></div>
     </div>
   </div>
+  <div class="puxador" id="puxador" aria-hidden="true"><i></i></div>
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 </div>
 
@@ -1154,7 +1186,6 @@ Array.prototype.forEach.call(document.querySelectorAll('[data-sair]'), function(
       limparAparelho();
       // sem internet, o cookie da sessão só some no servidor: fica marcado para sair de vez quando a conexão voltar
       if (st === 0) guarda('sairPendente', true);
-      abrirConta(false);
       msg('msgLogin', st === 0 ? 'Você saiu deste aparelho. A sessão termina de vez quando a internet voltar.' : 'Você saiu.', 'ok');
       ver('vLogin');
     });
@@ -1194,7 +1225,7 @@ function painel(){
   mostrarInstalar();
   enviarFila();
   iniciarInicio();
-  irPara(rotaDoEndereco(), true);
+  abrirNoEndereco();
   iniciarAvisos();
 }
 
@@ -1226,7 +1257,7 @@ function desenharInicio(){
   if (!eu.whatsapp) pend.push({t: 'Sem WhatsApp no perfil: as páginas e vídeos que você envia não têm para quem chamar.', b: 'Colocar meu WhatsApp', f: editarPerfil});
   if (eu.papel === 'superadmin') {
     var semDur = envio.videos.filter(function(v){ return !v.duracao; }).length;
-    if (semDur) pend.push({t: semDur + (semDur === 1 ? ' vídeo sem duração' : ' vídeos sem duração') + ': a mensagem fica genérica e o engajamento não mostra quanto foi assistido.', b: 'Ver vídeos', f: function(){ verSubaba('admin', 'admVideos'); location.hash = '#/admin'; }});
+    if (semDur) pend.push({t: semDur + (semDur === 1 ? ' vídeo sem duração' : ' vídeos sem duração') + ': a mensagem fica genérica e o engajamento não mostra quanto foi assistido.', b: 'Ver vídeos', f: function(){ verSubaba('admin', 'admVideos'); irParaAba('admin'); }});
   }
   var ul = byId('listaPendencias');
   ul.innerHTML = '';
@@ -1401,7 +1432,7 @@ byId('orgSalvar').addEventListener('click', function(){
 });
 
 /* ---------- Vistas do painel ----------
-   Uma vista por vez, pelo endereço (#/inicio, #/enviar, #/materiais, #/equipe, #/resultados, #/perfil): o Voltar do navegador funciona
+   Uma vista por vez, pelo endereço (#/inicio, #/enviar, #/materiais, #/equipe, #/resultados, #/admin, #/perfil): o Voltar funciona
    e dá para mandar o link de uma parte. Cada bloco diz a vista em data-vista; o menu só mostra a vista que tem algum bloco liberado
    (o hidden que as permissões já põem nos blocos). Quem barra o acesso de verdade continua sendo o banco. */
 var VISTAS_PAINEL = {
@@ -1422,7 +1453,12 @@ function atualizarMenu(){
     var id = a.getAttribute('data-ir');
     a.hidden = !vistaLiberada(id);
     if (id === vistaAtual) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    // no celular, Equipe e Administração moram dentro do Perfil: a aba Perfil fica acesa
+    if (id === 'perfil') a.classList.toggle('sob-perfil', !!SUBPAGINAS[vistaAtual]);
   });
+  byId('contaEquipe').hidden = !vistaLiberada('equipe');
+  byId('contaAdmin').hidden = !vistaLiberada('admin');
+  byId('topoVoltar').hidden = !SUBPAGINAS[vistaAtual];
   var lista = byId('atalhos');
   lista.innerHTML = '';
   ['enviar', 'materiais', 'equipe', 'resultados', 'admin'].filter(vistaLiberada).forEach(function(id){
@@ -1439,13 +1475,72 @@ function irPara(id, inicial){
   if (id !== 'inicio' && organizar.ligado) { aplicarLayoutInicio(); ligarOrganizar(false); }
   vistaAtual = id;
   Array.prototype.forEach.call(document.querySelectorAll('#painelMain [data-vista]'), function(b){ b.classList.toggle('na-vista', b.getAttribute('data-vista') === id); });
-  if (location.hash !== '#/' + id) history.replaceState(null, '', location.pathname + location.search + '#/' + id);
+  if (location.hash !== '#/' + id) history.replaceState(history.state, '', enderecoDa(id));
   atualizarMenu();
   document.title = VISTAS_PAINEL[id].nome + ' · Plataforma de Treinamento Vivo Empresas';
   if (!inicial) { window.scrollTo(0, 0); (focoDepois || byId('painelMain')).focus(); }
   focoDepois = null;
 }
-window.addEventListener('hashchange', function(){ if (eu && !byId('vPainel').hidden) irPara(rotaDoEndereco()); });
+
+/* Histórico como nos apps (Lei de Jakob): trocar de aba não empilha; saindo do Início fica uma entrada só, então o Voltar
+   leva ao Início e depois sai. Equipe e Administração abertas pelo Perfil (data-subpagina) empilham, como uma tela de ajustes.
+   A gaveta do score também ocupa uma entrada, para o Voltar fechá-la. history.state.painelN é a profundidade (0 = Início). */
+var SUBPAGINAS = {equipe: true, admin: true};
+var nav = {n: 0, pendente: null};
+function enderecoDa(id){ return location.pathname + location.search + '#/' + id; }
+function abrirNoEndereco(){
+  var rota = rotaDoEndereco(), s = history.state;
+  if (!vistaLiberada(rota)) rota = 'inicio';
+  if (s && typeof s.painelN === 'number') { nav.n = s.painelN; return irPara(rota, true); }
+  history.replaceState({painelN: 0}, '', enderecoDa('inicio'));
+  nav.n = 0;
+  if (rota !== 'inicio') { history.pushState({painelN: 1}, '', enderecoDa(rota)); nav.n = 1; }
+  irPara(rota, true);
+}
+function irParaAba(id){
+  if (!VISTAS_PAINEL[id] || !vistaLiberada(id)) id = 'inicio';
+  if (nav.pendente) return;
+  if (id === vistaAtual) { window.scrollTo(0, 0); return; }
+  if (id === 'inicio') { if (nav.n > 0) history.go(-nav.n); else irPara('inicio'); return; }
+  if (nav.n === 0) { history.pushState({painelN: 1}, '', enderecoDa(id)); nav.n = 1; return irPara(id); }
+  if (nav.n === 1) { history.replaceState({painelN: 1}, '', enderecoDa(id)); return irPara(id); }
+  nav.pendente = id;
+  history.go(1 - nav.n);
+}
+function abrirSubpagina(id){
+  if (!vistaLiberada(id)) return;
+  nav.n++;
+  history.pushState({painelN: nav.n}, '', enderecoDa(id));
+  irPara(id);
+}
+function aoNavegar(){
+  if (!eu || byId('vPainel').hidden) return;
+  var s = history.state;
+  if (!(s && s.gaveta)) fecharGaveta(true);
+  if (nav.pendente) {
+    var p = nav.pendente;
+    nav.pendente = null; nav.n = 1;
+    history.replaceState({painelN: 1}, '', enderecoDa(p));
+    return irPara(p);
+  }
+  // entrada nova vinda de um endereço digitado ou de um link fora do painel
+  if (s && typeof s.painelN === 'number') nav.n = s.painelN;
+  else { nav.n++; history.replaceState({painelN: nav.n}, '', location.href); }
+  var rota = rotaDoEndereco();
+  if (rota !== vistaAtual) irPara(rota);
+}
+window.addEventListener('popstate', aoNavegar);
+window.addEventListener('hashchange', aoNavegar);
+document.addEventListener('click', function(e){
+  if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || !eu) return;
+  var a = e.target;
+  while (a && a.tagName !== 'A') a = a.parentNode;
+  var m = a && /^#\/([a-z]+)$/.exec(a.getAttribute('href') || '');
+  if (!m || !VISTAS_PAINEL[m[1]]) return;
+  e.preventDefault();
+  if (a.hasAttribute('data-subpagina')) abrirSubpagina(m[1]); else irParaAba(m[1]);
+});
+byId('topoVoltar').addEventListener('click', function(){ if (nav.n > 0) history.back(); else irParaAba('perfil'); });
 
 /* subabas (Materiais e Administração): botões role="tab" com data-sub apontando para o painel; setas trocam de subaba.
    AO_ABRIR_SUBABA carrega o que só faz sentido quando a subaba aparece (ex.: as permissões). */
@@ -1776,7 +1871,7 @@ function itemEnvio(it, modo){
     if (cliente) botao('Enviar ao cliente', 'btn', function(){
       byId('envBusca').value = it.titulo; envio.tipo = '';
       Array.prototype.forEach.call(document.querySelectorAll('#secEnvio .periodo button'), function(x){ x.setAttribute('aria-pressed', String(!x.getAttribute('data-tipo'))); });
-      desenharEnvio(); location.hash = '#/enviar';
+      desenharEnvio(); irParaAba('enviar');
     });
   } else {
     botao('Editar', 'btn', function(){ abrirVideo(it); });
@@ -1912,25 +2007,17 @@ var fotoNova = null; /* null: mantém a atual; '': remove; data URL: troca */
 function mostrarEu(){
   var nome = nomeCompleto(eu);
   byId('quemNome').textContent = nome;
-  byId('menuNome').textContent = nome;
-  byId('menuEmail').textContent = eu.email;
   byId('ola').textContent = 'Olá, ' + (eu.nome || nome).split(' ')[0];
   byId('perfilNomeVer').textContent = nome;
   byId('perfilEmail').textContent = eu.email;
   byId('perfilZapVer').textContent = eu.whatsapp ? 'WhatsApp ' + zapLegivel(eu.whatsapp) : 'Sem WhatsApp';
   mostrarRemetente();
   desenharInicio();
-  ['topoAvatar', 'olaAvatar', 'perfilAvatar'].forEach(function(id){ pintarAvatar(byId(id), eu); });
+  ['topoAvatar', 'menuAvatar', 'olaAvatar', 'perfilAvatar'].forEach(function(id){ pintarAvatar(byId(id), eu); });
 }
 
-function abrirConta(sim){ byId('contaMenu').hidden = !sim; byId('contaBtn').setAttribute('aria-expanded', String(sim)); }
-byId('contaBtn').addEventListener('click', function(e){ e.stopPropagation(); abrirConta(byId('contaMenu').hidden); });
-document.addEventListener('click', function(e){ if (!byId('contaMenu').hidden && !byId('conta').contains(e.target)) abrirConta(false); });
-document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !byId('contaMenu').hidden) { abrirConta(false); byId('contaBtn').focus(); } });
-byId('menuPerfil').addEventListener('click', function(){ abrirConta(false); editarPerfil(); });
-
 function editarPerfil(){
-  if (vistaAtual !== 'perfil') { history.pushState(null, '', location.pathname + location.search + '#/perfil'); irPara('perfil', true); }
+  if (vistaAtual !== 'perfil') irParaAba('perfil');
   fotoNova = null;
   byId('perfilNome').value = eu.nome || '';
   byId('perfilSobrenome').value = eu.sobrenome || '';
@@ -2277,8 +2364,8 @@ function abrirNovidade(n, i){
     var v = envio.videos.filter(function(x){ return x.codigo === link.slice(6); })[0];
     if (v) return assistir(v);
     verSubaba('materiais', 'mVideos');
-    location.hash = '#/materiais';
-  } else if (/^#\//.test(link)) location.hash = link;
+    irParaAba('materiais');
+  } else if (/^#\/[a-z]+$/.test(link)) irParaAba(link.slice(2));
   else if (/^https:\/\//.test(link)) {
     registrar('abriu', n.titulo, {url: link, de: 'novidades'});
     window.open(link, '_blank', 'noopener');
@@ -2569,7 +2656,10 @@ function anelScore(n){
 }
 
 function abrirGaveta(tipo, titulo, sub){
-  if (byId('gaveta').hidden) gaveta.volta = document.activeElement;
+  if (byId('gaveta').hidden) {
+    gaveta.volta = document.activeElement;
+    history.pushState({painelN: nav.n, gaveta: true}, '', location.href);
+  }
   byId('gavetaTipo').textContent = tipo;
   byId('gavetaTit').textContent = titulo;
   byId('gavetaSub').textContent = sub || '';
@@ -2584,8 +2674,10 @@ function abrirGaveta(tipo, titulo, sub){
   byId('gavetaX').focus();
   return ++gaveta.pedido;
 }
-function fecharGaveta(){
+// peloVoltar: o histórico já saiu da entrada da gaveta; senão, sai dela (e o popstate fecha)
+function fecharGaveta(peloVoltar){
   if (byId('gaveta').hidden) return;
+  if (peloVoltar !== true && history.state && history.state.gaveta) return history.back();
   gaveta.pedido++;
   byId('gavetaFundo').hidden = byId('gaveta').hidden = true;
   document.body.style.overflow = '';
@@ -3070,7 +3162,7 @@ byId('avisoOk').addEventListener('click', function(){ avisos.fila.shift(); mostr
 /* ---------- App instalável (só o painel) ----------
    O service worker (sw.js, gerado pelo build) guarda a página para abrir sem internet; a API nunca fica guardada.
    Instalar: Chrome e Edge avisam (beforeinstallprompt) e o botão abre a instalação; no iPhone e iPad não há botão, então
-   o cartão mostra o caminho manual. "Agora não" esconde o cartão do Início por 30 dias; no menu da conta a opção fica. */
+   o cartão mostra o caminho manual. "Agora não" esconde o cartão do Início por 30 dias; em Perfil → Sua conta a opção fica. */
 var instalacao = {pedido: null, ios: false};
 (function(){
   var local = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
@@ -3084,7 +3176,7 @@ var instalacao = {pedido: null, ios: false};
 function podeInstalar(){ return !!(instalacao.pedido || instalacao.ios); }
 function mostrarInstalar(forcar){
   var adiado = Date.now() - le('instalarAdiado', 0) < 30 * 864e5;
-  byId('menuInstalar').hidden = !podeInstalar();
+  byId('contaInstalar').hidden = !podeInstalar();
   byId('inicioInstalar').hidden = !podeInstalar() || (adiado && !forcar);
   if (instalacao.ios) {
     byId('instalarTxt').textContent = 'No iPhone ou iPad: toque em Compartilhar e depois em “Adicionar à Tela de Início”. O painel abre e envia ao cliente mesmo sem internet.';
@@ -3098,13 +3190,12 @@ function instalar(){
 }
 byId('instalarOk').addEventListener('click', instalar);
 byId('instalarNao').addEventListener('click', function(){ guarda('instalarAdiado', Date.now()); byId('inicioInstalar').hidden = true; });
-byId('menuInstalar').addEventListener('click', function(){
-  abrirConta(false);
+byId('contaInstalarBtn').addEventListener('click', function(){
   if (instalacao.pedido) return instalar();
   // iPhone: leva ao cartão do Início com o caminho manual, mesmo se tiver sido dispensado
   mostrarInstalar(true);
   focoDepois = byId('inicioInstalar');
-  if (vistaAtual === 'inicio') byId('inicioInstalar').scrollIntoView({block: 'nearest'}); else location.hash = '#/inicio';
+  if (vistaAtual === 'inicio') byId('inicioInstalar').scrollIntoView({block: 'nearest'}); else irParaAba('inicio');
 });
 
 /* ---------- Tema claro / escuro ----------
@@ -3130,6 +3221,73 @@ byId('menuInstalar').addEventListener('click', function(){
   if (window.matchMedia) { var m = matchMedia('(prefers-color-scheme: dark)'); if (m.addEventListener) m.addEventListener('change', pintar); }
   pintar();
 })();
+
+/* ---------- Gestos do celular (Lei de Jakob) ----------
+   Puxar para baixo com a página no topo atualiza os dados da vista aberta, sem recarregar a página: sem internet, nada some.
+   O recarregamento nativo do navegador fica desligado no CSS (overscroll-behavior), para haver um comportamento só.
+   Deslizar da borda esquerda volta só no iPhone com o app instalado (navigator.standalone): no Android e no navegador o sistema
+   já faz esse gesto, e repetir daria dois "voltar". */
+var PUXAR = 70, BORDA = 20, ARRASTO = 80;
+var gesto = null, puxador = byId('puxador');
+var ATUALIZAR_VISTA = {
+  inicio: function(){ iniciarInicio(); },
+  enviar: function(){ carregarEnvio(); },
+  materiais: function(){ carregarPaginas(); carregarEnvio(); },
+  equipe: function(){ if (!byId('secUsuarios').hidden) carregarUsuarios(); },
+  resultados: function(){ carregarAba(); },
+  admin: function(){ carregarPaginas(); carregarEnvio(); verSubaba('admin', subabaAtual('admin')); }
+};
+
+function mostrarPuxador(dy){
+  var d = Math.min(dy, PUXAR * 1.5);
+  puxador.style.transform = 'translateY(' + Math.round(d * 0.8 - 48) + 'px)';
+  puxador.style.opacity = d ? String(Math.min(1, d / PUXAR)) : '';
+  puxador.firstChild.style.transform = 'rotate(' + Math.round(d * 4) + 'deg)';
+  puxador.classList.toggle('pronto', dy >= PUXAR);
+}
+function atualizarVista(){
+  if (painelSemNet || navigator.onLine === false) { mostrarPuxador(0); return toast('Sem internet. Os dados continuam os da última vez.'); }
+  puxador.classList.add('girando');
+  mostrarPuxador(PUXAR);
+  carregarNovidades();
+  if (ATUALIZAR_VISTA[vistaAtual]) ATUALIZAR_VISTA[vistaAtual]();
+  setTimeout(function(){ puxador.classList.remove('girando'); mostrarPuxador(0); }, 700);
+}
+// dentro de uma caixa que rola (lista, tabela), puxar é rolar a caixa, não atualizar
+function emCaixaRolada(el){
+  for (; el && el !== document.body; el = el.parentNode) if (el.scrollTop > 0) return true;
+  return false;
+}
+
+document.addEventListener('touchstart', function(e){
+  gesto = null;
+  if (!eu || byId('vPainel').hidden || !byId('gaveta').hidden || !byId('assistir').hidden || e.touches.length !== 1) return;
+  var t = e.touches[0];
+  gesto = {x: t.clientX, y: t.clientY, dx: 0, dy: 0,
+    borda: navigator.standalone === true && t.clientX <= BORDA && nav.n > 0,
+    topo: (window.pageYOffset || document.documentElement.scrollTop) <= 0 && !emCaixaRolada(e.target)};
+  puxador.style.transition = 'none';
+}, {passive: true});
+document.addEventListener('touchmove', function(e){
+  if (!gesto) return;
+  var t = e.touches[0];
+  gesto.dx = t.clientX - gesto.x; gesto.dy = t.clientY - gesto.y;
+  var vertical = Math.abs(gesto.dy) > Math.abs(gesto.dx);
+  if (gesto.topo) {
+    if (!vertical || gesto.dy < 0) { if (Math.abs(gesto.dx) > 10 || gesto.dy < -10) { gesto.topo = false; mostrarPuxador(0); } }
+    else mostrarPuxador(gesto.dy);
+  }
+  if (gesto.borda && vertical && Math.abs(gesto.dy) > 10) gesto.borda = false;
+}, {passive: true});
+document.addEventListener('touchend', function(){
+  if (!gesto) return;
+  var g = gesto;
+  gesto = null;
+  puxador.style.transition = '';
+  if (g.topo && g.dy >= PUXAR) atualizarVista(); else mostrarPuxador(0);
+  if (g.borda && g.dx >= ARRASTO) history.back();
+});
+document.addEventListener('touchcancel', function(){ gesto = null; puxador.style.transition = ''; mostrarPuxador(0); });
 
 iniciar();
 </script>
