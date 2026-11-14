@@ -1,5 +1,5 @@
 // Service worker do painel interno. Escopo: a raiz de interno. (gerado pelo build).
-const CACHE = 'painel-46b82568ed';
+const CACHE = 'painel-6cc1284098';
 const guardavel = res => res.ok && res.type === 'basic' && !res.redirected;
 const GUARDAR = ["./","manifest.webmanifest","/favicon.svg","/favicon-32.png","/apple-touch-icon.png","/icon-192.png","/icon-512.png","/icon-maskable-512.png"];
 self.addEventListener('install', e => {

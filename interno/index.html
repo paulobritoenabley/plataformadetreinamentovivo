@@ -518,6 +518,8 @@ button.novidade:hover{border-color:var(--accent)}
   .modo-ponto{position:absolute;top:8px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--rosa)}
 
   html.com-feed,html.com-feed body{height:100%;overflow:hidden;overscroll-behavior:none}
+  /* no app instalado do iPhone sobra uma faixa abaixo da barra de abas: fica preta como ela */
+  html.com-feed{background:#000}
   .com-feed .topo,.com-feed .sem-net,.com-feed .boas-vindas,.com-feed #gradeInicio{display:none}
   .com-feed .painel{padding:0}
   .com-feed .inicio-modo{position:fixed;top:0;left:0;right:0;z-index:12;margin:0;padding:calc(8px + env(safe-area-inset-top,0px)) 16px 28px;background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,0));pointer-events:none}
@@ -537,13 +539,12 @@ button.novidade:hover{border-color:var(--accent)}
   .feed-item{position:relative;height:100%;overflow:hidden;scroll-snap-align:start;scroll-snap-stop:always;background:#000}
   .feed-item:focus{outline:none}
   .feed-item:focus-visible{outline:3px solid #fff;outline-offset:-3px}
-  .feed-item::after{content:"";position:absolute;left:0;right:0;bottom:0;height:45%;z-index:1;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.68));pointer-events:none;transition:opacity .25s}
+  .feed-item::after{content:"";position:absolute;left:0;right:0;bottom:0;height:var(--reserva,45%);z-index:1;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.68));pointer-events:none;transition:opacity .25s}
 
   .feed-midia{position:absolute;inset:0}
   .feed-fundo{position:absolute;top:-32px;left:-32px;width:calc(100% + 64px);height:calc(100% + 64px);object-fit:cover;filter:blur(24px) brightness(.5);transform:translateZ(0)}
-  /* em pé ocupa a tela; deitado fica no meio, em 16:9 */
-  .feed-quadro{position:absolute;left:0;right:0;top:50%;height:56.25vw;margin-top:-28.125vw}
-  .feed-midia.em-pe .feed-quadro{top:0;bottom:0;height:auto;margin:0}
+  /* posição e tamanho vêm do encaixarItem(): a proporção real do vídeo, acima da legenda */
+  .feed-quadro{position:absolute;left:0;top:0;width:100%;height:100%}
   .feed-capa,.feed-quadro iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
   .feed-capa{object-fit:contain;transition:opacity .35s}
   .feed-quadro iframe{opacity:0;transition:opacity .35s}
@@ -553,15 +554,11 @@ button.novidade:hover{border-color:var(--accent)}
   .feed-carregando{position:absolute;top:50%;left:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;opacity:0;transition:opacity .2s}
   .feed-item.montando .feed-carregando,.feed-esqueleto .feed-carregando{opacity:1;animation:puxador-gira .8s linear infinite}
 
-  /* película: pega o deslizar e o toque duplo; o quadrado do centro fica livre para o play do Drive */
-  .feed-pelicula{position:absolute;inset:0;z-index:2;-webkit-tap-highlight-color:transparent;
-    -webkit-clip-path:polygon(0 0,100% 0,100% 100%,0 100%,0 50%,calc(50% - 56px) 50%,calc(50% - 56px) calc(50% + 56px),calc(50% + 56px) calc(50% + 56px),calc(50% + 56px) calc(50% - 56px),calc(50% - 56px) calc(50% - 56px),calc(50% - 56px) 50%,0 50%);
-    clip-path:polygon(0 0,100% 0,100% 100%,0 100%,0 50%,calc(50% - 56px) 50%,calc(50% - 56px) calc(50% + 56px),calc(50% + 56px) calc(50% + 56px),calc(50% + 56px) calc(50% - 56px),calc(50% - 56px) calc(50% - 56px),calc(50% - 56px) 50%,0 50%)}
-  .sem-recorte .feed-pelicula{-webkit-clip-path:none;clip-path:none}
+  /* película: pega o deslizar e o toque duplo; o recorte (recorte() no feed.js) livra o play e os controles do Drive */
+  .feed-pelicula{position:absolute;inset:0;z-index:2;-webkit-tap-highlight-color:transparent}
   .feed-item.assistindo .feed-pelicula,.feed-item.livre .feed-pelicula{display:none}
-  .feed-item.assistindo::after,.feed-item.assistindo .feed-legenda{opacity:0;pointer-events:none}
 
-  .feed-play{display:none;position:absolute;top:50%;left:50%;z-index:3;width:76px;height:76px;margin:-38px 0 0 -38px;place-items:center;border:0;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;cursor:pointer}
+  .feed-play{display:none;position:absolute;top:var(--cy,50%);left:var(--cx,50%);z-index:3;width:76px;height:76px;margin:-38px 0 0 -38px;place-items:center;border:0;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;cursor:pointer}
   .feed-play svg{width:36px;height:36px;margin-left:4px}
   .feed-item.parado .feed-play{display:grid}
 
@@ -2112,6 +2109,15 @@ byId('vdCancelar').addEventListener('click', function(){ fecharVideo(); byId('vi
 // o código do link acompanha o título até alguém mexer nele
 byId('vdTitulo').addEventListener('input', function(){ if (byId('vdCodigo').getAttribute('data-auto')) byId('vdCodigo').value = slug(this.value); });
 byId('vdCodigo').addEventListener('input', function(){ this.removeAttribute('data-auto'); });
+// a capa do Drive diz se o vídeo é em pé: a página do cliente e a janela Assistir dependem dessa marcação
+byId('vdDrive').addEventListener('change', function(){
+  var link = this.value, m = /^https:\/\/drive\.google\.com\/(?:file\/d\/|open\?id=)([A-Za-z0-9_-]{20,80})/.exec(link.trim()), img;
+  if (!m) return;
+  img = new Image();
+  img.setAttribute('referrerpolicy', 'no-referrer');
+  img.onload = function(){ if (img.naturalWidth && byId('vdDrive').value === link) byId('vdVertical').checked = img.naturalHeight > img.naturalWidth; };
+  img.src = capaDe({drive_id: m[1]});
+});
 byId('fVideo').addEventListener('submit', function(e){
   e.preventDefault();
   var f = this, dur = lerDuracao(byId('vdDuracao').value);
@@ -2140,9 +2146,12 @@ byId('fVideo').addEventListener('submit', function(e){
    por vez, com curtir e enviar. "Painel", no topo, volta ao Início em blocos; a escolha fica no aparelho. No desktop nada muda.
    O player é o do Google Drive, que não toca sozinho nem pausa por comando de fora: o vídeo à vista já monta o player (um toque no
    play do Drive começa) e o que sai da tela é desmontado, o que para o som. Só o vídeo à vista tem player.
-   Uma película cobre o vídeo, menos um quadrado no centro, onde fica o play do Drive: deslizar cai sempre na película, então a rolagem
-   não depende do quadro de fora, e o toque no centro já toca. Depois do play, a película sai para os controles do Drive funcionarem;
-   tocar fora do player (legenda, botões) a devolve. Sem recorte (navegador antigo), o primeiro toque tira a película. */
+   O vídeo fica acima da legenda e dos botões, no tamanho da proporção real (lida da capa do Drive), porque o Drive desenha os controles
+   na parte de baixo do player e nada nosso pode ficar por cima deles.
+   Uma película cobre a tela, menos o play do Drive (centro do vídeo) e a faixa dos controles (vídeo deitado: o vídeo inteiro): deslizar
+   no resto cai na película, então a rolagem não depende do quadro de fora. No iPhone o toque dentro do quadro não tira o foco da página,
+   então não dá para saber do play: por isso os controles ficam sempre livres. Onde o foco avisa (Android, desktop), a película sai toda
+   depois do play e tocar fora do player a devolve. Sem recorte (navegador antigo), o primeiro toque tira a película. */
 var feed = {modo: le('inicioModo', 'videos'), carregou: false, erro: '', chave: null, itens: [], atual: -1, pedidos: {}, rolagem: null, toque: null,
   folhaVideo: null, folhaVolta: null, depoisFolha: null, arrasto: null};
 var celular = window.matchMedia ? window.matchMedia('(max-width:767px)') : {matches: false};
@@ -2170,6 +2179,7 @@ function atualizarFeed(){
   if (!sim) return desmontar();
   medirBarra();
   desenharFeed();
+  encaixarFeed();
   feed.atual = -1;
   ativar(indiceAtual());
 }
@@ -2187,7 +2197,6 @@ function desenharFeed(){
   lista.innerHTML = '';
   feed.itens = [];
   feed.chave = chave;
-  lista.classList.toggle('sem-recorte', !comRecorte);
   if (!feed.carregou) return lista.appendChild(feed.erro ? cartaoFeed('Não deu para carregar os vídeos', feed.erro, true) : esqueletoFeed());
   if (!vs.length) return lista.appendChild(cartaoFeed('Ainda não há vídeos', 'Quando entrar um vídeo novo, ele aparece aqui primeiro.'));
   vs.forEach(function(v, i){
@@ -2197,36 +2206,37 @@ function desenharFeed(){
     if (v.id === antes) volta = i;
   });
   lista.appendChild(fimFeed(vs.length + 1));
+  encaixarFeed();
   lista.scrollTop = volta * lista.clientHeight;
   if (feedLigado()) ativar(volta);
 }
 
 function itemFeed(v, i, total){
   var tit = 'feedTit' + i, x = {v: v, frame: null, viu: false};
-  x.quadro = h('div', {'class': 'feed-quadro'}, [
-    h('img', {'class': 'feed-capa', src: capaDe(v), alt: '', referrerpolicy: 'no-referrer', loading: i < 2 ? 'eager' : 'lazy'}),
-    h('span', {'class': 'feed-carregando', 'aria-hidden': 'true'})
-  ]);
+  x.capa = h('img', {'class': 'feed-capa', src: capaDe(v), alt: '', referrerpolicy: 'no-referrer', loading: i < 2 ? 'eager' : 'lazy'});
+  x.capa.addEventListener('load', function(){ if (feedLigado()) encaixarItem(x); });
+  x.quadro = h('div', {'class': 'feed-quadro'}, [x.capa, h('span', {'class': 'feed-carregando', 'aria-hidden': 'true'})]);
   // cobre o botão do Drive que abre o vídeo fora do painel (lá aparece a conta dona do arquivo)
   x.tampa = h('div', {'class': 'feed-tampa', 'aria-hidden': 'true'});
   x.quadro.appendChild(x.tampa);
-  var midia = h('div', {'class': 'feed-midia' + (v.vertical ? ' em-pe' : '')}, [
+  var midia = h('div', {'class': 'feed-midia'}, [
     h('img', {'class': 'feed-fundo', src: capaDe(v), alt: '', referrerpolicy: 'no-referrer', loading: i < 2 ? 'eager' : 'lazy'}), x.quadro]);
-  var pelicula = h('div', {'class': 'feed-pelicula', 'aria-hidden': 'true'});
+  var pelicula = x.pelicula = h('div', {'class': 'feed-pelicula', 'aria-hidden': 'true'});
   var play = h('button', {'class': 'feed-play', type: 'button', 'aria-label': 'Assistir: ' + v.titulo}, [usoSvg('i-ev-play')]);
   var desc = v.descricao ? h('button', {'class': 'feed-desc', type: 'button', 'aria-expanded': 'false', text: v.descricao}) : null;
   var tag = v.para_cliente ? h('span', {'class': 'feed-tag', text: 'Vídeo' + (v.duracao ? ' · ' + minutos(v.duracao) : '')})
     : h('span', {'class': 'feed-tag so-voce', text: 'Só para você' + (v.duracao ? ' · ' + minutos(v.duracao) : '')});
   x.curtir = h('button', {'class': 'feed-acao feed-curtir', type: 'button'}, [usoSvg('i-coracao'), h('span')]);
-  var trilho = h('div', {'class': 'feed-trilho'}, [x.curtir]);
+  var trilho = x.trilho = h('div', {'class': 'feed-trilho'}, [x.curtir]);
   if (v.para_cliente) {
     var env = h('button', {'class': 'feed-acao', type: 'button', 'aria-label': 'Enviar ao cliente: ' + v.titulo}, [usoSvg('i-enviar'), h('span', {text: 'Enviar'})]);
     env.addEventListener('click', function(){ abrirFolha(x.v); });
     trilho.appendChild(env);
   }
   x.coracao = h('span', {'class': 'feed-coracao', 'aria-hidden': 'true'}, [usoSvg('i-coracao')]);
+  x.legenda = h('div', {'class': 'feed-legenda'}, [tag, h('h2', {id: tit, text: v.titulo}), desc]);
   x.el = h('article', {'class': 'feed-item', 'aria-labelledby': tit, 'aria-posinset': String(i + 1), 'aria-setsize': String(total), tabindex: '-1'}, [
-    midia, pelicula, play, h('div', {'class': 'feed-legenda'}, [tag, h('h2', {id: tit, text: v.titulo}), desc]), trilho, x.coracao]);
+    midia, pelicula, play, x.legenda, trilho, x.coracao]);
   pintarCurtida(x);
   x.curtir.addEventListener('click', function(){ alternarCurtida(x); });
   play.addEventListener('click', function(){ montar(x); });
@@ -2254,6 +2264,36 @@ function fimFeed(total){
     h('p', {text: 'Os vídeos novos aparecem aqui primeiro. Páginas e playbooks estão em Materiais.'}),
     h('div', {'class': 'acoes'}, [denovo, h('a', {'class': 'btn btn-sec', href: '#/materiais', text: 'Ir para Materiais'})])]);
 }
+
+/* --- o tamanho do vídeo: proporção da capa do Drive; a marcação "em pé" do cadastro só vale até a capa carregar --- */
+function proporcao(larg, alt, emPe){ return larg > 0 && alt > 0 ? larg / alt : emPe ? 9 / 16 : 16 / 9; }
+// a maior caixa com a proporção do vídeo que cabe no palco, sem cortar
+function encaixe(prop, larg, alt){ return larg / alt > prop ? {w: Math.round(alt * prop), h: alt} : {w: larg, h: Math.round(larg / prop)}; }
+// recorte da película: livra o play (centro do quadro) e a faixa dos controles do Drive (os 40% de baixo); vídeo baixo fica todo livre.
+// O furo corre no sentido contrário ao contorno e liga-se a ele por um corte de largura zero, como pede o polygon().
+function recorte(larg, alt, q){
+  var faixa = q.h < alt / 2 ? q.y : q.y + Math.round(q.h * 0.6), fim = q.y + q.h, dir = q.x + q.w, cx = q.x + q.w / 2, cy = q.y + q.h / 2;
+  var t = Math.max(q.y, cy - 56), e = Math.max(q.x, cx - 56), d = Math.min(dir, cx + 56);
+  var furo = t < faixa ? [[e, t], [e, faixa], [q.x, faixa], [q.x, fim], [dir, fim], [dir, faixa], [d, faixa], [d, t]]
+    : [[q.x, faixa], [q.x, fim], [dir, fim], [dir, faixa]];
+  var pts = [[0, 0], [larg, 0], [larg, alt], [0, alt], [0, furo[0][1]]].concat(furo, [furo[0], [0, furo[0][1]]]);
+  return 'polygon(' + pts.map(function(p){ return Math.round(p[0]) + 'px ' + Math.round(p[1]) + 'px'; }).join(',') + ')';
+}
+// o palco é o item menos a faixa da legenda e dos botões; o vídeo fica no meio dele
+function encaixarItem(x){
+  var el = x.el, larg = el.clientWidth, alt = el.clientHeight;
+  if (!larg || !alt) return;
+  var reserva = alt - Math.min(x.legenda.offsetTop, x.trilho.offsetTop) + 8, palco = Math.max(0, alt - reserva);
+  var q = encaixe(proporcao(x.capa.naturalWidth, x.capa.naturalHeight, x.v.vertical), larg, palco), s = x.quadro.style;
+  q.x = Math.round((larg - q.w) / 2); q.y = Math.round((palco - q.h) / 2);
+  s.left = q.x + 'px'; s.top = q.y + 'px'; s.width = q.w + 'px'; s.height = q.h + 'px';
+  el.style.setProperty('--reserva', reserva + 'px');
+  el.style.setProperty('--cx', (q.x + q.w / 2) + 'px');
+  el.style.setProperty('--cy', (q.y + q.h / 2) + 'px');
+  if (comRecorte) x.pelicula.style.webkitClipPath = x.pelicula.style.clipPath = recorte(larg, alt, q);
+}
+function encaixarFeed(){ if (feedLigado()) feed.itens.forEach(encaixarItem); }
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(encaixarFeed);
 
 /* --- qual vídeo está à vista --- */
 function indiceAtual(){ var l = byId('feedLista'); return l.clientHeight ? Math.round(l.scrollTop / l.clientHeight) : 0; }
@@ -2307,6 +2347,7 @@ byId('feedLista').addEventListener('scroll', function(){
 window.addEventListener('resize', function(){
   if (!feedLigado()) return atualizarFeed();
   medirBarra();
+  encaixarFeed();
   var l = byId('feedLista');
   l.scrollTop = Math.max(0, feed.atual) * l.clientHeight;
 });
